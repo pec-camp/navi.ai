@@ -36,7 +36,7 @@
     --sidebar-accent-foreground: #101828;
     --sidebar-border: #ebebeb;
     --sidebar-ring: #101828;
-    --font-sans: var(--font-onest);
+    --font-sans: var(--font-onest), var(--font-pretendard);
     --radius: 24px;
     --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.03);
     --shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.03);
@@ -95,7 +95,7 @@
     --sidebar-accent-foreground: #ffffff;
     --sidebar-border: #333333;
     --sidebar-ring: #a4a4a4;
-    --font-sans: var(--font-onest);
+    --font-sans: var(--font-onest), var(--font-pretendard);
     --radius: 24px;
     --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.03);
     --shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.03);
