@@ -2,9 +2,8 @@ import "@/app/globals.css";
 import { Onest, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
-import AuthButton from "@/features/auth/ui/AuthButton";
 import { ExternalLink } from "@/shared/ui/ExternalLink";
-import { Logo } from "@/shared/ui/Logo";
+import { Header } from "../widgets/header";
 
 const pretendard = localFont({
   src: [
@@ -67,15 +66,8 @@ export default function RootLayout({
     >
       <body className="bg-background text-foreground">
         <main className="flex min-h-screen flex-col items-center">
-          <nav className="border-b-foreground/10 flex h-16 w-full justify-center border-b">
-            <div className="flex w-full max-w-5xl items-center justify-between px-4 text-sm">
-              <Logo />
-              <AuthButton />
-            </div>
-          </nav>
-
+          <Header />
           {children}
-
           <footer className="border-t-foreground/10 flex w-full justify-center border-t p-4 text-center text-xs">
             <div className="text-left text-stone-400">
               <div>상호명: 마중물 | 대표: 황경찬</div>
