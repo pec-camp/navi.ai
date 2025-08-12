@@ -69,7 +69,7 @@ export default function RootLayout({
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-[100vh] bg-contain bg-top bg-repeat-x"
           style={{
-            backgroundImage: "url('/images/home/home_bg.png')",
+            backgroundImage: "url('/home/home_bg.webp')",
           }}
         />
         <main className="flex min-h-screen flex-col items-center">
