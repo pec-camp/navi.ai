@@ -5,7 +5,7 @@ export default async function Index() {
     <div className="bg-gray-100 text-gray-800">
       {/* Hero Section */}
       <section className="bg-primary py-20 text-center text-white">
-        <h1 className="text-4xl font-bold">
+        <h1 className="font-rajdhani text-4xl font-bold">
           Build Better Products with Frontend Skills
         </h1>
         <p className="mt-4 text-lg">

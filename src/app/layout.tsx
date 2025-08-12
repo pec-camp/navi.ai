@@ -1,10 +1,49 @@
 import "@/app/globals.css";
-
-import { GeistSans } from "geist/font/sans";
+import { Onest, Rajdhani } from "next/font/google";
+import localFont from "next/font/local";
 
 import AuthButton from "@/features/auth/ui/AuthButton";
 import { ExternalLink } from "@/shared/ui/ExternalLink";
 import { Logo } from "@/shared/ui/Logo";
+
+const pretendard = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Pretendard-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Pretendard-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Pretendard-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Pretendard-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-pretendard",
+});
+
+const onest = Onest({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-onest",
+  fallback: ["var(--font-pretendard)"],
+});
+
+const rajdhani = Rajdhani({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-rajdhani",
+});
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -22,10 +61,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html
+      lang="en"
+      className={`${onest.variable} ${pretendard.variable} ${rajdhani.variable}`}
+    >
       <body className="bg-background text-foreground">
         <main className="flex min-h-screen flex-col items-center">
-          <nav className="flex h-16 w-full justify-center border-b border-b-foreground/10">
+          <nav className="border-b-foreground/10 flex h-16 w-full justify-center border-b">
             <div className="flex w-full max-w-5xl items-center justify-between px-4 text-sm">
               <Logo />
               <AuthButton />
@@ -34,7 +76,7 @@ export default function RootLayout({
 
           {children}
 
-          <footer className="flex w-full justify-center border-t border-t-foreground/10 p-4 text-center text-xs">
+          <footer className="border-t-foreground/10 flex w-full justify-center border-t p-4 text-center text-xs">
             <div className="text-left text-stone-400">
               <div>상호명: 마중물 | 대표: 황경찬</div>
               <div>사업자등록번호: 264-01-01901</div>
