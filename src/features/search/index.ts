@@ -1,1 +1,1 @@
-export { default as MainSearchInput } from './ui/MainSearchInput';
+export { MainSearchBar } from "./ui/MainSearchBar";

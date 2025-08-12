@@ -1,8 +1,8 @@
 "use client";
 
-import { GlobalSearchBar } from "@/features/search/ui/GlobalSearchBar";
+import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
 import { cn } from "@/shared/ui/lib/utils";
-import { ArrowUpRight, Home, Rss } from "lucide-react";
+import { ArrowUpRight, Bell, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,7 +15,7 @@ const tabs = [
   {
     name: "Subscriptions",
     href: "/subscriptions",
-    icon: Rss,
+    icon: Bell,
   },
 ];
 
@@ -79,17 +79,17 @@ export default function MainLayout({
 
           {/* Search Bar */}
           <div className="mb-8 flex justify-center">
-            <GlobalSearchBar />
+            <MainSearchBar />
           </div>
         </div>
       </div>
 
       {/* Divider */}
-      <div className="w-full border-b border-border bg-background" />
+      <div className="w-full border-b border-[#E1E5E9] bg-background" />
 
       {/* Tab Navigation */}
       <div className="flex justify-center bg-background">
-        <nav className="flex h-12 items-center gap-8">
+        <nav className="flex items-center gap-8 p-8">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = safePathname === tab.href;
@@ -101,8 +101,8 @@ export default function MainLayout({
                 className={cn(
                   "font-onest flex h-12 items-center gap-2 px-0 py-3 text-base transition-colors",
                   isActive
-                    ? "font-semibold text-accent"
-                    : "font-medium hover:text-accent",
+                    ? "font-semibold text-primary"
+                    : "font-medium hover:text-primary",
                 )}
               >
                 <Icon className="h-4 w-4" strokeWidth={isActive ? 2.5 : 2} />

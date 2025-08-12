@@ -1,1 +1,0 @@
-export { GlobalSearchBar } from "./GlobalSearchBar";
