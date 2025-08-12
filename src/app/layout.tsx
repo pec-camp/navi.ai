@@ -65,6 +65,13 @@ export default function RootLayout({
       className={`${onest.variable} ${pretendard.variable} ${rajdhani.variable}`}
     >
       <body className="bg-background text-foreground">
+        {/* 그라데이션 배경 이미지 */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[100vh] bg-contain bg-top bg-repeat-x"
+          style={{
+            backgroundImage: "url('/images/home/home_bg.png')",
+          }}
+        />
         <main className="flex min-h-screen flex-col items-center">
           <Header />
           {children}
