@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-import { EmailInput, PasswordInput } from "@/features/auth/ui";
 import { useLoginActionState } from "@/features/login/model/useLoginActionState";
 import { SIGN_UP_PATHNAME } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
@@ -12,8 +11,6 @@ export default function LoginForm() {
 
   return (
     <form className="flex w-full flex-1 flex-col justify-center gap-4 text-foreground">
-      <EmailInput />
-      <PasswordInput />
       <Button className="mt-4" variant="outline" formAction={loginFormAction}>
         Login
       </Button>
