@@ -7,28 +7,7 @@ import { ExternalLink } from "@/shared/ui/ExternalLink";
 import { Logo } from "@/shared/ui/Logo";
 
 const pretendard = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Pretendard-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Pretendard-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Pretendard-SemiBold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/Pretendard-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+  src: "../../public/fonts/PretendardVariable.woff2",
   variable: "--font-pretendard",
 });
 
@@ -76,9 +55,9 @@ export default function RootLayout({
 
           {children}
 
-          <footer className="border-t-foreground/10 flex w-full justify-center border-t p-4 text-center text-xs">
-            <div className="text-left text-stone-400">
-              <div>상호명: 마중물 | 대표: 황경찬</div>
+          <footer className="border-t-foreground/10 flex w-full justify-center border-t p-4 text-center">
+            <div className="text-left">
+              <div className="font-light">상호명: 마중물 | 대표: 황경찬</div>
               <div>사업자등록번호: 264-01-01901</div>
               <div>정보통신업 주소: 경기도 광주시 회안대로 350-23</div>
               <div>문의: 010 5056 2412</div>
