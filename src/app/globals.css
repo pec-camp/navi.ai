@@ -128,3 +128,9 @@
     @apply bg-background font-sans text-primary;
   }
 }
+
+@layer utilities {
+  .home-background {
+    background-image: url("/home/home_bg.webp");
+  }
+}

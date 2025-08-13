@@ -45,12 +45,8 @@ export default function RootLayout({
     >
       <body className="bg-background text-foreground">
         {/* 그라데이션 배경 이미지 */}
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[100vh] bg-contain bg-top bg-repeat-x"
-          style={{
-            backgroundImage: "url('/home/home_bg.webp')",
-          }}
-        />
+        <div className="home-background pointer-events-none absolute inset-x-0 top-0 h-[100vh] bg-contain bg-top bg-repeat-x" />
+
         {/* Header */}
         <Header />
 
