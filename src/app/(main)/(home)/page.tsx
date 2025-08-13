@@ -11,6 +11,7 @@ export default async function Home() {
           Discover AI Tools
         </h2>
 
+        {/* 더보기 */}
         <Link
           href={TOOL_PATHNAME}
           className="group flex items-center gap-1 text-sm font-medium text-muted-foreground transition-all duration-200 hover:text-foreground"

@@ -101,7 +101,7 @@ export default function MainLayout({
                 key={tab.name}
                 href={tab.href}
                 className={cn(
-                  "flex h-12 items-center gap-2 px-0 py-3 font-onest text-base transition-colors",
+                  "font-onest flex h-12 items-center gap-2 px-0 py-3 text-base transition-colors",
                   isActive
                     ? "font-semibold text-primary"
                     : "font-medium hover:text-primary",
