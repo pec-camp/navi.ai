@@ -3,6 +3,7 @@ export const LOGIN_PATHNAME = "/login";
 export const SIGN_UP_PATHNAME = "/sign-up";
 
 export const SUBSCRIPTION_PATHNAME = "/subscriptions";
+export const SUBSCRIPTION_CATEGORY_PATHNAME = "/subscriptions/subscribe";
 export const TOOL_PATHNAME = "/tools";
 
 export const CONTACT_PATHNAME = "/contact";
