@@ -25,7 +25,7 @@ export function Header() {
           : "supports-[backdrop-filter]:bg-background/60 backdrop-blur",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-[1160px] items-center px-4 lg:px-16">
+      <div className="container mx-auto flex h-16 items-center px-4">
         {/* Logo and Navigation */}
         <div className="flex items-center space-x-8">
           <Link href="/" className="flex items-center space-x-2">

@@ -2,7 +2,7 @@ import "@/app/globals.css";
 import { Onest, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
-import { ExternalLink } from "@/shared/ui/ExternalLink";
+import { Logo } from "../shared/ui";
 import { Header } from "../widgets/header";
 
 const pretendard = localFont({
@@ -12,7 +12,7 @@ const pretendard = localFont({
 
 const onest = Onest({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-onest",
   fallback: ["var(--font-pretendard)"],
 });
@@ -51,28 +51,64 @@ export default function RootLayout({
             backgroundImage: "url('/home/home_bg.webp')",
           }}
         />
-        <main className="flex min-h-screen flex-col items-center">
-          <Header />
-          {children}
+        {/* Header */}
+        <Header />
 
-          <footer className="border-t-foreground/10 flex w-full justify-center border-t p-4 text-center">
-            <div className="text-left">
-              <div className="font-light">상호명: 마중물 | 대표: 황경찬</div>
-              <div>사업자등록번호: 264-01-01901</div>
-              <div>정보통신업 주소: 경기도 광주시 회안대로 350-23</div>
-              <div>문의: 010 5056 2412</div>
-              <div className="flex justify-between">
-                <ExternalLink href="https://slashpage.com/pec/terms-of-use">
-                  이용약관
-                </ExternalLink>
-                <ExternalLink href="https://slashpage.com/pec/privacy-policy">
-                  개인정보 처리방침
-                </ExternalLink>
-              </div>
-              Copyright© PEC
-            </div>
-          </footer>
+        {/* Main */}
+        <main className="container mx-auto mb-20 flex min-h-screen flex-col items-center px-4">
+          {children}
         </main>
+
+        {/* Footer */}
+        <footer className="w-full border-t border-border bg-surface-secondary">
+          <div className="container mx-auto px-4 py-12">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              {/* 로고 및 설명 섹션 */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Logo />
+                  <span className="text-xl font-bold text-foreground">
+                    Navi.ai
+                  </span>
+                </div>
+                <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
+                  Discover the world's top AI tools. Find the perfect solution
+                  for every task with our curated collection of 21,346+ AI
+                  tools.
+                </p>
+              </div>
+            </div>
+
+            {/* 구분선 및 저작권 정보 */}
+            <div className="mt-8 border-t border-border pt-8">
+              <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
+                <p className="text-xs font-light text-muted-foreground">
+                  © 2025 Navi.ai. All rights reserved.
+                </p>
+                <div className="flex space-x-6 font-light">
+                  <a
+                    href="/privacy"
+                    className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Privacy Policy
+                  </a>
+                  <a
+                    href="/contact"
+                    className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Contact Us
+                  </a>
+                  <a
+                    href="/help"
+                    className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Help Center
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
