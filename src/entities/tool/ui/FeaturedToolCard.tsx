@@ -10,7 +10,7 @@ interface FeaturedToolCardProps {
   className?: string;
 }
 
-export function FeaturedToolCard({
+export default function FeaturedToolCard({
   title,
   description,
   imageUrl,
@@ -51,7 +51,7 @@ export function FeaturedToolCard({
       </CardContent>
 
       {/* 호버 시 나타나는 화살표 버튼 */}
-      <div className="absolute right-3 top-3 translate-y-3 translate-x-2 transform opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:translate-x-0 group-hover:opacity-100">
+      <div className="absolute right-3 top-3 translate-x-2 translate-y-3 transform opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100">
         <button className="group/button flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white shadow-sm transition-all duration-200 hover:shadow-md">
           <ArrowUpRight className="h-5 w-5 text-secondary transition-colors duration-200 group-hover/button:text-gray-800" />
         </button>

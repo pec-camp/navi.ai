@@ -1,4 +1,4 @@
-import { FeaturedToolCard } from "./FeaturedToolCard";
+import FeaturedToolCard from "./FeaturedToolCard";
 
 const featuredTools = [
   {
