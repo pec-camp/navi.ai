@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import * as React from "react";
+import { useState } from "react";
 
 import { OnboardingTool } from "@/features/onboarding/model/onboarding.types";
 import JobRoleSelector from "@/features/onboarding/ui/JobRoleSelector";
@@ -14,11 +14,14 @@ interface OnboardingStepsProps {
 
 export default function OnboardingSteps({ tools }: OnboardingStepsProps) {
   const router = useRouter();
-  const [step, setStep] = React.useState<number>(1);
-  const [selectedRole, setSelectedRole] = React.useState<string | null>(null);
-  const [selectedToolNames, setSelectedToolNames] = React.useState<string[]>([]);
-  const [submitting, setSubmitting] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string | null>(null);
+  
+  const [step, setStep] = useState(1);
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [selectedToolNames, setSelectedToolNames] = useState<string[]>([]);
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
   const isFirstStep = step === 1;
   const isLastStep = step === 2;
 
@@ -27,7 +30,7 @@ export default function OnboardingSteps({ tools }: OnboardingStepsProps) {
 
   const handleComplete = async () => {
     try {
-      setSubmitting(true);
+      setIsSubmitting(true);
       setError(null);
       const res = await fetch("/api/onboarding", {
         method: "POST",
@@ -41,21 +44,12 @@ export default function OnboardingSteps({ tools }: OnboardingStepsProps) {
       }
       router.replace("/");
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-2">
-        <div
-          className={`h-2 w-1/2 rounded-full ${isFirstStep ? "bg-primary" : "bg-primary/40"}`}
-        />
-        <div
-          className={`h-2 w-1/2 rounded-full ${isLastStep ? "bg-primary" : "bg-primary/20"}`}
-        />
-      </div>
-
       <>
           {isFirstStep ? (
             <JobRoleSelector value={selectedRole} onChange={setSelectedRole} />
@@ -74,7 +68,7 @@ export default function OnboardingSteps({ tools }: OnboardingStepsProps) {
               </Button>
             )}
             {isLastStep ? (
-              <Button onClick={handleComplete} disabled={!selectedRole || submitting}>
+              <Button onClick={handleComplete} disabled={!selectedRole || isSubmitting}>
                 완료
               </Button>
             ) : (

@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, X } from "lucide-react";
-import * as React from "react";
+import { KeyboardEvent, useState } from "react";
 
 import { OnboardingTool } from "@/features/onboarding/model/onboarding.types";
 import { Input } from "@/shared/ui/input";
@@ -14,7 +14,8 @@ interface ToolSelectorProps {
 }
 
 export default function ToolSelector({ tools, selectedTools, onChange }: ToolSelectorProps) {
-  const [query, setQuery] = React.useState<string>("");
+  const [toolName, setToolName] = useState("");
+  const [isComposing, setIsComposing] = useState(false);
 
   // 항상 전체 목록을 노출합니다. 입력은 새 도구 추가용으로만 사용합니다.
   const displayTools = tools;
@@ -27,15 +28,16 @@ export default function ToolSelector({ tools, selectedTools, onChange }: ToolSel
     onChange([...selectedTools, name]);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const newName = query.trim();
-
-      if (selectedTools.includes(newName)) return;
-
-      onChange([...selectedTools, newName]);
-      setQuery("");
-    };
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (!isComposing && e.key === "Enter") {
+      e.preventDefault();
+      const trimmedToolName = toolName.trim();
+      
+      if (!selectedTools.includes(trimmedToolName)) {
+        onChange([...selectedTools, trimmedToolName]);
+        setToolName("");
+      }
+    }
   };
 
   return (
@@ -44,9 +46,11 @@ export default function ToolSelector({ tools, selectedTools, onChange }: ToolSel
       <p className="text-sm text-muted-foreground">엔터를 눌러 새 도구를 추가할 수 있어요.</p>
       <Input
         placeholder="직접 입력하기"
-        value={query}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+        value={toolName}
+        onChange={e => setToolName(e.target.value)}
         onKeyDown={handleKeyDown}
+        onCompositionStart={() => setIsComposing(true)}
+        onCompositionEnd={() => setIsComposing(false)}
         className="mt-2"
       />
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">

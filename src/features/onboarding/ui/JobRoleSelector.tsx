@@ -24,8 +24,7 @@ const ROLES: { key: string; label: string; description: string }[] = [
 export default function JobRoleSelector({ value, onChange }: JobRoleSelectorProps) {
   return (
     <div className="flex flex-col gap-2">
-      <h2 className="text-xl font-semibold text-foreground">당신의 직군/역할을 선택해주세요</h2>
-      <p className="text-sm text-muted-foreground">더 정확한 설정을 위해 선택해주세요.</p>
+      <h2 className="text-xl font-semibold text-foreground">직군/역할을 선택해 주세요</h2>
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {ROLES.map((role) => {
           const selected = value === role.key;

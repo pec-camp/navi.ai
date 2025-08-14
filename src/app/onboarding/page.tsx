@@ -20,7 +20,7 @@ export default async function Onboarding() {
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-6 px-6 py-10">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl text-foreground">온보딩</CardTitle>
+          <CardTitle className="text-2xl text-foreground">시작하기</CardTitle>
         </CardHeader>
         <CardContent>
           <OnboardingSteps tools={tools} />
