@@ -63,10 +63,10 @@ export default function ToolSelector({ tools, selectedTools, onChange }: ToolSel
               onClick={() => toggleByName(tool.name)}
               aria-pressed={selected}
               className={cn(
-                "relative rounded-xl border border-transparent p-4 text-left shadow-sm transition",
+                "relative cursor-pointer rounded-xl border border-input p-4 text-left shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 selected
                   ? "border-primary bg-primary/5 ring-2 ring-primary/40 shadow-md scale-[1.01]"
-                  : "hover:bg-accent",
+                  : "hover:bg-accent hover:border-primary/40",
               )}
             >
               {selected ? (
