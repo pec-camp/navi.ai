@@ -1,104 +1,123 @@
 "use client";
 
 import { Button } from "@/shared/ui/button";
-import {
-  CATEGORIES,
-  type UserSubscription,
-} from "@/src/entities/subscription/model/constants";
+
+import { CategoryWithSubcategory } from "@/src/entities/category";
+
+import { CategorySubscription } from "@/src/entities/subscription";
 import { Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useActionState, useState, useTransition } from "react";
+import {
+  upsertUserSubscription,
+  type SubscriptionActionState,
+} from "../api/upsertUserSubscription";
 
 interface CategorySelectorProps {
-  onClose: () => void;
-  currentSubscriptions: UserSubscription[];
-  onSubscriptionUpdate: (newSubscriptions: UserSubscription[]) => void;
-  showCloseButton?: boolean;
+  categories: CategoryWithSubcategory[];
+  categorySubscriptions: CategorySubscription[];
+  onClose?: () => void;
 }
 
 export function CategorySelector({
+  categories,
+  categorySubscriptions,
   onClose,
-  currentSubscriptions,
-  onSubscriptionUpdate,
-  showCloseButton = true,
 }: CategorySelectorProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<
-    Set<string>
-  >(new Set());
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  const handleSubCategoryToggle = (subCategory: string) => {
-    const newSelected = new Set(selectedSubCategories);
-    if (newSelected.has(subCategory)) {
-      newSelected.delete(subCategory);
-    } else {
-      newSelected.add(subCategory);
-    }
-    setSelectedSubCategories(newSelected);
+  /** 구독된 서브카테고리 ID */
+  const subscribedSubcategoryIds = new Set(
+    categorySubscriptions.flatMap(
+      (subscription) => subscription.subCategoryIds,
+    ),
+  );
+
+  /** 선택된 서브카테고리 ID */
+  const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<
+    Set<number>
+  >(subscribedSubcategoryIds);
+
+  /** 구독 항목 업데이트 */
+  const [, subscriptionAction] = useActionState<
+    SubscriptionActionState,
+    FormData
+  >(upsertUserSubscription, { success: false, message: "" });
+
+  const [isPending, startTransition] = useTransition();
+
+  /** 카테고리 선택 시 선택 항목 업데이트 */
+  const handleCategorySelect = (categoryId: number) => {
+    setSelectedCategory(categoryId);
   };
 
-  // 카테고리 선택 시 현재 구독 상태로 초기화
-  const handleCategorySelect = (categoryId: string) => {
-    setSelectedCategory(categoryId);
+  /** 서브카테고리 선택 시 선택 항목 업데이트 */
+  const handleSubcategoryToggle = (subcategoryId: number) => {
+    setSelectedSubcategoryIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(subcategoryId)) {
+        newSet.delete(subcategoryId);
+      } else {
+        newSet.add(subcategoryId);
+      }
+      return newSet;
+    });
+  };
 
-    const currentSub = currentSubscriptions.find(
-      (sub) => sub.categoryId === categoryId,
+  /** 완료 버튼 클릭 시 구독 항목 업데이트 */
+  const handleComplete = () => {
+    const toSubscribe = Array.from(selectedSubcategoryIds).filter(
+      (id) => !subscribedSubcategoryIds.has(id),
+    );
+    const toUnsubscribe = Array.from(subscribedSubcategoryIds).filter(
+      (id) => !selectedSubcategoryIds.has(id),
     );
 
-    if (currentSub) {
-      setSelectedSubCategories(new Set(currentSub.subCategories));
-    } else {
-      setSelectedSubCategories(new Set());
-    }
-  };
-
-  const handleComplete = () => {
-    const updatedSubscriptions: UserSubscription[] = [];
-
-    // 기존 구독 중 변경되지 않은 카테고리들 유지
-    currentSubscriptions.forEach((sub) => {
-      if (sub.categoryId !== selectedCategory) {
-        updatedSubscriptions.push(sub);
-      }
+    console.log("완료 버튼 클릭:", {
+      toSubscribe,
+      toUnsubscribe,
+      selectedSubcategoryIds: Array.from(selectedSubcategoryIds),
+      subscribedSubcategoryIds: Array.from(subscribedSubcategoryIds),
     });
 
-    // 선택된 카테고리의 새 구독 상태 추가
-    if (selectedCategory && selectedSubCategories.size > 0) {
-      const categoryData = CATEGORIES.find(
-        (cat) => cat.id === selectedCategory,
-      );
-      if (categoryData) {
-        updatedSubscriptions.push({
-          categoryId: selectedCategory,
-          categoryName: categoryData.name,
-          subCategories: Array.from(selectedSubCategories),
-        });
-      }
+    if (toSubscribe.length > 0 || toUnsubscribe.length > 0) {
+      const formData = new FormData();
+      formData.append("userId", "1"); // TODO: Replace with actual user ID
+
+      toSubscribe.forEach((id) => {
+        formData.append("tagIds", id.toString());
+      });
+
+      // Add items to unsubscribe
+      toUnsubscribe.forEach((id) => {
+        formData.append("unsubscribeTagIds", id.toString());
+      });
+
+      startTransition(() => {
+        subscriptionAction(formData);
+      });
     }
 
-    // 부모 컴포넌트에 업데이트된 구독 상태 전달
-    onSubscriptionUpdate(updatedSubscriptions);
-    onClose();
+    onClose?.();
   };
 
-  const selectedCategoryData = CATEGORIES.find(
+  const selectedCategoryData = categories.find(
     (cat) => cat.id === selectedCategory,
   );
 
   return (
     <div className="flex h-full flex-col rounded-md bg-card">
       {/* Header */}
-      <div className="border-b border-border px-6 pb-6 pt-3">
+      <div className="border-b border-border p-6">
         <div className="flex items-start justify-between">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <h1 className="text-xl font-semibold leading-[30px] text-foreground">
               나만의 AI 도구 구독하기
             </h1>
             <p className="text-sm font-light leading-[21px] text-muted-foreground">
-              구독한 카테고리의 AI 도구들을 항상 최신 순으로 확인할 수 있어요!
-              ✨
+              구독한 카테고리의 AI 도구들을 항상 최신 순으로 확인할 수 있어요
             </p>
           </div>
-          {showCloseButton && (
+          {onClose && (
             <button
               onClick={onClose}
               className="rounded-lg p-2 transition-colors hover:bg-muted"
@@ -120,9 +139,10 @@ export function CategorySelector({
                 카테고리 선택
               </h2>
               <nav className="space-y-1" aria-label="카테고리 목록">
-                {CATEGORIES.map((category) => {
-                  const isSubscribed = currentSubscriptions.some(
-                    (sub) => sub.categoryId === category.id,
+                {categories.map((category) => {
+                  // Check if user has any subscriptions in this category
+                  const hasSubscriptions = categorySubscriptions.find(
+                    (subscription) => subscription.categoryId === category.id,
                   );
 
                   return (
@@ -141,7 +161,7 @@ export function CategorySelector({
                     >
                       <div className="flex w-full items-center justify-between">
                         <span>{category.name}</span>
-                        {isSubscribed && (
+                        {hasSubscriptions && (
                           <div className="h-2 w-2 rounded-full bg-primary" />
                         )}
                       </div>
@@ -152,8 +172,8 @@ export function CategorySelector({
             </div>
           </aside>
 
-          {/* 우측: 세부 카테고리 */}
-          <section className="flex-1 p-4" aria-label="세부 카테고리">
+          {/* 우측: 태그 목록 */}
+          <section className="flex-1 p-4" aria-label="태그 선택">
             <div className="h-full">
               {selectedCategoryData ? (
                 <div className="space-y-2">
@@ -163,41 +183,49 @@ export function CategorySelector({
                   <div
                     className="space-y-2"
                     role="listbox"
-                    aria-label={`${selectedCategoryData.name} 세부 항목`}
+                    aria-label={`${selectedCategoryData.name} 태그 목록`}
                   >
-                    {selectedCategoryData.subCategories.map((subCategory) => (
-                      <div
-                        key={subCategory}
-                        onClick={() => handleSubCategoryToggle(subCategory)}
-                        className={`group flex h-12 w-full cursor-pointer items-center justify-between rounded-md border p-4 text-sm transition-all ${
-                          selectedSubCategories.has(subCategory)
-                            ? "border-secondary bg-secondary font-light text-secondary-foreground hover:opacity-90"
-                            : "hover:border-primary/50 border-border bg-background text-muted-foreground hover:bg-muted"
-                        }`}
-                        role="option"
-                        aria-selected={selectedSubCategories.has(subCategory)}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            handleSubCategoryToggle(subCategory);
+                    {selectedCategoryData.subcategories.map((subcategory) => {
+                      const isSelected = selectedSubcategoryIds.has(
+                        subcategory.id,
+                      );
+
+                      return (
+                        <div
+                          key={subcategory.id}
+                          onClick={() =>
+                            handleSubcategoryToggle(subcategory.id)
                           }
-                        }}
-                      >
-                        <span>{subCategory}</span>
-                        {selectedSubCategories.has(subCategory) ? (
-                          <X
-                            className="h-4 w-4 text-secondary-foreground transition-colors group-hover:text-destructive"
-                            aria-label="제거"
-                          />
-                        ) : (
-                          <Plus
-                            className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground"
-                            aria-label="추가"
-                          />
-                        )}
-                      </div>
-                    ))}
+                          className={`group flex h-12 w-full cursor-pointer items-center justify-between rounded-md border p-4 text-sm transition-all ${
+                            isSelected
+                              ? "border-secondary bg-secondary font-light text-secondary-foreground hover:opacity-90"
+                              : "hover:border-primary/50 border-border bg-background text-muted-foreground hover:bg-muted"
+                          }`}
+                          role="option"
+                          aria-selected={isSelected}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              handleSubcategoryToggle(subcategory.id);
+                            }
+                          }}
+                        >
+                          <span>{subcategory.name}</span>
+                          {isSelected ? (
+                            <X
+                              className="h-4 w-4 text-secondary-foreground transition-colors group-hover:text-destructive"
+                              aria-label="선택 해제"
+                            />
+                          ) : (
+                            <Plus
+                              className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground"
+                              aria-label="선택"
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
@@ -217,12 +245,17 @@ export function CategorySelector({
       </main>
 
       {/* Footer */}
-      <footer className="rounded-md border-t border-border bg-card p-4">
+      <footer className="rounded-b-md border border-border bg-card p-4">
         <div className="flex items-center justify-between">
           <p className="text-sm font-light text-muted-foreground">
-            {selectedSubCategories.size}개 구독 중
+            {`${selectedSubcategoryIds.size}개 태그 선택됨`}
           </p>
-          <Button onClick={handleComplete} variant="secondary" size="md">
+          <Button
+            onClick={handleComplete}
+            variant="secondary"
+            size="md"
+            disabled={isPending}
+          >
             완료
           </Button>
         </div>
