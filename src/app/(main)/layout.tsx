@@ -1,38 +1,14 @@
-"use client";
-
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
-import { cn } from "@/shared/ui/lib/utils";
-import {
-  MAIN_PATHNAME,
-  SUBSCRIPTION_PATHNAME,
-  TOOL_PATHNAME,
-} from "@/src/shared/config/pathname";
-import { ArrowUpRight, Bell, Home } from "lucide-react";
+import { TabNavigation } from "@/shared/ui/TabNavigation";
+import { TOOL_PATHNAME } from "@/src/shared/config/pathname";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-const tabs = [
-  {
-    name: "Home",
-    href: MAIN_PATHNAME,
-    icon: Home,
-  },
-  {
-    name: "Subscriptions",
-    href: SUBSCRIPTION_PATHNAME,
-    icon: Bell,
-  },
-];
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
-  const safePathname = pathname || "/";
-
   return (
     <div className="relative mt-14 min-h-screen w-full">
       {/* Hero Section */}
@@ -90,30 +66,7 @@ export default function MainLayout({
       <div className="w-full border-b border-[#E1E5E9] bg-background" />
 
       {/* Tab Navigation */}
-      <div className="flex justify-center bg-background">
-        <nav className="flex items-center gap-8 p-8">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = safePathname === tab.href;
-
-            return (
-              <Link
-                key={tab.name}
-                href={tab.href}
-                className={cn(
-                  "font-onest flex h-12 items-center gap-2 px-0 py-3 text-base transition-colors",
-                  isActive
-                    ? "font-semibold text-primary"
-                    : "font-medium hover:text-primary",
-                )}
-              >
-                <Icon className="h-4 w-4" strokeWidth={isActive ? 2.5 : 2} />
-                <span>{tab.name}</span>
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+      <TabNavigation />
 
       {/* Page Content */}
       <main className="flex-1">{children}</main>
