@@ -1,14 +1,5 @@
 import { MessageCircle, StarIcon } from "lucide-react";
-
-interface SubscriptionToolCardProps {
-  name: string;
-  category: string;
-  rating: number;
-  description: string;
-  price: string;
-  date: string;
-  reviewCount: number;
-}
+import { SubscriptionTool } from "../model/CategorySubscription.interface";
 
 export default function SubscriptionToolCard({
   name,
@@ -18,7 +9,7 @@ export default function SubscriptionToolCard({
   price,
   date,
   reviewCount,
-}: SubscriptionToolCardProps) {
+}: SubscriptionTool) {
   return (
     <div className="flex w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
       {/* 헤더 섹션 */}
