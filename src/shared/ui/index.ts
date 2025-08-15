@@ -1,3 +1,4 @@
+export { AnimatedSideSheet } from "./AnimatedSideSheet";
 export { Button } from "./button";
 export { Card, CardContent, CardHeader } from "./card";
 export { ExternalLink } from "./ExternalLink";
