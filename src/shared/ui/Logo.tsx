@@ -3,13 +3,5 @@ import Image from "next/image";
 import logoSrc from "@/public/logo.webp";
 
 export const Logo = () => {
-  return (
-    <Image
-      className="rounded-md"
-      src={logoSrc}
-      width={32}
-      height={32}
-      alt="logo"
-    />
-  );
+  return <Image src={logoSrc} width={40} height={40} alt="logo" />;
 };

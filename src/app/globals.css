@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    --background: #fcfcfc;
+    --background: #ffffff;
     --foreground: #101828;
-    --card: #fcfcfc;
+    --card: #ffffff;
     --card-foreground: #101828;
     --popover: #fcfcfc;
     --popover-foreground: #101828;
@@ -126,5 +126,11 @@
   }
   body {
     @apply bg-background font-sans text-primary;
+  }
+}
+
+@layer utilities {
+  .home-background {
+    background-image: url("/home/home_bg.webp");
   }
 }
