@@ -128,10 +128,10 @@ slice-name/
 ## Server Actions & Data Fetching
 
 ### Server Actions Pattern
-Server actions are located in `api/` or `action/` folders within appropriate FSD slices:
-- Authentication: `@/features/login/api/login.ts`, `@/features/sign-up/api/create-user.ts`
-- Profile management: `@/features/profile/api/updateUser.ts`
-- Reviews: `@/features/review/api/` (CRUD operations)
+Server actions are located in ``action/` folders within appropriate FSD slices:
+- Authentication: `@/features/login/action/login.ts`, `@/features/sign-up/action/create-user.ts`
+- Profile management: `@/features/profile/action/updateUser.ts`
+- Reviews: `@/features/review/action/` (CRUD operations)
 
 ### Data Flow
 - **Server Components:** Fetch data directly using Supabase server client
