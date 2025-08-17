@@ -44,8 +44,7 @@ export default function RootLayout({
       className={`${onest.variable} ${pretendard.variable} ${rajdhani.variable}`}
     >
       <body className="bg-background text-foreground">
-        {/* 그라데이션 배경 이미지 */}
-        <div className="home-background pointer-events-none absolute inset-x-0 top-0 h-[100vh] bg-contain bg-top bg-repeat-x" />
+        {/* Global background removed; mounted per-route where needed */}
 
         {/* Header */}
         <Header />

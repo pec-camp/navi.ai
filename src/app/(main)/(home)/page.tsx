@@ -1,7 +1,8 @@
-import { TOOL_PATHNAME } from "@/shared/config/pathname";
-import { FeaturedToolList } from "@/src/entities/tool";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+
+import { TOOL_PATHNAME } from "@/shared/config/pathname";
+import { FeaturedToolList } from "@/src/entities/tool";
 
 export default async function Home() {
   return (

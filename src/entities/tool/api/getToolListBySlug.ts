@@ -1,6 +1,7 @@
 import { createClient } from "@/shared/utils/supabase/server";
+import type { Tool } from "@/src/entities/tool/model/Tool.interface";
 
-export async function getToolListBySlug(categorySlug: string) {
+export async function getToolListBySlug(categorySlug: string): Promise<Tool[]> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -18,5 +19,5 @@ export async function getToolListBySlug(categorySlug: string) {
     throw new Error("Failed to fetch tools by category");
   }
 
-  return data;
+  return (data ?? []) as unknown as Tool[];
 }

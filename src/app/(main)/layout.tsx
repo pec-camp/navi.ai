@@ -63,7 +63,7 @@ export default function MainLayout({
       </div>
 
       {/* Divider */}
-      <div className="w-full border-b border-[#E1E5E9] bg-background" />
+      <div className="w-full border-b border-[#E1E5E9]" />
 
       {/* Tab Navigation */}
       <TabNavigation />
