@@ -3,10 +3,10 @@ import Link from "next/link";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 import { Switch } from "@/shared/ui/switch";
-import ResultsBar from "@/src/app/tools/ResultsBar";
 import type { Category } from "@/src/entities/category/model/Category.interface";
 import type { Tool, ToolTag } from "@/src/entities/tool/model/Tool.interface";
 import CatalogToolCard from "@/src/entities/tool/ui/CatalogToolCard";
+import { ResultsBar } from "@/src/features/search";
 
 interface ToolsPageProps {
   searchParams?: {

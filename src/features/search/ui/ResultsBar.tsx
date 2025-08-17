@@ -44,7 +44,7 @@ interface ResultsBarProps {
   baseParams: BaseParams;
 }
 
-export default function ResultsBar({ resultsCount, baseParams }: ResultsBarProps) {
+export function ResultsBar({ resultsCount, baseParams }: ResultsBarProps) {
   return (
     <div className="z-20 flex items-center justify-between border-b border-[#F3F4F6] bg-background py-4">
       <div className="flex items-center gap-3">
