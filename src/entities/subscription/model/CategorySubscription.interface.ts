@@ -1,10 +1,23 @@
-export interface CategorySubscription {
-  id: number;
+interface SubscriptionResponse {
+  sub_category_id: number;
+  sub_categories: {
+    id: number;
+    category_id: number;
+    categories: {
+      id: number;
+      name: string;
+      slug: string;
+    };
+  };
+}
+
+interface CategorySubscription {
+  id: string;
   categoryId: number;
   subCategoryIds: number[];
 }
 
-export interface SubscriptionTool {
+interface SubscriptionTool {
   id: number;
   name: string;
   category: string;
@@ -15,3 +28,5 @@ export interface SubscriptionTool {
   date: string;
   reviewCount: number;
 }
+
+export type { CategorySubscription, SubscriptionResponse, SubscriptionTool };
