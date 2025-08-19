@@ -25,7 +25,7 @@ export default function FeaturedToolCard({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <Avatar className="h-[44px] w-[44px] border border-border">
+                <Avatar className="h-[32px] w-[32px] border border-border">
                   <AvatarImage src={websiteLogo} alt={name} />
                   <AvatarFallback className="bg-muted text-xs font-semibold text-foreground">
                     {name.charAt(0)}
