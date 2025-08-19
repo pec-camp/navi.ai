@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+🚀 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-This is a Next.js application implementing **Feature Sliced Design (FSD)** architecture with Supabase authentication. It's designed as a boilerplate/learning project that demonstrates modern React patterns with authentication flows.
+This is a **Next.js 15 application** implementing **Feature Sliced Design (FSD)** architecture with **Supabase authentication**. It's designed as a scalable AI tools platform demonstrating modern React patterns with comprehensive authentication flows.
 
 **Key Technologies:**
 - Next.js 15 (App Router)
@@ -14,7 +14,43 @@ This is a Next.js application implementing **Feature Sliced Design (FSD)** archi
 - Tailwind CSS
 - shadcn/ui components
 
-**Package Manager:** pnpm
+**Package Manager:** pnpm (always use pnpm for all package operations)
+
+## 💬 Communication Preferences
+
+- 📌 **Summarize** – Briefly summarize each completed task
+- 📏 **Change Scale** – Classify changes as `Small`, `Medium`, or `Large`
+- ❓ **Clarify First** – Ask questions if any instruction is unclear
+- 🧠 **Emoji Check** – Start each response with a random emoji to confirm context
+- ⚠️ **Respect Emotion** – If urgency is signaled (e.g., "This is critical"), increase caution and precision
+
+### Advanced Communication
+- 📘 For `Large` changes, always plan → explain → wait for approval → execute
+- 🧾 Always state what is complete vs. what is pending
+
+## 🧑‍🏭 Coding Preferences
+
+### Code Quality Principles
+- **Simplicity**: Prioritize the simplest solution over complex ones
+- **Avoid Redundancy**: Prevent code duplication and reuse existing functionality (**DRY principle**)
+- **Guardrails**: Do not use mock data in development or production environments, except in tests
+- **Efficiency**: Optimize output to minimize token usage while maintaining clarity
+
+## 🔧 Technical Stack
+
+**Required Stack:**
+- **Package Manager**: pnpm (always use pnpm for installing libraries)
+- **Frontend**: Next.js (App Router only)
+- **Styling**: Tailwind CSS (no CSS-in-JS libraries like styled-components)
+- **State Management**: React Hooks, fetch for server state
+- **Database & Auth**: Supabase only
+- **Date Utils**: date-fns
+- **UI Components**: shadcn/ui
+
+**Forbidden Technologies:**
+- **No** additional backend frameworks (e.g., Express.js, Firebase)
+- **No** CSS-in-JS (e.g., styled-components, emotion)
+- **No** external state management libraries (e.g., Redux, Zustand)
 
 ## Development Commands
 
@@ -31,7 +67,7 @@ pnpm start
 # Run linting
 pnpm lint
 
-# Add new shadcn/ui component (configured for this project)
+# Add new shadcn/ui component
 pnpm add-component [component-name]
 ```
 
@@ -71,8 +107,27 @@ The project follows FSD methodology with these layers (from lowest to highest):
 ## Key Dependency Rules
 
 1. **Unidirectional imports:** Higher layers can import from lower layers only
+   - app → widgets → features → entities → shared
 2. **Layer isolation:** Same-layer slices cannot depend on each other
 3. **Public API:** Each slice exposes functionality through `index.ts`
+
+## File Organization Patterns
+
+Each FSD slice follows consistent structure:
+```
+slice-name/
+├── ui/           # React components
+├── model/        # Business logic, hooks, types
+├── api/          # External API calls
+├── action/       # Server actions (alternative to api/)
+└── index.ts      # Public exports
+```
+
+### Naming Conventions
+- **Components**: PascalCase
+- **Hooks**: lowerCamelCase starting with 'use'
+- **Types/Interfaces**: PascalCase with `.types.ts` suffix
+- **Utilities**: kebab-case
 
 ## Authentication Architecture
 
@@ -92,16 +147,32 @@ The project follows FSD methodology with these layers (from lowest to highest):
 - `@/features/sign-up/ui/SignUpForm.tsx` - Registration form
 - `@/features/auth/ui/ResetPasswordButton.tsx` - Password reset
 
-## File Organization Patterns
+### Authentication State Checking
 
-Each FSD slice follows consistent structure:
+**Server Components:**
+```tsx
+import { getIsAuthenticated } from "@packages/auth/src/features";
+
+export default async function ProtectedPage() {
+  const isAuthenticated = await getIsAuthenticated();
+
+  if (!isAuthenticated) {
+    redirect(`${getOrigin()}${AUTH_PATHNAME}${SIGN_IN_PATHNAME}`);
+  }
+
+  return <div>Protected Content</div>;
+}
 ```
-slice-name/
-├── ui/           # React components
-├── model/        # Business logic, hooks, types
-├── api/          # External API calls and server actions
-├── action/       # Server actions (alternative to api/)
-└── index.ts      # Public exports
+
+**Client Components:**
+```tsx
+"use client";
+import { useAuth } from "@packages/auth/src/hooks";
+
+export default function AuthButton() {
+  const { signOut } = useAuth();
+  return <button onClick={signOut}>Sign Out</button>;
+}
 ```
 
 ## Component Development Patterns
@@ -111,7 +182,7 @@ slice-name/
 2. **Custom components:** Place in appropriate FSD layer (`shared/ui`, `entities/*/ui`, `features/*/ui`, `widgets/*/ui`)
 
 ### Styling Conventions
-- **Primary:** Tailwind CSS utility classes
+- **Primary:** Tailwind CSS utility classes only
 - **Configuration:** Uses "new-york" shadcn/ui style with zinc base color
 - **CSS Variables:** Enabled for theming
 - **Global styles:** Located in `src/app/globals.css`
@@ -119,16 +190,24 @@ slice-name/
 ### TypeScript Patterns
 - **Strict mode** enabled
 - **Path mapping** configured for all FSD layers
-- **Naming conventions:**
-  - Components: PascalCase
-  - Hooks: camelCase starting with 'use'
-  - Types/Interfaces: PascalCase with `.interface.ts` or `.types.ts` suffix
-  - Utilities: kebab-case
+- **No generic for useState of primary type**
+
+## State Management Patterns
+
+### Client State
+- Use React hooks for local state
+- Shared state through context when needed
+- **No external state management libraries**
+
+### Server State
+- Use server actions for mutations
+- Fetch data in server components when possible
+- Cache appropriately using Next.js patterns
 
 ## Server Actions & Data Fetching
 
 ### Server Actions Pattern
-Server actions are located in ``action/` folders within appropriate FSD slices:
+Server actions are located in `action/` folders within appropriate FSD slices:
 - Authentication: `@/features/login/action/login.ts`, `@/features/sign-up/action/create-user.ts`
 - Profile management: `@/features/profile/action/updateUser.ts`
 - Reviews: `@/features/review/action/` (CRUD operations)
@@ -138,20 +217,6 @@ Server actions are located in ``action/` folders within appropriate FSD slices:
 - **Client State:** React hooks for local state management
 - **Server State:** Server actions for mutations, direct fetching in server components
 - **No external state management:** Project avoids Redux, Zustand, etc.
-
-## Code Quality Guidelines
-
-### Core Principles (from .cursor/rules)
-- **Simplicity:** Prioritize simple solutions over complex ones
-- **DRY Principle:** Prevent code duplication, reuse existing functionality
-- **No Mock Data:** Avoid mock data in development/production (tests only)
-- **Token Efficiency:** Optimize output to minimize unnecessary verbosity
-
-### Tech Stack Constraints
-- **Package Manager:** Always use pnpm
-- **No CSS-in-JS:** Use only Tailwind CSS (no styled-components, emotion, etc.)
-- **No additional backend frameworks:** Stick to Next.js App Router + Supabase
-- **Authentication:** Only Supabase Auth (no Firebase, Auth0, etc.)
 
 ## Environment Setup
 
@@ -178,3 +243,20 @@ Authentication middleware runs on all routes except:
 
 This ensures proper session management across the application.
 
+## Development Best Practices
+
+### Performance
+- Use Next.js Image component patterns
+- Implement proper loading states
+- Use date-fns for date utilities
+
+### Code Organization
+- Follow FSD dependency rules strictly
+- Each layer should have clear public API through `index.ts`
+- Avoid direct cross-layer dependencies
+
+### Quality Assurance
+- Use TypeScript strictly
+- Follow Tailwind utility-first approach
+- Implement proper error boundaries
+- Test authentication flows thoroughly
