@@ -11,9 +11,8 @@ export default async function Subscribe() {
   // } = await supabase.auth.getSession();
 
   // const userId = session.user.id;
-  const userId = "1";
+  const userId = 1;
 
-  // Fetch categories with tags and user subscriptions in parallel
   const [categories, categorySubscriptions] = await Promise.all([
     getCategoriesWithSub(),
     getSubscriptionsCategories(userId),
@@ -21,6 +20,7 @@ export default async function Subscribe() {
 
   return (
     <CategorySideSheet
+      userId={userId}
       categories={categories}
       categorySubscriptions={categorySubscriptions}
     />
