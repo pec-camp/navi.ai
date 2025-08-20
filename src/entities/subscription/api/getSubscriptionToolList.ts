@@ -1,29 +1,45 @@
-export * from "./getSubscriptionCategories";
+"use server";
+
 import { createClient } from "@/shared/utils/supabase/server";
-import { SubscriptionTool } from "../model/SubscriptionTool.interface";
+import {
+  SubscriptionTool,
+  SubscriptionToolData,
+  SubscriptionToolResponse,
+} from "../model/SubscriptionTool.interface";
 
 /**
- * 유저의 구독 도구 목록 조회
+ * 구독 도구 목록 및 총 개수 조회 (서버/클라이언트 공용)
  */
 export async function getSubscriptionToolList(
   userId: number,
-): Promise<SubscriptionTool[]> {
+  limit?: number,
+  offset?: number,
+): Promise<SubscriptionTool> {
   const supabase = await createClient();
 
   const { data, error } = await supabase.rpc("get_user_subscribed_tools", {
     input_user_id: userId,
+    input_limit: limit,
+    input_offset: offset,
   });
 
   if (error) {
     console.error("Error fetching subscribed tools:", error);
-    return [];
+    return { tools: [], totalCount: 0 };
   }
 
-  return data.map((tool: any) => ({
-    id: tool.id,
+  // Parse JSON response
+  const response = data as unknown as {
+    tools: SubscriptionToolResponse[];
+    totalCount: number;
+  };
+
+  const tools: SubscriptionToolData[] = response.tools.map((tool) => ({
+    id: tool.id.toString(),
+    slug: tool.slug,
     name: tool.website_name,
-    website_logo: tool.website_logo,
-    image_url: tool.image_url,
+    websiteLogo: tool.website_logo,
+    imageUrl: tool.image_url,
     website: tool.website,
     category: tool.sub_category_name,
     categoryId: tool.sub_category_id.toString(),
@@ -44,4 +60,9 @@ export async function getSubscriptionToolList(
       .replace(/\s/g, ""),
     reviewCount: tool.review_count || 0,
   }));
+
+  return {
+    tools,
+    totalCount: response.totalCount,
+  } as SubscriptionTool;
 }
