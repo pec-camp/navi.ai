@@ -1,10 +1,10 @@
 "use server";
 
 import { createClient } from "@/shared/utils/supabase/server";
+
 import {
   SubscriptionTool,
   SubscriptionToolData,
-  SubscriptionToolResponse,
 } from "../model/SubscriptionTool.interface";
 
 /**
@@ -28,13 +28,7 @@ export async function getSubscriptionToolList(
     return { tools: [], totalCount: 0 };
   }
 
-  // Parse JSON response
-  const response = data as unknown as {
-    tools: SubscriptionToolResponse[];
-    totalCount: number;
-  };
-
-  const tools: SubscriptionToolData[] = response.tools.map((tool) => ({
+  const tools: SubscriptionToolData[] = data.tools.map((tool) => ({
     id: tool.id.toString(),
     slug: tool.slug,
     name: tool.website_name,
@@ -63,6 +57,6 @@ export async function getSubscriptionToolList(
 
   return {
     tools,
-    totalCount: response.totalCount,
+    totalCount: data.totalCount,
   } as SubscriptionTool;
 }

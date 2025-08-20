@@ -1,11 +1,10 @@
 "use server";
 
-import { createClient } from "@/shared/utils/supabase/server";
 import { randomUUID } from "crypto";
-import {
-  CategorySubscription,
-  SubscriptionCategoryResponse,
-} from "../model/CategorySubscription.interface";
+
+import { createClient } from "@/shared/utils/supabase/server";
+
+import { CategorySubscription } from "../model/CategorySubscription.interface";
 
 /**
  * 유저의 구독 카테고리 목록 조회
@@ -42,8 +41,6 @@ export async function getSubscriptionsCategories(userId: number) {
     return [];
   }
 
-  const responseData = data as unknown as SubscriptionCategoryResponse[];
-
   const categoryMap = new Map<
     number,
     {
@@ -53,7 +50,7 @@ export async function getSubscriptionsCategories(userId: number) {
   >();
 
   // 카테고리별로 그룹화
-  responseData.forEach((subscription) => {
+  data.forEach((subscription) => {
     const categoryId = subscription.sub_categories.category_id;
     const subCategoryId = subscription.sub_category_id;
 
