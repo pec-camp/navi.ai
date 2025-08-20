@@ -1,10 +1,10 @@
 "use client";
 
-import { AnimatedSideSheet } from "@/shared/ui/AnimatedSideSheet";
+import { AnimatedSideSheet } from "@/shared/ui";
 import { CategoryWithSubcategory } from "@/src/entities/category";
-import { CategorySubscription } from "@/src/entities/subscription";
 
-import { useSideSheet } from "@/src/shared/hooks/useSideSheet";
+import { CategorySubscription } from "@/src/entities/subscription";
+import { useSideSheet } from "@/src/shared/hooks";
 import { Button } from "@/src/shared/ui";
 import { RotateCcw, X } from "lucide-react";
 import { useTransition } from "react";
@@ -13,8 +13,8 @@ import {
   replaceUserSubscriptions,
 } from "../api/replaceUserSubscriptions";
 import { useCategorySelector } from "../hooks/useCategorySelector";
-import { CategoryNav } from "./CategoryNav";
-import { SubcategoryPanel } from "./SubcategoryPanel";
+import CategoryNav from "./CategoryNav";
+import SubcategoryPanel from "./SubcategoryPanel";
 
 interface CategorySelectorWithSheetProps {
   userId: number;
@@ -22,7 +22,7 @@ interface CategorySelectorWithSheetProps {
   categorySubscriptions: CategorySubscription[];
 }
 
-export function CategorySideSheet({
+export default function CategorySideSheet({
   userId,
   categories,
   categorySubscriptions,
@@ -127,6 +127,12 @@ export function CategorySideSheet({
 
         {/* Footer */}
         <footer className="rounded-b-md border border-border bg-card p-4">
+          {state.errorMessage && (
+            <div className="bg-destructive/10 mb-4 rounded-md p-4 text-sm text-destructive">
+              {state.errorMessage}
+            </div>
+          )}
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <p className="text-sm font-light text-muted-foreground">
