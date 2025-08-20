@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Card, CardContent } from "@/shared/ui/card";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { FeaturedTool } from "../model/FeaturedTool.interface";
 import ToolBadge from "./ToolBadge";
+import ToolLogo from "./ToolLogo";
 
 export default function FeaturedToolCard({
   name,
@@ -25,12 +25,7 @@ export default function FeaturedToolCard({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <Avatar className="h-[32px] w-[32px] border border-border">
-                  <AvatarImage src={websiteLogo} alt={name} />
-                  <AvatarFallback className="bg-muted text-xs font-semibold text-foreground">
-                    {name.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
+                <ToolLogo websiteLogo={websiteLogo} name={name} />
                 <h3 className="text-lg font-semibold leading-[27px] text-secondary">
                   {name}
                 </h3>
