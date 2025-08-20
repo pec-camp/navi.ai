@@ -16,23 +16,23 @@ export async function saveOnboarding({ role, tools }: SaveOnboardingPayload) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user || !user.email) {
     return { ok: false, message: "Unauthorized" };
   }
 
-  const { error } = await supabase.from("user_profiles").upsert(
-    {
-      id: user.id,
-      role,
-      ai_tools: tools,
-    },
-    { onConflict: "id" },
-  );
+  // Update users table with onboarding information
+  const { error } = await supabase
+    .from("users")
+    .update({
+      profession: role,
+      current_tools: tools.join(", "), // Store as comma-separated string
+    })
+    .eq("email", user.email);
 
   if (error) {
     return { ok: false, message: error.message };
   }
 
   revalidatePath("/onboarding");
-  return { ok: true };
+  return { ok: true, redirect: "/" };
 }
