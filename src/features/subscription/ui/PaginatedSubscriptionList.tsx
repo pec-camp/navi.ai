@@ -1,5 +1,6 @@
 "use client";
 
+import { LIMIT } from "@/src/app/(main)/subscriptions/page";
 import { getSubscriptionToolList } from "@/src/entities/subscription";
 import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
 import SubscriptionToolList from "@/src/entities/subscription/ui/SubscriptionToolList";
@@ -11,8 +12,6 @@ interface PaginatedSubscriptionListProps {
   userId: number;
   totalCount: number;
 }
-
-const MORE_TOOLS_LIMIT = 20;
 
 export default function PaginatedSubscriptionList({
   initialTools,
@@ -30,7 +29,7 @@ export default function PaginatedSubscriptionList({
     startTransition(async () => {
       const { tools: moreTools } = await getSubscriptionToolList(
         userId,
-        MORE_TOOLS_LIMIT,
+        LIMIT,
         tools.length,
       );
       setTools((prev) => [...prev, ...moreTools]);
