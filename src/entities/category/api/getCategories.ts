@@ -7,7 +7,6 @@ export async function getCategories(): Promise<Category[]> {
   const { data, error } = await supabase
     .from("categories")
     .select("*")
-    .eq("parent_id", null)
     .order("name");
 
   if (error) {

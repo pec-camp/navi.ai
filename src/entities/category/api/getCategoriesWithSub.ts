@@ -1,4 +1,5 @@
 import { createClient } from "@/shared/utils/supabase/server";
+
 import { CategoryWithSubcategory } from "../model/Category.interface";
 
 /**
@@ -34,7 +35,7 @@ export async function getCategoriesWithSub(): Promise<
     return [];
   }
 
-  const categoriesWithSub: CategoryWithSubcategory[] = data
+  const categoriesWithSub = data
     .map((category) => ({
       id: category.id,
       name: category.name,
