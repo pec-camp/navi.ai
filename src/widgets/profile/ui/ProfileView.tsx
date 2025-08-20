@@ -3,6 +3,7 @@
 import { User } from "@supabase/supabase-js";
 import { UserAvatar } from "@/features/auth/ui/UserAvatar";
 import { ProfileEditForm } from "@/features/profile";
+import { getProfessionLabel } from "@/shared/constants/profession";
 
 interface UserProfile {
   email: string;
@@ -29,7 +30,7 @@ export function ProfileView({ user, profile }: ProfileViewProps) {
             <p className="text-gray-500">{user.email}</p>
             {profile?.profession && (
               <p className="text-sm text-gray-600 mt-1">
-                {profile.profession}
+                {getProfessionLabel(profile.profession)}
               </p>
             )}
           </div>
@@ -41,23 +42,6 @@ export function ProfileView({ user, profile }: ProfileViewProps) {
         <h2 className="text-lg font-semibold mb-4">프로필 정보</h2>
         <ProfileEditForm user={user} profile={profile} />
       </div>
-
-      {/* Current Tools */}
-      {profile?.currentTools && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold mb-4">사용 중인 AI 도구</h2>
-          <div className="flex flex-wrap gap-2">
-            {profile.currentTools.split(",").map((tool, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-              >
-                {tool.trim()}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
