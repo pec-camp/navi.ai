@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
-import { Button } from './button'
 import { RefreshCw } from 'lucide-react'
+import { useEffect } from 'react'
+
+import { Button } from './button'
 
 interface ErrorFallbackProps {
   error: Error & { digest?: string }

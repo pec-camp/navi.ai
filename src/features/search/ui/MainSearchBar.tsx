@@ -1,10 +1,11 @@
 "use client";
 
+import { Search } from "lucide-react";
+import * as React from "react";
+
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/ui/lib/utils";
-import { Search } from "lucide-react";
-import * as React from "react";
 
 interface MainSearchBarProps {
   onSearch?: (query: string) => void;

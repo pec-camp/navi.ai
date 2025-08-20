@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@/shared/ui/button";
-import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+import { Button } from "@/shared/ui/button";
+import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 
 interface EmptyStateProps {
   onOpenSubscription?: () => void;
