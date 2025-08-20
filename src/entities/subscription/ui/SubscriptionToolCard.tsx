@@ -3,17 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
-import ToolLogo from "../../tool/ui/ToolLogo";
-import { SubscriptionTool } from "../model/SubscriptionTool.interface";
+import { TOOLS_SLUG_PATHNAME } from "@/src/shared/config/pathname";
+import { ToolLogo } from "../../tool";
+import { SubscriptionToolData } from "../model/SubscriptionTool.interface";
 
-type SubscriptionToolCardProps = SubscriptionTool & {
+type SubscriptionToolCardProps = SubscriptionToolData & {
   className?: string;
 };
 
 export default function SubscriptionToolCard({
   name,
-  website_logo,
-  image_url,
+  slug,
+  websiteLogo,
+  imageUrl,
   website,
   category,
   rating,
@@ -69,24 +71,8 @@ export default function SubscriptionToolCard({
 
   const pricing = getPricingDisplay();
 
-  const CardWrapper = ({ children }: { children: React.ReactNode }) => {
-    if (website) {
-      return (
-        <Link
-          href={website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
-          {children}
-        </Link>
-      );
-    }
-    return <>{children}</>;
-  };
-
   return (
-    <CardWrapper>
+    <Link href={TOOLS_SLUG_PATHNAME(slug)}>
       <Card
         className={`group relative h-full max-w-sm cursor-pointer overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm ${className || ""}`}
       >
@@ -96,7 +82,7 @@ export default function SubscriptionToolCard({
             {/* 도구 아이콘 */}
             <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-2xl bg-surface">
               <ToolLogo
-                websiteLogo={website_logo}
+                websiteLogo={websiteLogo}
                 name={name}
                 className="h-6 w-6"
               />
@@ -121,9 +107,9 @@ export default function SubscriptionToolCard({
           {/* 메인 이미지 */}
           <div className="px-4 pb-4">
             <div className="h-40 w-full overflow-hidden rounded-xl border border-border bg-surface">
-              {image_url ? (
+              {imageUrl ? (
                 <Image
-                  src={image_url}
+                  src={imageUrl}
                   alt={`${name} preview`}
                   width={400}
                   height={160}
@@ -177,6 +163,6 @@ export default function SubscriptionToolCard({
           </div>
         </CardContent>
       </Card>
-    </CardWrapper>
+    </Link>
   );
 }

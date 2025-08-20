@@ -1,6 +1,6 @@
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
 import { TabNavigation } from "@/shared/ui/TabNavigation";
-import { TOOL_PATHNAME } from "@/src/shared/config/pathname";
+import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -17,7 +17,7 @@ export default function MainLayout({
         <div className="mb-6 flex justify-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 shadow-sm">
             <Link
-              href={TOOL_PATHNAME}
+              href={TOOLS_PATHNAME}
               className="font-onest text-xs font-light text-foreground"
             >
               Introducing AI Tools Discovery Platform
