@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { cn } from "@/shared/ui/lib/utils";
 import {
   NavigationMenu,
@@ -9,7 +11,6 @@ import {
 } from "@/shared/ui/navigation-menu";
 import { useScrolled } from "@/src/shared/hooks";
 import { Logo } from "@/src/shared/ui";
-import Link from "next/link";
 
 const HEADER_HEIGHT = 64;
 

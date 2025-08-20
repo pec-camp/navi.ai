@@ -1,6 +1,7 @@
+import { useMemo, useReducer } from "react";
+
 import { CategoryWithSubcategory } from "@/src/entities/category";
 import { CategorySubscription } from "@/src/entities/subscription";
-import { useMemo, useReducer } from "react";
 
 export interface CategorySelectorState {
   selectedCategory: number | null;

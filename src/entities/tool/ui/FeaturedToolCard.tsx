@@ -1,6 +1,8 @@
-import { Card, CardContent } from "@/shared/ui/card";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+
+import { Card, CardContent } from "@/shared/ui/card";
+
 import { FeaturedTool } from "../model/FeaturedTool.interface";
 import ToolBadge from "./ToolBadge";
 import ToolLogo from "./ToolLogo";
