@@ -1,6 +1,7 @@
 export const RESET_PASSWORD_PATHNAME = "/reset-password";
 export const LOGIN_PATHNAME = "/login";
 export const SIGN_UP_PATHNAME = "/sign-up";
+export const PROFILE_PATHNAME = "/profile";
 
 export const SUBSCRIPTION_PATHNAME = "/subscriptions";
 export const SUBSCRIPTION_CATEGORY_PATHNAME = "/subscriptions/subscribe";
