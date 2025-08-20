@@ -7,7 +7,7 @@ interface CategoryNavProps {
   onCategorySelect: (categoryId: number) => void;
 }
 
-export function CategoryNav({
+export default function CategoryNav({
   categories,
   selectedCategory,
   onCategorySelect,

@@ -1,1 +1,0 @@
-export { FeaturedToolCard } from "./FeaturedToolCard";

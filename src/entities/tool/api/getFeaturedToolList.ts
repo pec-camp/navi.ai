@@ -1,3 +1,5 @@
+"use server";
+
 import { FeaturedTool } from "@/entities/tool/model/FeaturedTool.interface";
 import { createClient } from "@/shared/utils/supabase/server";
 
