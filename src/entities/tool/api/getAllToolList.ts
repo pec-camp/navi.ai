@@ -1,3 +1,5 @@
+"use server";
+
 import { createClient } from "@/shared/utils/supabase/server";
 import type { Tool } from "@/src/entities/tool/model/Tool.interface";
 

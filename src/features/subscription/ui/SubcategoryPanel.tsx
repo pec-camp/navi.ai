@@ -9,7 +9,7 @@ interface SubcategoryPanelProps {
   onSubcategoryToggle: (subcategoryId: number) => void;
 }
 
-export function SubcategoryPanel({
+export default function SubcategoryPanel({
   selectedCategoryData,
   currentSelected,
   onSubcategoryToggle,

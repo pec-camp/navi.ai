@@ -1,4 +1,4 @@
-interface SubscriptionResponse {
+interface SubscriptionCategoryResponse {
   sub_category_id: number;
   sub_categories: {
     id: number;
@@ -17,4 +17,4 @@ interface CategorySubscription {
   subCategoryIds: number[];
 }
 
-export type { CategorySubscription, SubscriptionResponse };
+export type { CategorySubscription, SubscriptionCategoryResponse };
