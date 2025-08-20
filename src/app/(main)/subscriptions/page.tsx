@@ -8,8 +8,7 @@ import { Button } from "@/src/shared/ui";
 import { Settings } from "lucide-react";
 import Link from "next/link";
 
-// Mock 데이터: 구독한 카테고리(writing, design)의 도구들만 표시
-// TODO: 실제로는 서버에서 getUserSubscribedTools(userId) 같은 API로 받아올 예정
+export const LIMIT = 20;
 
 export default async function Subscriptions() {
   // Get current user from Supabase session
@@ -28,7 +27,7 @@ export default async function Subscriptions() {
 
   const { tools: initialTools, totalCount } = await getSubscriptionToolList(
     userId,
-    20,
+    LIMIT,
   );
   const hasSubscriptionList = totalCount > 0;
 
