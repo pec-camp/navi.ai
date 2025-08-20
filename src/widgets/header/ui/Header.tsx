@@ -1,5 +1,6 @@
-"use client";
+import Link from "next/link";
 
+import { AuthButton } from "@/features/auth";
 import { cn } from "@/shared/ui/lib/utils";
 import {
   NavigationMenu,
@@ -7,22 +8,14 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/shared/ui/navigation-menu";
-import { useScrolled } from "@/src/shared/hooks";
 import { Logo } from "@/src/shared/ui";
-import Link from "next/link";
 
-const HEADER_HEIGHT = 64;
-
-export function Header() {
-  const isScrolled = useScrolled(HEADER_HEIGHT);
-
+export async function Header() {
   return (
     <header
       className={cn(
         "sticky top-0 z-50 w-full border-b border-[#0000001a] duration-300",
-        isScrolled
-          ? "bg-white shadow-sm"
-          : "supports-[backdrop-filter]:bg-background/60 backdrop-blur",
+        "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       )}
     >
       <div className="container mx-auto flex h-16 items-center px-4">
@@ -56,12 +49,7 @@ export function Header() {
 
         {/* Auth Actions */}
         <div className="ml-auto flex items-center space-x-4">
-          <Link
-            href="/login"
-            className="hover:text-foreground/80 text-base font-normal text-foreground"
-          >
-            로그인
-          </Link>
+          <AuthButton />
         </div>
       </div>
     </header>
