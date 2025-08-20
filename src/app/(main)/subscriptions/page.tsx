@@ -1,7 +1,9 @@
-import { SubscriptionToolList } from "@/src/entities/subscription";
-import { getSubscriptionToolList } from "@/src/entities/subscription/api";
-import { EmptyState } from "@/src/features/subscription/ui/EmptyState";
-import { SUBSCRIPTION_CATEGORY_PATHNAME } from "@/src/shared/config/pathname";
+import { getSubscriptionToolList } from "@/src/entities/subscription";
+import {
+  EmptyState,
+  PaginatedSubscriptionList,
+} from "@/src/features/subscription";
+import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
 import { Settings } from "lucide-react";
 import Link from "next/link";
@@ -22,10 +24,13 @@ export default async function Subscriptions() {
 
   // const userId = session.user.id;
 
-  const userId = "1";
+  const userId = 1;
 
-  const subscriptionToolList = await getSubscriptionToolList(userId);
-  const hasSubscriptionList = subscriptionToolList.length > 0;
+  const { tools: initialTools, totalCount } = await getSubscriptionToolList(
+    userId,
+    20,
+  );
+  const hasSubscriptionList = totalCount > 0;
 
   return (
     <section>
@@ -36,7 +41,7 @@ export default async function Subscriptions() {
           {/* 오른쪽에 설정 링크 */}
           <div className="flex items-end justify-end py-3">
             <Button variant="secondary" size="sm" asChild>
-              <Link href={SUBSCRIPTION_CATEGORY_PATHNAME}>
+              <Link href={SUBSCRIPTIONS_SUBSCRIBE_PATHNAME}>
                 <Settings className="h-4 w-4" />
                 <span>카테고리 구독하기</span>
               </Link>
@@ -44,7 +49,11 @@ export default async function Subscriptions() {
           </div>
 
           {/* 구독 도구 리스트 */}
-          <SubscriptionToolList subscriptionToolList={subscriptionToolList} />
+          <PaginatedSubscriptionList
+            initialTools={initialTools}
+            userId={userId}
+            totalCount={totalCount}
+          />
         </>
       ) : (
         /* 구독한 도구가 없을 때 EmptyState */
