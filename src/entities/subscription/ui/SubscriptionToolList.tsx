@@ -1,4 +1,4 @@
-import { SubscriptionTool } from "../model/CategorySubscription.interface";
+import { SubscriptionTool } from "../model/SubscriptionTool.interface";
 import SubscriptionToolCard from "./SubscriptionToolCard";
 
 export default function SubscriptionToolList({
