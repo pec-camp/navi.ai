@@ -16,8 +16,9 @@ export const SUBSCRIPTIONS_SUBSCRIBE_PATHNAME = "/subscriptions/subscribe";
 export const TERMS_PATHNAME = "/terms";
 export const TOOLS_PATHNAME = "/tools";
 export const TOOLS_SLUG_PATHNAME = (slug: string) => `/tools/${slug}`;
-export const TOOLS_SLUG_REVIEW_FORM_PATHNAME = (slug: string) =>
-  `/tools/${slug}/review-form`;
+export const TOOLS_SLUG_REVIEW_FORM_PATHNAME = (slug: string) => `/tools/${slug}/review-form`;
+export const TOOLS_SLUG_REVIEWS_PATHNAME = (slug: string) => `/tools/${slug}/reviews`;
+export const TOOLS_SLUG_SIMILAR_TOOLS_PATHNAME = (slug: string) => `/tools/${slug}/similar-tools`;
 
 // Export all routes for easy access
 export const ROUTES = {
@@ -37,26 +38,12 @@ export const ROUTES = {
   TOOLS_PATHNAME,
   TOOLS_SLUG_PATHNAME,
   TOOLS_SLUG_REVIEW_FORM_PATHNAME,
+  TOOLS_SLUG_REVIEWS_PATHNAME,
+  TOOLS_SLUG_SIMILAR_TOOLS_PATHNAME
 } as const;
 
 // Type for all static routes
-export type StaticRoute =
-  | "/"
-  | "/account"
-  | "/compare"
-  | "/contact"
-  | "/help"
-  | "/login"
-  | "/onboarding"
-  | "/privacy"
-  | "/reset-password"
-  | "/sign-up"
-  | "/subscriptions"
-  | "/subscriptions/subscribe"
-  | "/terms"
-  | "/tools";
+export type StaticRoute = "/" | "/account" | "/compare" | "/contact" | "/help" | "/login" | "/onboarding" | "/privacy" | "/reset-password" | "/sign-up" | "/subscriptions" | "/subscriptions/subscribe" | "/terms" | "/tools";
 
 // Type for dynamic route functions
-export type DynamicRoute =
-  | typeof TOOLS_SLUG_PATHNAME
-  | typeof TOOLS_SLUG_REVIEW_FORM_PATHNAME;
+export type DynamicRoute = typeof TOOLS_SLUG_PATHNAME | typeof TOOLS_SLUG_REVIEW_FORM_PATHNAME | typeof TOOLS_SLUG_REVIEWS_PATHNAME | typeof TOOLS_SLUG_SIMILAR_TOOLS_PATHNAME;
