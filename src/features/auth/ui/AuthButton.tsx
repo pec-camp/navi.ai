@@ -1,37 +1,33 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { LOGIN_PATHNAME } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui";
-import { createClient } from "@/shared/utils/supabase/server";
+import { getCurrentUser } from "../api/get-user-profile";
+import { getUserProfile } from "../api/get-user-profile";
+import { AuthButtonClient } from "./AuthButtonClient";
 
 export default async function AuthButton() {
-  const supabase = await createClient();
+  const user = await getCurrentUser();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  if (!user) {
+    return (
+      <Button asChild variant="outline">
+        <Link href={LOGIN_PATHNAME}>로그인</Link>
+      </Button>
+    );
+  }
 
-  const signOut = async () => {
-    "use server";
+  // Enrich user metadata with database profile if needed
+  if (user.email && !user.user_metadata?.full_name) {
+    const profile = await getUserProfile(user.email);
+    
+    if (profile?.profession) {
+      user.user_metadata = {
+        ...user.user_metadata,
+        display_name: profile.profession
+      };
+    }
+  }
 
-    const supabase = await createClient();
-    await supabase.auth.signOut();
-    return redirect(LOGIN_PATHNAME);
-  };
-
-  return user ? (
-    <div className="flex items-center gap-4">
-      {user.email}
-      <form>
-        <Button formAction={signOut} variant="outline">
-          Logout
-        </Button>
-      </form>
-    </div>
-  ) : (
-    <Button asChild variant="outline">
-      <Link href={LOGIN_PATHNAME}>Login</Link>
-    </Button>
-  );
+  return <AuthButtonClient user={user} />;
 }

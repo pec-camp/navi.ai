@@ -42,7 +42,8 @@ export default function OnboardingSteps({ tools }: OnboardingStepsProps) {
         setError(data?.message ?? "저장에 실패했어요. 잠시 후 다시 시도해주세요.");
         return;
       }
-      router.replace("/");
+      // Use the redirect path from the response, or default to home
+      router.replace(data.redirect || "/");
     } finally {
       setIsSubmitting(false);
     }
