@@ -17,8 +17,8 @@ interface AnimatedSideSheetProps {
 const sizeClasses = {
   sm: "max-w-[400px]",
   md: "max-w-[600px]",
-  lg: "max-w-[840px]",
-  xl: "max-w-[1200px]",
+  lg: "max-w-[1000px]",
+  xl: "max-w-[1400px]",
 };
 
 const slideVariants = {

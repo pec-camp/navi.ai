@@ -1,19 +1,21 @@
-export interface Category {
+interface Category {
   id: number;
   name: string;
   slug: string;
 }
 
-export interface Subcategory {
+interface SubCategory {
   id: number;
   name: string;
   slug: string;
   categoryId: number;
 }
 
-export interface CategoryWithSubcategory {
+interface CategoryWithSubcategory {
   id: number;
   name: string;
   slug: string;
-  subcategories: Subcategory[];
+  subcategories: SubCategory[];
 }
+
+export type { Category, CategoryWithSubcategory, SubCategory };
