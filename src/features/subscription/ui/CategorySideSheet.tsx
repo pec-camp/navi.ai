@@ -1,16 +1,16 @@
 "use client";
 
-import { AnimatedSideSheet } from "@/shared/ui";
-import { CategoryWithSubcategory } from "@/src/entities/category";
-
-import { CategorySubscription } from "@/src/entities/subscription";
-import { useSideSheet } from "@/src/shared/hooks";
-import { Button } from "@/src/shared/ui";
 import { RotateCcw, X } from "lucide-react";
 import { useTransition } from "react";
+
+import { AnimatedSideSheet, Button } from "@/shared/ui";
+import { CategoryWithSubcategory } from "@/src/entities/category";
+import { CategorySubscription } from "@/src/entities/subscription";
+import { useSideSheet } from "@/src/shared/hooks";
+
 import {
-  SubscriptionUpdateRequest,
   replaceUserSubscriptions,
+  SubscriptionUpdateRequest,
 } from "../api/replaceUserSubscriptions";
 import { useCategorySelector } from "../hooks/useCategorySelector";
 import CategoryNav from "./CategoryNav";
@@ -63,7 +63,7 @@ export default function CategorySideSheet({
         } else {
           dispatch({ type: "SUBMISSION_ERROR", payload: result.message });
         }
-      } catch (error) {
+      } catch {
         dispatch({
           type: "SUBMISSION_ERROR",
           payload: "구독 업데이트 중 오류가 발생했습니다.",

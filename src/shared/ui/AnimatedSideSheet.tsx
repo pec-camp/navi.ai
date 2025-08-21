@@ -1,8 +1,9 @@
 "use client";
 
-import { cn } from "@/shared/ui/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
+
+import { cn } from "@/shared/ui/lib/utils";
 
 interface AnimatedSideSheetProps {
   isOpen: boolean;

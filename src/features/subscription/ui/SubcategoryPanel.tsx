@@ -1,5 +1,6 @@
-import { CategoryWithSubcategory } from "@/src/entities/category";
 import { Plus } from "lucide-react";
+
+import { CategoryWithSubcategory } from "@/src/entities/category";
 
 interface SubcategoryPanelProps {
   selectedCategoryData:

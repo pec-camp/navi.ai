@@ -1,3 +1,6 @@
+import { Settings } from "lucide-react";
+import Link from "next/link";
+
 import { getSubscriptionToolList } from "@/src/entities/subscription";
 import {
   EmptyState,
@@ -5,8 +8,6 @@ import {
 } from "@/src/features/subscription";
 import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
-import { Settings } from "lucide-react";
-import Link from "next/link";
 
 export const LIMIT = 20;
 

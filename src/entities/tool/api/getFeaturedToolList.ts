@@ -12,11 +12,10 @@ import { createClient } from "@/shared/utils/supabase/server";
 export async function getFeaturedToolList() {
   const supabase = await createClient();
 
-  try {
-    const { data: tools, error } = await supabase
-      .from("ai_tools")
-      .select(
-        `
+  const { data: tools, error } = await supabase
+    .from("ai_tools")
+    .select(
+      `
         id,
         name,
         website_logo,
@@ -25,31 +24,28 @@ export async function getFeaturedToolList() {
         slug,
         is_free
       `,
-      )
-      .not("website_logo", "is", null)
-      .order("month_visited_count", { ascending: false })
-      .limit(20);
+    )
+    .not("website_logo", "is", null)
+    .order("month_visited_count", { ascending: false })
+    .limit(20);
 
-    if (error) {
-      throw new Error(`추천 툴 목록 조회 실패: ${error.message}`);
-    }
-
-    if (!tools || tools.length === 0) {
-      return [];
-    }
-
-    const featuredTools: FeaturedTool[] = tools.map((tool) => ({
-      id: tool.id,
-      name: tool.name,
-      websiteLogo: tool.website_logo || "",
-      whatIsSummary: tool.what_is_summary || "",
-      slug: tool.slug,
-      isFree: tool.is_free || false,
-      tags: tool.tags || [],
-    }));
-
-    return featuredTools;
-  } catch (error) {
-    throw error;
+  if (error) {
+    throw new Error(`추천 툴 목록 조회 실패: ${error.message}`);
   }
+
+  if (!tools || tools.length === 0) {
+    return [];
+  }
+
+  const featuredTools: FeaturedTool[] = tools.map((tool) => ({
+    id: tool.id,
+    name: tool.name,
+    websiteLogo: tool.website_logo || "",
+    whatIsSummary: tool.what_is_summary || "",
+    slug: tool.slug,
+    isFree: tool.is_free || false,
+    tags: tool.tags || [],
+  }));
+
+  return featuredTools;
 }

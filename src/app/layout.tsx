@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+
 import { Onest, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -67,9 +68,9 @@ export default function RootLayout({
                   </span>
                 </div>
                 <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
-                  Discover the world's top AI tools. Find the perfect solution
-                  for every task with our curated collection of 21,346+ AI
-                  tools.
+                  Discover the world&#39;s top AI tools. Find the perfect
+                  solution for every task with our curated collection of 21,346+
+                  AI tools.
                 </p>
               </div>
             </div>

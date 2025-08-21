@@ -1,9 +1,10 @@
 "use client";
 
-import { SUBSCRIPTIONS_PATHNAME } from "@/src/shared/config/pathname";
-import { Button, ErrorFallback } from "@/src/shared/ui";
 import { Settings } from "lucide-react";
 import Link from "next/link";
+
+import { SUBSCRIPTIONS_PATHNAME } from "@/src/shared/config/pathname";
+import { Button, ErrorFallback } from "@/src/shared/ui";
 
 export default function SubscriptionsError({
   error,

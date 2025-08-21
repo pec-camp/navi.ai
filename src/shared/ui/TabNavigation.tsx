@@ -1,13 +1,14 @@
 "use client";
 
+import { Bell, Home } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import {
   MAIN_PATHNAME,
   SUBSCRIPTIONS_PATHNAME,
 } from "@/shared/config/pathname";
 import { cn } from "@/shared/ui/lib/utils";
-import { Bell, Home } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const tabs = [
   {

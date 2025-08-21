@@ -1,8 +1,9 @@
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
 import { TabNavigation } from "@/shared/ui/TabNavigation";
 import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 
 export default function MainLayout({
   children,
@@ -29,7 +30,7 @@ export default function MainLayout({
         {/* Main Heading */}
         <div className="text-center">
           <h1 className="font-rajdhani text-5xl font-bold leading-tight tracking-tight text-foreground md:text-6xl">
-            DISCOVER THE WORLD'S
+            DISCOVER THE WORLD&#39;S
             <br />
             <span
               className="bg-clip-text text-transparent"
