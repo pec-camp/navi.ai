@@ -6,10 +6,9 @@ import {
   EmptyState,
   PaginatedSubscriptionList,
 } from "@/src/features/subscription";
+import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
-
-export const LIMIT = 20;
 
 export default async function Subscriptions() {
   // Get current user from Supabase session
@@ -28,7 +27,7 @@ export default async function Subscriptions() {
 
   const { tools: initialTools, totalCount } = await getSubscriptionToolList(
     userId,
-    LIMIT,
+    SUBSCRIPTION_PAGE_LIMIT,
   );
   const hasSubscriptionList = totalCount > 0;
 

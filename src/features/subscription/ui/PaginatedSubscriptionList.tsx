@@ -2,10 +2,10 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import { LIMIT } from "@/src/app/(main)/subscriptions/page";
 import { getSubscriptionToolList } from "@/src/entities/subscription";
 import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
 import SubscriptionToolList from "@/src/entities/subscription/ui/SubscriptionToolList";
+import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { Button } from "@/src/shared/ui";
 
 interface PaginatedSubscriptionListProps {
@@ -30,7 +30,7 @@ export default function PaginatedSubscriptionList({
     startTransition(async () => {
       const { tools: moreTools } = await getSubscriptionToolList(
         userId,
-        LIMIT,
+        SUBSCRIPTION_PAGE_LIMIT,
         tools.length,
       );
       setTools((prev) => [...prev, ...moreTools]);
