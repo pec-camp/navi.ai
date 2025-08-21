@@ -17,7 +17,7 @@ import CategoryNav from "./CategoryNav";
 import SubcategoryPanel from "./SubcategoryPanel";
 
 interface CategorySelectorWithSheetProps {
-  userId: number;
+  userId: string;
   categories: CategoryWithSubcategory[];
   categorySubscriptions: CategorySubscription[];
 }

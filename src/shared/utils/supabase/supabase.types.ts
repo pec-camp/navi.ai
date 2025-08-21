@@ -36,7 +36,7 @@ export type Database = MergeDeep<
           Args: {
             input_limit?: number;
             input_offset?: number;
-            input_user_id: number;
+            input_user_id: string;
           };
           Returns: SubscribedToolsResponse;
         };

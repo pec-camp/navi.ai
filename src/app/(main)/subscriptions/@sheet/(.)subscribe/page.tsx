@@ -1,16 +1,21 @@
 import { getCategoriesWithSub } from "@/src/entities/category";
 import { getSubscriptionsCategories } from "@/src/entities/subscription/api/getSubscriptionCategories";
 import { CategorySideSheet } from "@/src/features/subscription";
+import { createClient } from "@/src/shared/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function Subscribe() {
   // Get current user from Supabase session
-  // const supabase = await createClient();
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // const userId = session.user.id;
-  const userId = 1;
+  if (!user) {
+    redirect("/login");
+  }
+
+  const userId = user.id;
 
   const [categories, categorySubscriptions] = await Promise.all([
     getCategoriesWithSub(),

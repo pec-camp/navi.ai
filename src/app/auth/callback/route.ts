@@ -12,33 +12,41 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { error: sessionError } = await supabase.auth.exchangeCodeForSession(code);
-    
+    const { error: sessionError } =
+      await supabase.auth.exchangeCodeForSession(code);
+
     if (!sessionError) {
       // Get the current user
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (user) {
         // Check if user exists in the users table
         const { data: existingUser } = await supabase
           .from("users")
           .select("id, profession, current_tools")
-          .eq("email", user.email)
+          .eq("email", user?.email || "")
           .single();
-        
+
         if (!existingUser) {
           // New user - create entry in users table
           await supabase
             .from("users")
-            .insert({ email: user.email });
-          
+            .insert({
+              email: user?.email || "",
+              id: user?.id || "",
+              profession: "",
+              current_tools: "",
+            });
+
           // Redirect to onboarding
           return NextResponse.redirect(`${origin}/onboarding`);
         } else if (!existingUser.profession || !existingUser.current_tools) {
           // Existing user but incomplete profile - redirect to onboarding
           return NextResponse.redirect(`${origin}/onboarding`);
         }
-        
+
         // Existing user with complete profile - redirect to home
         return NextResponse.redirect(`${origin}/`);
       }

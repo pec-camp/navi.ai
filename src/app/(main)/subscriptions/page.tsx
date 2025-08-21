@@ -1,5 +1,6 @@
 import { Settings } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { getSubscriptionToolList } from "@/src/entities/subscription";
 import {
@@ -9,21 +10,20 @@ import {
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
+import { createClient } from "@/src/shared/utils/supabase/server";
 
 export default async function Subscriptions() {
   // Get current user from Supabase session
-  // const supabase = await createClient();
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // if (!session?.user) {
-  //   redirect("/login");
-  // }
+  if (!user) {
+    redirect("/login");
+  }
 
-  // const userId = session.user.id;
-
-  const userId = 1;
+  const userId = user.id;
 
   const { tools: initialTools, totalCount } = await getSubscriptionToolList(
     userId,

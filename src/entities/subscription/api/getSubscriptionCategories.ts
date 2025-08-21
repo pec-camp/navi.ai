@@ -12,7 +12,7 @@ import { CategorySubscription } from "../model/CategorySubscription.interface";
  * @param userId 유저 ID
  * @returns 구독 카테고리 목록
  */
-export async function getSubscriptionsCategories(userId: number) {
+export async function getSubscriptionsCategories(userId: string) {
   const supabase = await createClient();
 
   const { data, error } = await supabase

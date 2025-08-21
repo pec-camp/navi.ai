@@ -171,17 +171,17 @@ export type Database = {
         Row: {
           added_at: string | null
           ai_tool_id: number
-          user_id: number
+          user_id: string
         }
         Insert: {
           added_at?: string | null
           ai_tool_id: number
-          user_id: number
+          user_id: string
         }
         Update: {
           added_at?: string | null
           ai_tool_id?: number
-          user_id?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -222,17 +222,17 @@ export type Database = {
         Row: {
           ai_tool_id: number
           recommended_at: string | null
-          user_id: number
+          user_id: string
         }
         Insert: {
           ai_tool_id: number
           recommended_at?: string | null
-          user_id: number
+          user_id: string
         }
         Update: {
           ai_tool_id?: number
           recommended_at?: string | null
-          user_id?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -260,7 +260,7 @@ export type Database = {
           recommend: boolean | null
           review_text: string | null
           used_with_tool_id: number | null
-          user_id: number | null
+          user_id: string | null
         }
         Insert: {
           ai_tool_id?: number | null
@@ -270,7 +270,7 @@ export type Database = {
           recommend?: boolean | null
           review_text?: string | null
           used_with_tool_id?: number | null
-          user_id?: number | null
+          user_id?: string | null
         }
         Update: {
           ai_tool_id?: number | null
@@ -280,7 +280,7 @@ export type Database = {
           recommend?: boolean | null
           review_text?: string | null
           used_with_tool_id?: number | null
-          user_id?: number | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -341,21 +341,21 @@ export type Database = {
           event_type: string
           id: number
           metadata: Json | null
-          user_id: number | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string | null
           event_type: string
           id?: never
           metadata?: Json | null
-          user_id?: number | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string | null
           event_type?: string
           id?: never
           metadata?: Json | null
-          user_id?: number | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -370,15 +370,15 @@ export type Database = {
       user_subscriptions: {
         Row: {
           sub_category_id: number
-          user_id: number
+          user_id: string
         }
         Insert: {
           sub_category_id: number
-          user_id: number
+          user_id: string
         }
         Update: {
           sub_category_id?: number
-          user_id?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -402,21 +402,21 @@ export type Database = {
           created_at: string | null
           current_tools: string | null
           email: string
-          id: number
+          id: string
           profession: string | null
         }
         Insert: {
           created_at?: string | null
           current_tools?: string | null
           email: string
-          id?: never
+          id: string
           profession?: string | null
         }
         Update: {
           created_at?: string | null
           current_tools?: string | null
           email?: string
-          id?: never
+          id?: string
           profession?: string | null
         }
         Relationships: []
@@ -430,7 +430,7 @@ export type Database = {
         Args: {
           input_limit?: number
           input_offset?: number
-          input_user_id: number
+          input_user_id: string
         }
         Returns: Json
       }

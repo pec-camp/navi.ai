@@ -10,7 +10,7 @@ import { Button } from "@/src/shared/ui";
 
 interface PaginatedSubscriptionListProps {
   initialTools: SubscriptionToolData[];
-  userId: number;
+  userId: string;
   totalCount: number;
 }
 

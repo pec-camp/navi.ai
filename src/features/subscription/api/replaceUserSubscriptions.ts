@@ -16,7 +16,7 @@ export interface SubscriptionActionState {
 }
 
 export interface SubscriptionUpdateRequest {
-  userId: number;
+  userId: string;
   subCategoryIds: number[];
 }
 
@@ -24,9 +24,9 @@ export async function replaceUserSubscriptions(
   request: SubscriptionUpdateRequest,
 ): Promise<SubscriptionActionState> {
   try {
-    const { userId: userIdNumber, subCategoryIds: selectedIds } = request;
+    const { userId, subCategoryIds: selectedIds } = request;
 
-    if (!userIdNumber || userIdNumber <= 0) {
+    if (!userId) {
       return {
         success: false,
         message: "유효한 사용자 ID가 필요합니다.",
@@ -41,7 +41,7 @@ export async function replaceUserSubscriptions(
     }
 
     // 데이터 검증
-    const validation = validateSubscriptionData(userIdNumber, selectedIds);
+    const validation = validateSubscriptionData(userId, selectedIds);
     if (!validation.isValid) {
       return {
         success: false,
@@ -55,7 +55,7 @@ export async function replaceUserSubscriptions(
     const { error: deleteError } = await supabase
       .from("user_subscriptions")
       .delete()
-      .eq("user_id", userIdNumber);
+      .eq("user_id", userId);
 
     if (deleteError) {
       console.error("기존 구독 삭제 중 오류:", deleteError);
@@ -68,7 +68,7 @@ export async function replaceUserSubscriptions(
     // 선택된 항목들로 새로 생성
     if (selectedIds.length > 0) {
       const subscriptionsToInsert = selectedIds.map((subCategoryId) => ({
-        user_id: userIdNumber,
+        user_id: userId,
         sub_category_id: subCategoryId,
       }));
 

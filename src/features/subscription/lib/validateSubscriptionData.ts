@@ -2,10 +2,10 @@
  * 구독 데이터 검증
  */
 export function validateSubscriptionData(
-  userId: number,
+  userId: string,
   subCategoryIds: number[],
 ): { isValid: boolean; error?: string } {
-  if (!userId || userId <= 0) {
+  if (!userId) {
     return { isValid: false, error: "유효하지 않은 사용자 ID입니다." };
   }
 

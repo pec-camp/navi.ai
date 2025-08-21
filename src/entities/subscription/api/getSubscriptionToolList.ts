@@ -8,10 +8,10 @@ import {
 } from "../model/SubscriptionTool.interface";
 
 /**
- * 구독 도구 목록 및 총 개수 조회 (서버/클라이언트 공용)
+ * 구독 도구 목록 및 총 개수 조회
  */
 export async function getSubscriptionToolList(
-  userId: number,
+  userId: string,
   limit?: number,
   offset?: number,
 ): Promise<SubscriptionTool> {
@@ -29,15 +29,15 @@ export async function getSubscriptionToolList(
   }
 
   const tools: SubscriptionToolData[] = data.tools.map((tool) => ({
-    id: tool.id.toString(),
+    id: tool.id,
     slug: tool.slug,
     name: tool.website_name,
     websiteLogo: tool.website_logo,
     imageUrl: tool.image_url,
     website: tool.website,
     category: tool.sub_category_name,
-    categoryId: tool.sub_category_id.toString(),
-    rating: tool.avg_rating,
+    categoryId: tool.sub_category_id,
+    rating: tool.avg_rating || 4.5,
     summary: tool.what_is_summary,
     isFreePlan: tool.is_free_plan,
     isPaidPlan: tool.is_paid_plan,
