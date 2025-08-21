@@ -2,11 +2,9 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { TOOLS_PATHNAME } from "@/shared/config/pathname";
-import { FeaturedToolList, getFeaturedToolList } from "@/src/entities/tool";
+import { FeaturedToolList } from "@/src/entities/tool";
 
 export default async function Home() {
-  const featuredTools = await getFeaturedToolList();
-
   return (
     <section>
       <div className="mb-4 flex items-end justify-between">
@@ -25,7 +23,7 @@ export default async function Home() {
       </div>
 
       {/* Featured Tool List */}
-      <FeaturedToolList featuredTools={featuredTools} />
+      <FeaturedToolList />
     </section>
   );
 }
