@@ -1,8 +1,9 @@
 "use client";
 
-import { cn } from "@/shared/ui/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
+
+import { cn } from "@/shared/ui/lib/utils";
 
 interface AnimatedSideSheetProps {
   isOpen: boolean;
@@ -17,8 +18,8 @@ interface AnimatedSideSheetProps {
 const sizeClasses = {
   sm: "max-w-[400px]",
   md: "max-w-[600px]",
-  lg: "max-w-[840px]",
-  xl: "max-w-[1200px]",
+  lg: "max-w-[1000px]",
+  xl: "max-w-[1400px]",
 };
 
 const slideVariants = {

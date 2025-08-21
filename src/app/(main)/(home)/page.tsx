@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-import { TOOL_PATHNAME } from "@/shared/config/pathname";
+import { TOOLS_PATHNAME } from "@/shared/config/pathname";
 import { FeaturedToolList } from "@/src/entities/tool";
 
 export default async function Home() {
@@ -14,7 +14,7 @@ export default async function Home() {
 
         {/* 더보기 */}
         <Link
-          href={TOOL_PATHNAME}
+          href={TOOLS_PATHNAME}
           className="group flex items-center gap-1 text-sm font-medium text-muted-foreground transition-all duration-200 hover:text-foreground"
         >
           View more

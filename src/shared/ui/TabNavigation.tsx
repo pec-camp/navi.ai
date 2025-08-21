@@ -1,10 +1,14 @@
 "use client";
 
-import { MAIN_PATHNAME, SUBSCRIPTION_PATHNAME } from "@/shared/config/pathname";
-import { cn } from "@/shared/ui/lib/utils";
 import { Bell, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import {
+  MAIN_PATHNAME,
+  SUBSCRIPTIONS_PATHNAME,
+} from "@/shared/config/pathname";
+import { cn } from "@/shared/ui/lib/utils";
 
 const tabs = [
   {
@@ -14,7 +18,7 @@ const tabs = [
   },
   {
     name: "Subscriptions",
-    href: SUBSCRIPTION_PATHNAME,
+    href: SUBSCRIPTIONS_PATHNAME,
     icon: Bell,
   },
 ];

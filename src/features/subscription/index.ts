@@ -1,7 +1,9 @@
 /** api  */
-export { upsertUserSubscription } from "./api/upsertUserSubscription";
+export { replaceUserSubscriptions } from "./api/replaceUserSubscriptions";
 
 /** ui */
-export { CategorySelector } from "./ui/CategorySelector";
-export { CategorySideSheet } from "./ui/CategorySideSheet";
-export { EmptyState } from "./ui/EmptyState";
+export { default as CategoryNav } from "./ui/CategoryNav";
+export { default as CategorySideSheet } from "./ui/CategorySideSheet";
+export { default as EmptyState } from "./ui/EmptyState";
+export { default as PaginatedSubscriptionList } from "./ui/PaginatedSubscriptionList";
+export { default as SubcategoryPanel } from "./ui/SubcategoryPanel";

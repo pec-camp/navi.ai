@@ -10,7 +10,6 @@ export { UserDropdown } from "./ui/UserDropdown";
 // Server Actions
 export { signOut } from "./action/sign-out";
 export { signInWithGoogle, signInWithKakao } from "./action/sign-in-oauth";
-export { resetPassword } from "./action/reset-password";
 
 // API Functions
 export { getCurrentUser, getUserProfile } from "./api/get-user-profile";
