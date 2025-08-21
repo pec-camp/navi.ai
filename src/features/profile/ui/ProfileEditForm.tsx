@@ -22,7 +22,10 @@ interface ProfileEditFormProps {
   profile: UserProfile | null;
 }
 
-type EditMode = null | "profession" | "tools";
+interface EditMode {
+  profession: boolean;
+  tools: boolean;
+}
 
 const TOOLS_BY_CATEGORY = {
   "LLM & Chatbots": AI_TOOLS_OPTIONS.filter(t => t.category === "LLM"),
@@ -36,7 +39,10 @@ const TOOLS_BY_CATEGORY = {
 };
 
 export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
-  const [editMode, setEditMode] = useState<EditMode>(null);
+  const [editMode, setEditMode] = useState<EditMode>({
+    profession: false,
+    tools: false
+  });
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -66,7 +72,7 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
       if (result.error) {
         setError(result.error);
       } else {
-        setEditMode(null);
+        setEditMode(prev => ({ ...prev, profession: false }));
         window.location.reload();
       }
     } catch {
@@ -90,7 +96,7 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
         setError(result.error);
       } else {
         setSelectedTools(tempSelectedTools);
-        setEditMode(null);
+        setEditMode(prev => ({ ...prev, tools: false }));
         window.location.reload();
       }
     } catch {
@@ -108,20 +114,25 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
     );
   }, []);
 
-  const handleCancel = useCallback(() => {
-    setEditMode(null);
+  const handleCancelProfession = useCallback(() => {
+    setEditMode(prev => ({ ...prev, profession: false }));
     setSelectedProfession(profile?.profession || "");
+    setError(null);
+  }, [profile?.profession]);
+
+  const handleCancelTools = useCallback(() => {
+    setEditMode(prev => ({ ...prev, tools: false }));
     setTempSelectedTools(selectedTools);
     setError(null);
-  }, [profile?.profession, selectedTools]);
+  }, [selectedTools]);
 
   const handleEditTools = useCallback(() => {
     setTempSelectedTools(selectedTools);
-    setEditMode("tools");
+    setEditMode(prev => ({ ...prev, tools: true }));
   }, [selectedTools]);
 
   const handleEditProfession = useCallback(() => {
-    setEditMode("profession");
+    setEditMode(prev => ({ ...prev, profession: true }));
   }, []);
 
   return (
@@ -136,18 +147,17 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-gray-700">직업</label>
-          {editMode !== "profession" && (
+          {!editMode.profession && (
             <button
               onClick={handleEditProfession}
               className="text-blue-600 hover:text-blue-700 transition-colors"
-              disabled={editMode === "tools"}
             >
               <Pencil className="h-4 w-4" />
             </button>
           )}
         </div>
 
-        {editMode === "profession" ? (
+        {editMode.profession ? (
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {PROFESSION_OPTIONS.map((role) => {
@@ -192,7 +202,7 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={handleCancel}
+                onClick={handleCancelProfession}
                 disabled={isSaving}
               >
                 취소
@@ -210,18 +220,17 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
       <div className="bg-white rounded-lg border border-gray-200 p-4">
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-gray-700">사용 중인 AI 도구</label>
-          {editMode !== "tools" && (
+          {!editMode.tools && (
             <button
               onClick={handleEditTools}
               className="text-blue-600 hover:text-blue-700 transition-colors"
-              disabled={editMode === "profession"}
             >
               <Pencil className="h-4 w-4" />
             </button>
           )}
         </div>
 
-        {editMode === "tools" ? (
+        {editMode.tools ? (
           <div className="space-y-4">
             <div className="max-h-96 overflow-y-auto space-y-4 pr-2">
               {Object.entries(TOOLS_BY_CATEGORY).map(([category, tools]) => (
@@ -284,7 +293,7 @@ export function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={handleCancel}
+                onClick={handleCancelTools}
                 disabled={isSaving}
               >
                 취소
