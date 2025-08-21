@@ -4,11 +4,11 @@ import { Bell, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { cn } from "@/shared/ui/lib/utils";
 import {
   MAIN_PATHNAME,
   SUBSCRIPTIONS_PATHNAME,
-} from "@/shared/config/pathname";
-import { cn } from "@/shared/ui/lib/utils";
+} from "@/src/shared/config/pathname";
 
 const tabs = [
   {
@@ -23,7 +23,7 @@ const tabs = [
   },
 ];
 
-export function TabNavigation() {
+export default function IconTabNav() {
   const pathname = usePathname();
   const safePathname = pathname || "/";
 

@@ -1,9 +1,17 @@
+import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
 import { ToolBadge } from "@/src/entities/tool";
-import { ExternalLink, Plus, Star } from "lucide-react";
+import { FAQSection } from "@/src/features/tool-detail/ui";
+import {
+  ClockIcon,
+  ExternalLink,
+  PencilLine,
+  Plus,
+  Star,
+  TrendingUp,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
 
 interface ToolDetailPageProps {
   params: Promise<{
@@ -14,17 +22,43 @@ interface ToolDetailPageProps {
   }>;
 }
 
-type TabType = 'features' | 'reviews' | 'similar';
+type TabType =
+  | "features"
+  | "pricing"
+  | "specs"
+  | "faq"
+  | "reviews"
+  | "alternatives";
 
-export default async function ToolDetail({ params, searchParams }: ToolDetailPageProps) {
+export default async function ToolDetail({
+  params,
+  searchParams,
+}: ToolDetailPageProps) {
   const { slug } = await params;
-  const { tab = 'features' } = await searchParams;
+  const { tab = "features" } = await searchParams;
   const currentTab = tab as TabType;
 
   const tabs = [
-    { key: 'features' as const, label: '주요 기능', href: TOOLS_SLUG_PATHNAME(slug) },
-    { key: 'reviews' as const, label: '리뷰', href: `${TOOLS_SLUG_PATHNAME(slug)}?tab=reviews` },
-    { key: 'similar' as const, label: '유사 도구', href: `${TOOLS_SLUG_PATHNAME(slug)}?tab=similar` },
+    {
+      key: "features" as const,
+      label: "주요 기능",
+      href: TOOLS_SLUG_PATHNAME(slug),
+    },
+    {
+      key: "pricing" as const,
+      label: "가격",
+      href: `${TOOLS_SLUG_PATHNAME(slug)}?tab=pricing`,
+    },
+    {
+      key: "reviews" as const,
+      label: "리뷰",
+      href: `${TOOLS_SLUG_PATHNAME(slug)}?tab=reviews`,
+    },
+    {
+      key: "alternatives" as const,
+      label: "유사한 도구",
+      href: `${TOOLS_SLUG_PATHNAME(slug)}?tab=alternatives`,
+    },
   ];
 
   return (
@@ -76,7 +110,7 @@ export default async function ToolDetail({ params, searchParams }: ToolDetailPag
           </div>
 
           {/* 오른쪽 - 정보 섹션 (나머지 공간 차지) */}
-          <div className="space-y-4 lg:flex-1">
+          <div className="max-w-2xl space-y-4 lg:flex-1">
             {/* 헤더 */}
             <div className="flex items-center gap-4">
               <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700">
@@ -91,46 +125,97 @@ export default async function ToolDetail({ params, searchParams }: ToolDetailPag
               </div>
             </div>
 
-            {/* 태그 */}
-            <div className="flex flex-wrap gap-2">
-              <ToolBadge tags={["대화형 AI", "글쓰기", "분석"]} />
-            </div>
+            {/* 설명 - Figma 스타일 적용 */}
+            <div className="space-y-6">
+              <p className="break-keep text-base font-light text-muted-foreground">
+                나노 바나나 AI는 최첨단 AI 기술을 사용하여 텍스트를 놀라운
+                비주얼로 즉시 변환하는 고급 AI 기반 이미지 생성 및 편집기입니다.
+                사용자는 간단한 텍스트 프롬프트를 사용하여 이미지를 생성, 편집
+                및 완벽하게 다듬을 수 있으며, 이미지 생성을 혁신하는 신비로운 AI
+                모델을 활용합니다. 이 플랫폼은 자연어 편집, 한 번의 완벽한 결과,
+                얼굴 완성, 일관된 캐릭터 편집 등의 기능을 제공하여
+                포토리얼리스틱 초상화, 창의적인 예술 스타일, 제품 사진, 복잡한
+                장면 및 기존 사진의 향상을 가능하게 합니다.
+              </p>
 
-            {/* 평점 및 정보 */}
-            <div className="flex items-center gap-6 text-sm font-light">
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4" />
-                <span>4.8</span>
+              {/* 카테고리 - Figma 스타일 */}
+              <div className="flex items-center gap-2">
+                <ToolBadge tags={["대화형 AI", "글쓰기", "분석"]} />
               </div>
-              <div>월 사용자 100.0M명</div>
-              <div>Free + from $20/월</div>
-            </div>
 
-            {/* 설명 */}
-            <p className="font-base pr-28 leading-relaxed text-muted-foreground">
-              ChatGPT는 OpenAI에서 개발한 대화형 AI 어시스턴트로, GPT 아키텍처를
-              기반으로 하여 자연스러운 대화를 통해 사용자의 다양한 요청을 처리할
-              수 있습니다. 텍스트 생성, 번역, 요약, 코딩 지원 등 폭넓은 작업을
-              수행하며, 지속적인 학습을 통해 더욱 정확하고 유용한 답변을
-              제공합니다.
-            </p>
+              {/* 생성/수정 날짜 - 한국식 스타일 */}
+              <div className="flex items-center gap-2 text-xs text-muted-foreground-secondary">
+                <ClockIcon className="h-3 w-3 text-muted-foreground-secondary" />
+                <span className="font-light">
+                  2023년 11월 17일 출시 • 2024년 9월 11일 업데이트
+                </span>
+              </div>
+
+              {/* 평점 및 지표 */}
+              <div className="flex gap-4">
+                {/* Rating */}
+                <div className="flex-1 rounded-2xl border border-border bg-background p-4 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[10px] border border-border bg-background">
+                      <Star className="h-6 w-6 fill-star text-star" />
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-lg font-medium leading-6 text-foreground">
+                          4.8
+                        </span>
+                        <span className="text-xs font-light leading-[22px] text-muted-foreground">
+                          (1.2K+ 리뷰)
+                        </span>
+                      </div>
+                      <span className="text-sm font-light leading-5 text-muted-foreground">
+                        평점
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Monthly Active Users */}
+                <div className="flex-1 rounded-2xl border border-border bg-background p-5 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[10px] border border-border bg-background">
+                      <TrendingUp className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-lg font-medium leading-6 text-foreground">
+                        30.0M+
+                      </span>
+                      <span className="text-sm font-light leading-5 text-muted-foreground">
+                        월간 활성 사용자
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* 탭 네비게이션 */}
             <div className="pt-10">
-              <nav className="mb-6 flex gap-6 border-b border-border" role="tablist">
+              <nav
+                className="scrollbar-hide mb-10 flex gap-6 overflow-x-auto border-b border-border"
+                role="tablist"
+              >
                 {tabs.map(({ key, label, href }) => (
                   <Link
                     key={key}
                     href={href}
                     className={
                       currentTab === key
-                        ? "border-b-2 border-secondary px-1 pb-3 text-sm font-medium text-secondary"
-                        : "px-1 pb-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        ? "text- flex items-center space-x-1 whitespace-nowrap border-b-2 border-secondary px-1 py-2 font-medium text-secondary sm:space-x-2 sm:text-base"
+                        : "flex items-center space-x-1 whitespace-nowrap px-1 py-2 text-xs text-muted-foreground transition-colors hover:text-foreground sm:space-x-2 sm:text-sm"
                     }
                     role="tab"
                     aria-selected={currentTab === key}
                   >
-                    {label}
+                    <span className="hidden sm:inline">{label}</span>
+                    <span className="sm:hidden">
+                      {label.length > 4 ? label.slice(0, 3) : label}
+                    </span>
                   </Link>
                 ))}
               </nav>
@@ -149,172 +234,186 @@ export default async function ToolDetail({ params, searchParams }: ToolDetailPag
 
 function TabContent({ tab, slug }: { tab: TabType; slug: string }) {
   switch (tab) {
-    case 'features':
-      return <FeaturesContent />;
-    case 'reviews':
-      return <ReviewsContent />;
-    case 'similar':
-      return <SimilarToolsContent slug={slug} />;
+    case "features":
+      return <FeaturesContent slug={slug} />;
+    case "pricing":
+      return <PricingContent slug={slug} />;
+    case "reviews":
+      return <ReviewsContent slug={slug} />;
+    case "alternatives":
+      return <AlternativeToolsContent slug={slug} />;
     default:
-      return <FeaturesContent />;
+      return <FeaturesContent slug={slug} />;
   }
 }
 
-function FeaturesContent() {
+function FeaturesContent({ slug }: { slug: string }) {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-      <div>
-        <h3 className="mb-4 text-lg font-semibold text-foreground">
-          주요 기능
-        </h3>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">
-              정확한 텍스트 렌더링
-            </span>
+    <div className="space-y-10">
+      {/* 주요 기능 섹션 */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div>
+          <h3 className="mb-3 text-2xl font-semibold text-secondary">
+            주요 기능
+          </h3>
+          <div className="space-y-3 font-light">
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">
+                정확한 텍스트 렌더링
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">안전 가이드라인</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">고품질 출력</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">실시간 대화</span>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">
-              안전 가이드라인
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">고품질 출력</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">실시간 대화</span>
+        </div>
+
+        <div>
+          <h3 className="mb-4 text-2xl font-semibold text-secondary">
+            활용 분야
+          </h3>
+          <div className="space-y-3 font-light">
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">마케팅 이미지</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">일러스트</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">웹사이트 디자인</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-primary-secondary"></div>
+              <span className="text-muted-foreground">소셜미디어</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div>
-        <h3 className="mb-4 text-lg font-semibold text-foreground">
-          활용 분야
-        </h3>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">
-              마케팅 이미지
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">일러스트</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">
-              웹사이트 디자인
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-primary"></div>
-            <span className="text-muted-foreground">소셜미디어</span>
-          </div>
-        </div>
-      </div>
+      {/* FAQ 섹션 */}
+      <FAQSection />
     </div>
   );
 }
 
-function ReviewsContent() {
+function ReviewsContent({ slug }: { slug: string }) {
+  const reviews = [
+    {
+      id: 1,
+      author: "김민수",
+      rating: 5,
+      date: "2024.01.15",
+      content:
+        "업무 효율성이 크게 향상되었습니다. 특히 문서 작성과 아이디어 발상에 매우 도움이 됩니다.",
+      tools: "Notion AI",
+    },
+    {
+      id: 2,
+      author: "이영희",
+      rating: 4,
+      date: "2024.01.10",
+      content:
+        "대부분의 질문에 정확한 답변을 제공하지만, 가끔 최신 정보가 부족할 때가 있습니다.",
+    },
+  ];
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">사용자 리뷰</h3>
-        <div className="text-sm text-muted-foreground">총 1,234개 리뷰</div>
+    <div className="space-y-4">
+      <div className="flex justify-between">
+        <h3 className="text-2xl font-semibold capitalize text-secondary">
+          {slug} 리뷰
+        </h3>
+
+        <Button variant="secondary">
+          <PencilLine className="h-4 w-4" />
+          리뷰 남기기
+        </Button>
       </div>
-      
+
+      {/* 리뷰 목록 */}
       <div className="space-y-4">
-        {/* 리뷰 아이템 1 */}
-        <div className="border-b border-border pb-4">
-          <div className="mb-2 flex items-center gap-2">
-            <div className="flex items-center">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                  key={star}
-                  className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-            <span className="text-sm font-medium">김민수</span>
-            <span className="text-xs text-muted-foreground">2024.01.15</span>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            정말 유용한 AI 도구입니다. 특히 글쓰기 작업에서 많은 도움을 받고 있어요. 
-            답변 속도도 빠르고 품질도 만족스럽습니다.
-          </p>
-        </div>
+        {reviews.map((review) => (
+          <div
+            key={review.id}
+            className="rounded-2xl border border-border bg-card p-6"
+          >
+            {/* 리뷰 헤더 */}
+            <div className="mb-4 flex items-start gap-2">
+              {/* 아바타 */}
+              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-muted">
+                <span className="text-lg font-medium text-muted-foreground">
+                  {review.author.charAt(0)}
+                </span>
+              </div>
 
-        {/* 리뷰 아이템 2 */}
-        <div className="border-b border-border pb-4">
-          <div className="mb-2 flex items-center gap-2">
-            <div className="flex items-center">
-              {[1, 2, 3, 4].map((star) => (
-                <svg
-                  key={star}
-                  className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-              <svg
-                className="h-4 w-4 fill-gray-300 text-gray-300"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            </div>
-            <span className="text-sm font-medium">이영희</span>
-            <span className="text-xs text-muted-foreground">2024.01.10</span>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            대체로 만족하지만 가끔 이해하지 못하는 질문들이 있어요. 
-            그래도 전반적으로는 추천할 만합니다.
-          </p>
-        </div>
+              <div className="flex flex-1 flex-col gap-3">
+                {/* 사용자 정보와 별점 */}
+                <div className="flex flex-col items-start justify-between">
+                  {/* 이름 */}
+                  <h4 className="text-sm font-semibold text-secondary">
+                    {review.author}
+                  </h4>
 
-        {/* 리뷰 아이템 3 */}
-        <div className="pb-4">
-          <div className="mb-2 flex items-center gap-2">
-            <div className="flex items-center">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                  key={star}
-                  className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
+                  {/* 별점과 날짜 */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, index) => (
+                        <Star
+                          key={index}
+                          className={`h-3 w-3 ${
+                            index < review.rating
+                              ? "fill-star text-star"
+                              : "fill-muted text-muted"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs text-[#d1d5db]">•</span>
+                    <span className="text-xs font-light text-muted-foreground-secondary">
+                      {review.date}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <span className="text-sm font-medium">박철수</span>
-            <span className="text-xs text-muted-foreground">2024.01.05</span>
+
+            <div className="flex flex-col gap-3">
+              {/* 리뷰 내용 */}
+              <p className="text-sm font-light leading-relaxed text-foreground">
+                {review.content}
+              </p>
+
+              {/* 함께 사용한 도구 (있는 경우) */}
+              {review.tools && (
+                <div className="text-xs font-medium text-[#6b7280]">
+                  <div className="mb-2">함께 사용한 도구:</div>
+                  <span className="rounded-[4px] bg-[#f3f4f6] px-3 py-1 text-xs font-normal text-muted-foreground-secondary">
+                    {review.tools}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            업무 효율성이 정말 많이 향상되었습니다. 
-            복잡한 문서 작성이나 번역 작업에서 특히 도움이 많이 됩니다.
-          </p>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
-function SimilarToolsContent({ slug }: { slug: string }) {
+function AlternativeToolsContent({ slug }: { slug: string }) {
   const similarTools = [
     {
       name: "Claude",
@@ -322,7 +421,7 @@ function SimilarToolsContent({ slug }: { slug: string }) {
       features: ["안전한 AI", "긴 컨텍스트", "코드 분석"],
       rating: 4.7,
       pricing: "Free + from $20/월",
-      slug: "claude"
+      slug: "claude",
     },
     {
       name: "Gemini",
@@ -330,7 +429,7 @@ function SimilarToolsContent({ slug }: { slug: string }) {
       features: ["멀티모달", "실시간 정보", "Google 통합"],
       rating: 4.6,
       pricing: "Free + from $20/월",
-      slug: "gemini"
+      slug: "gemini",
     },
     {
       name: "Perplexity",
@@ -338,74 +437,91 @@ function SimilarToolsContent({ slug }: { slug: string }) {
       features: ["실시간 검색", "출처 제공", "정확한 정보"],
       rating: 4.5,
       pricing: "Free + from $20/월",
-      slug: "perplexity"
+      slug: "perplexity",
     },
   ];
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-foreground">유사한 도구</h3>
-      
-      <div className="grid gap-4">
-        {similarTools.map((tool) => (
-          <div
-            key={tool.slug}
-            className="rounded-lg border border-border bg-card p-4 transition-colors hover:bg-accent/5"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700">
-                    <span className="text-sm font-bold uppercase text-white">
-                      {tool.name.charAt(0)}
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">{tool.name}</h4>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span>⭐ {tool.rating}</span>
-                      <span>{tool.pricing}</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <p className="mb-3 text-sm text-muted-foreground leading-relaxed">
-                  {tool.description}
-                </p>
-                
-                <div className="mb-3 flex flex-wrap gap-2">
-                  {tool.features.map((feature) => (
-                    <span
-                      key={feature}
-                      className="rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="ml-4 flex flex-col gap-2">
-                <Link
-                  href={TOOLS_SLUG_PATHNAME(tool.slug)}
-                  className="flex items-center gap-1 text-xs text-primary hover:underline"
-                >
-                  자세히 보기
-                  <ExternalLink className="h-3 w-3" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
+      <h3 className="text-2xl font-semibold capitalize text-foreground">
+        {slug} 유사한 도구
+      </h3>
+
+      <div className="grid gap-4"></div>
+
       <div className="text-center">
-        <Link
-          href="/tools"
-          className="text-sm text-primary hover:underline"
-        >
+        <Link href="/tools" className="text-sm text-primary hover:underline">
           더 많은 AI 도구 보기 →
         </Link>
+      </div>
+    </div>
+  );
+}
+
+function PricingContent({ slug }: { slug: string }) {
+  return (
+    <div className="space-y-6">
+      {/* 제목 */}
+      <h3 className="text-2xl font-semibold capitalize text-secondary">
+        {slug} 가격 정보
+      </h3>
+
+      {/* 가격 카드들 (2x2 그리드) */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* 무료 플랜 */}
+        <div className="rounded-md border border-border bg-background p-6 shadow-sm">
+          <div className="mb-4 space-y-2">
+            <h4 className="text-xl font-semibold text-foreground">기본</h4>
+            <p className="text-lg font-semibold text-primary">$9.90/월</p>
+          </div>
+          <p className="break-keep text-sm font-light leading-relaxed text-muted-foreground">
+            개인 및 가벼운 사용자에게 적합하며, 월 100 크레딧, 월 50 고화질
+            이미지, 모든 스타일 템플릿, 표준 생성 속도, 기본 고객 지원 및
+            JPG/PNG 형식 다운로드를 포함합니다.
+          </p>
+        </div>
+
+        {/* 스타터 플랜 */}
+        <div className="rounded-md border border-border bg-background p-6 shadow-sm">
+          <div className="mb-4 space-y-1">
+            <h4 className="text-xl font-semibold text-foreground">스타터</h4>
+            <p className="text-lg font-semibold text-primary">$19.90/월</p>
+          </div>
+          <p className="break-keep text-sm font-light leading-relaxed text-muted-foreground">
+            프리미엄 문자: 75K, 표준 문자: 150K, 텍스트당 문자 수: 3K, 감정 없는
+            음성, Gen2 음성 없음, 프롬프트 음성 없음, 사운드 효과 없음, 음성
+            클로닝 없음, 광고 제거: 예, 상업적 사용: 예, 배경 오디오: 예, 파일
+            기록 없음, API 호출 없음, 매달 초기화, 언제든지 취소 가능
+          </p>
+        </div>
+
+        {/* 표준 플랜 */}
+        <div className="rounded-md border border-border bg-background p-6 shadow-sm">
+          <div className="mb-4 space-y-1">
+            <h4 className="text-xl font-semibold text-foreground">표준</h4>
+            <p className="text-lg font-semibold text-primary">$39.90/월</p>
+          </div>
+          <p className="break-keep text-sm font-light leading-relaxed text-muted-foreground">
+            프리미엄 문자: 200K, 표준 문자: 400K, 텍스트당 문자 수: 10K, 감정
+            있는 음성: 예, Gen2 음성: 예, 프롬프트 음성: 예, 사운드 효과: 예,
+            음성 클로닝 없음, 광고 제거: 예, 상업적 사용: 예, 배경 오디오: 예,
+            파일 기록: 30 분, API 호출 없음, 매달 초기화, 언제든지 취소 가능
+          </p>
+        </div>
+
+        {/* 프로 플랜 */}
+        <div className="rounded-md border border-border bg-background p-6 shadow-sm">
+          <div className="mb-4 space-y-1">
+            <h4 className="text-xl font-semibold text-foreground">프로</h4>
+            <p className="text-lg font-semibold text-primary">$79.90/월</p>
+          </div>
+          <p className="break-keep text-sm font-light leading-relaxed text-muted-foreground">
+            프리미엄 문자: 500K, 표준 문자: 1M, 텍스트당 문자 수: 50K, 감정 있는
+            음성: 예, Gen2 음성: 예, 프롬프트 음성: 예, 사운드 효과: 예, 음성
+            클로닝: 예, 광고 제거: 예, 상업적 사용: 예, 배경 오디오: 예, 파일
+            기록: 2 시간, API 호출: 예, 매달 초기화, 언제든지 취소 가능
+          </p>
+        </div>
       </div>
     </div>
   );

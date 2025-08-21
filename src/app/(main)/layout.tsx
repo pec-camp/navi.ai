@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
-import { TabNavigation } from "@/shared/ui/TabNavigation";
+import { IconTabNav } from "@/src/features/navigation";
 import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
 
 export default function MainLayout({
@@ -67,7 +67,7 @@ export default function MainLayout({
       <div className="w-full border-b border-[#E1E5E9]" />
 
       {/* Tab Navigation */}
-      <TabNavigation />
+      <IconTabNav />
 
       {/* Page Content */}
       <main className="flex-1">{children}</main>

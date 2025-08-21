@@ -7,15 +7,8 @@ export async function getToolById(toolId: string): Promise<Tool> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("tools")
-    .select(
-      `
-      *,
-      categories (*),
-      tags (*),
-      reviews (*)
-    `,
-    )
+    .from("ai_tools")
+    .select("*")
     .eq("id", toolId)
     .single();
 
