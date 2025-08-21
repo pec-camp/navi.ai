@@ -2,7 +2,7 @@
 
 import { User } from "@supabase/supabase-js";
 import { UserAvatar } from "@/features/auth/ui/UserAvatar";
-import { ProfileEditForm } from "@/features/profile";
+import { ProfileEditForm, DeleteAccountDialog } from "@/features/profile";
 import { getProfessionLabel } from "@/shared/constants/profession";
 
 interface UserProfile {
@@ -41,6 +41,7 @@ export function ProfileView({ user, profile }: ProfileViewProps) {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-lg font-semibold mb-4">프로필 정보</h2>
         <ProfileEditForm user={user} profile={profile} />
+        <DeleteAccountDialog />
       </div>
     </div>
   );
