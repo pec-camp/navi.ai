@@ -1,6 +1,7 @@
 export { AnimatedSideSheet } from "./AnimatedSideSheet";
 export { Button } from "./button";
 export { Card, CardContent, CardHeader } from "./card";
+export { ErrorFallback } from "./ErrorFallback";
 export { ExternalLink } from "./ExternalLink";
 export { Input } from "./input";
 export { Label } from "./label";

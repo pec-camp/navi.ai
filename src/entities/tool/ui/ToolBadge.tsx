@@ -1,9 +1,11 @@
 interface ToolBadgeProps {
-  tags: string[];
+  tags?: string[];
   maxCount?: number;
 }
 
 export default function ToolBadge({ tags, maxCount = 3 }: ToolBadgeProps) {
+  if (!tags) return null;
+
   return (
     <div className="flex flex-wrap gap-2">
       {tags.slice(0, maxCount).map((tag, index) => (

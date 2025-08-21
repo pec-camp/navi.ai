@@ -1,8 +1,10 @@
+"use server";
+
 import { createClient } from "@/shared/utils/supabase/server";
 import { randomUUID } from "crypto";
 import {
   CategorySubscription,
-  SubscriptionResponse,
+  SubscriptionCategoryResponse,
 } from "../model/CategorySubscription.interface";
 
 /**
@@ -40,7 +42,7 @@ export async function getSubscriptionsCategories(userId: number) {
     return [];
   }
 
-  const responseData = data as unknown as SubscriptionResponse[];
+  const responseData = data as unknown as SubscriptionCategoryResponse[];
 
   const categoryMap = new Map<
     number,

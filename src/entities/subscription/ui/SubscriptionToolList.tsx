@@ -1,10 +1,10 @@
-import { SubscriptionTool } from "../model/CategorySubscription.interface";
+import { SubscriptionToolData } from "../model/SubscriptionTool.interface";
 import SubscriptionToolCard from "./SubscriptionToolCard";
 
 export default function SubscriptionToolList({
   subscriptionToolList,
 }: {
-  subscriptionToolList: SubscriptionTool[];
+  subscriptionToolList: SubscriptionToolData[];
 }) {
   return (
     <div className="space-y-4">

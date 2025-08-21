@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/shared/ui/button";
-import { SUBSCRIPTION_CATEGORY_PATHNAME } from "@/src/shared/config/pathname";
+import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +14,7 @@ interface EmptyStateProps {
   buttonText?: string;
 }
 
-export function EmptyState({
+export default function EmptyState({
   onOpenSubscription,
 
   title = "아직 구독한 AI 도구가 없습니다",
@@ -27,7 +27,7 @@ export function EmptyState({
     if (onOpenSubscription) {
       onOpenSubscription();
     } else {
-      router.push(SUBSCRIPTION_CATEGORY_PATHNAME);
+      router.push(SUBSCRIPTIONS_SUBSCRIBE_PATHNAME);
     }
   };
 

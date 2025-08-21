@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:routes": "tsx scripts/generate-routes.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
@@ -51,6 +52,7 @@
     "postcss": "8.4.33",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6",
-    "tailwindcss": "3.4.1"
+    "tailwindcss": "3.4.1",
+    "tsx": "^4.20.4"
   }
 }

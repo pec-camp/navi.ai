@@ -1,7 +1,6 @@
 import { getCategoriesWithSub } from "@/src/entities/category";
+import { getSubscriptionsCategories } from "@/src/entities/subscription/api/getSubscriptionCategories";
 import { CategorySideSheet } from "@/src/features/subscription";
-
-import { getSubscriptionsCategories } from "@/src/entities/subscription";
 
 export default async function Subscribe() {
   // Get current user from Supabase session
