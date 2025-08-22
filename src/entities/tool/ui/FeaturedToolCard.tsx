@@ -3,9 +3,8 @@ import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
 
+import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 import { FeaturedTool } from "../model/FeaturedTool.interface";
-import ToolBadge from "./ToolBadge";
-import ToolLogo from "./ToolLogo";
 
 export default function FeaturedToolCard({
   name,
@@ -28,7 +27,7 @@ export default function FeaturedToolCard({
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <ToolLogo websiteLogo={websiteLogo} name={name} />
-                <h3 className="text-lg font-semibold leading-[27px] text-secondary">
+                <h3 className="text-lg font-medium leading-[27px] text-secondary">
                   {name}
                 </h3>
               </div>
