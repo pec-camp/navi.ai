@@ -7,7 +7,7 @@ import {
 } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
 import { getToolBySlug } from "@/src/entities/tool-detail";
-import { ToolBadge } from "@/src/shared/ui";
+import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 import {
   ChevronRight,
   ClockIcon,
@@ -137,14 +137,11 @@ export default async function ToolsLayout({
             <article className="max-w-4xl space-y-4 lg:flex-1">
               {/* 헤더 */}
               <header className="flex items-center gap-4">
-                <div
-                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700"
-                  aria-hidden="true"
-                >
-                  <span className="text-xl font-bold uppercase text-white">
-                    {toolData.name?.charAt(0) || "N/A"}
-                  </span>
-                </div>
+                <ToolLogo
+                  websiteLogo={toolData.websiteLogo || ""}
+                  name={toolData.name || ""}
+                  size="xl"
+                />
                 <div className="flex-grow">
                   <h1 className="mb-1 font-rajdhani text-4xl font-bold uppercase tracking-wide text-foreground">
                     {toolData.name}
