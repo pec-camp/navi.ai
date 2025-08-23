@@ -1,20 +1,19 @@
-// API
-export { 
-  getReview, 
-  getReviewsByToolId, 
-  getReviewsByTool, 
-  createReview 
-} from "./api";
+// Read-only API exports (FSD: entities are read-only)
+export { getReviewsByTool } from "./api";
 
-// Models
+// Model exports
 export type {
-  Review,
-  ReviewStats,
+  ActionResult,
   CreateReviewData,
+  CreateReviewResult,
+  DeleteReviewResult,
+  Review,
+  ReviewAuthor,
   ReviewFormData,
   ReviewsResponse,
+  ReviewStats,
+  UpdateReviewResult,
 } from "./model";
 
-// UI Components
+// Read-only UI Component exports
 export { ReviewItem } from "./ui/ReviewItem";
-export { ReviewList } from "./ui/ReviewList";
