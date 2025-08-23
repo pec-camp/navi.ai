@@ -426,6 +426,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_similar_tools_v1: {
+        Args: { limit_count?: number; target_slug: string }
+        Returns: {
+          avg_rating: number
+          description: string
+          id: number
+          image_url: string
+          is_free: boolean
+          month_visited_count: number
+          name: string
+          review_count: number
+          similarity_score: number
+          slug: string
+          website: string
+          website_logo: string
+        }[]
+      }
       get_user_subscribed_tools: {
         Args: {
           input_limit?: number
