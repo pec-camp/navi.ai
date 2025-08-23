@@ -1,6 +1,7 @@
-import { getToolBySlug } from "@/src/entities/tool-detail";
 import { CheckCircle, XCircle } from "lucide-react";
 import { notFound } from "next/navigation";
+
+import { getToolBySlug } from "@/src/entities/tool";
 
 interface ToolInfoPageProps {
   params: Promise<{
@@ -50,7 +51,7 @@ export default async function ToolInfoPage({ params }: ToolInfoPageProps) {
         </div>
 
         <div>
-          <h4 className="mb-4 text-xl font-medium text-secondary">
+          <h4 className="mb-3 text-xl font-medium text-secondary">
             주요 활용 분야
           </h4>
           <div className="space-y-4 font-light">

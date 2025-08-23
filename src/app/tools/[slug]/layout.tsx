@@ -1,13 +1,3 @@
-import { ToolDetailTabs } from "@/features/tool-detail";
-import {
-  TOOLS_SLUG_FAQ_PATHNAME,
-  TOOLS_SLUG_PATHNAME,
-  TOOLS_SLUG_PRICING_PATHNAME,
-  TOOLS_SLUG_REVIEWS_PATHNAME,
-} from "@/shared/config/pathname";
-import { Button } from "@/shared/ui/button";
-import { getToolBySlug } from "@/src/entities/tool-detail";
-import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 import {
   ChevronRight,
   ClockIcon,
@@ -20,6 +10,17 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+import { ToolDetailTabs } from "@/features/tool-detail";
+import {
+  TOOLS_SLUG_FAQ_PATHNAME,
+  TOOLS_SLUG_PATHNAME,
+  TOOLS_SLUG_PRICING_PATHNAME,
+  TOOLS_SLUG_REVIEWS_PATHNAME,
+} from "@/shared/config/pathname";
+import { Button } from "@/shared/ui/button";
+import { getToolBySlug } from "@/src/entities/tool";
+import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 
 interface ToolsLayoutProps {
   children: React.ReactNode;
@@ -104,7 +105,11 @@ export default async function ToolsLayout({
                     size="lg"
                     variant="secondary"
                     className="hover:bg-foreground/90 h-12 w-full"
-                    aria-label={`${toolData.name} 공식 웹사이트로 이동`}
+                    aria-label={
+                      toolData.extension
+                        ? `${toolData.name} 확장 프로그램 설치`
+                        : `${toolData.name} 공식 웹사이트로 이동`
+                    }
                     asChild
                   >
                     <Link
@@ -116,7 +121,9 @@ export default async function ToolsLayout({
                         className="mr-2 h-4 w-4"
                         aria-hidden="true"
                       />
-                      웹사이트 바로가기
+                      {toolData.extension
+                        ? "확장 프로그램 설치"
+                        : "웹사이트 바로가기"}
                     </Link>
                   </Button>
                 )}
@@ -138,7 +145,9 @@ export default async function ToolsLayout({
               {/* 헤더 */}
               <header className="flex items-center gap-4">
                 <ToolLogo
-                  websiteLogo={toolData.websiteLogo || ""}
+                  websiteLogo={
+                    toolData.websiteLogo || toolData.extension?.avatar
+                  }
                   name={toolData.name || ""}
                   size="xl"
                 />
@@ -238,15 +247,22 @@ export default async function ToolsLayout({
                         <TrendingUp className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex flex-col">
-                        <span
-                          className="text-lg font-medium leading-6 text-foreground"
-                          aria-label="3천만 명 이상의 월간 활성 사용자"
-                        >
-                          {toolData.monthlyUsers.formatted}
+                        <span className="text-lg font-medium leading-6 text-foreground">
+                          {toolData.extension
+                            ? toolData.extension.userNum
+                            : toolData.monthlyUsers.formatted}
                         </span>
-                        <span className="text-sm font-light leading-5 text-muted-foreground">
-                          월간 활성 사용자
-                        </span>
+
+                        {/* 월간 방문자 수 & 활성 사용자 */}
+                        {toolData.extension ? (
+                          <span className="text-sm font-light leading-5 text-muted-foreground">
+                            활성 사용자
+                          </span>
+                        ) : (
+                          <span className="text-sm font-light leading-5 text-muted-foreground">
+                            월간 방문자
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -289,8 +305,9 @@ export default async function ToolsLayout({
             </article>
           </div>
         </div>
+
+        {sheet}
       </main>
-      {sheet}
     </div>
   );
 }

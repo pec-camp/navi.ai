@@ -1,7 +1,7 @@
 "use server";
 
-import { FeaturedTool } from "@/entities/tool/model/FeaturedTool.interface";
 import { createClient } from "@/shared/utils/supabase/server";
+import { formatExtension } from "../model/formatToolData";
 
 /**
  * 메인 AI 도구 카드 목록을 조회합니다.
@@ -22,7 +22,8 @@ export async function getFeaturedToolList() {
         what_is_summary,
         tags,
         slug,
-        is_free
+        is_free,
+        extension
       `,
     )
     .not("website_logo", "is", null)
@@ -37,7 +38,7 @@ export async function getFeaturedToolList() {
     return [];
   }
 
-  const featuredTools: FeaturedTool[] = tools.map((tool) => ({
+  const featuredTools = tools.map((tool) => ({
     id: tool.id,
     name: tool.name,
     websiteLogo: tool.website_logo || "",
@@ -45,6 +46,7 @@ export async function getFeaturedToolList() {
     slug: tool.slug,
     isFree: tool.is_free || false,
     tags: tool.tags || [],
+    extension: formatExtension(tool.extension),
   }));
 
   return featuredTools;

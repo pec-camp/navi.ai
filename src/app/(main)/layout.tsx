@@ -1,12 +1,13 @@
+import { ArrowUpRight, Bell, Home } from "lucide-react";
+import Link from "next/link";
+
+import { MainTabNavigation } from "@/features/main-navigation";
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
 import {
   MAIN_PATHNAME,
   SUBSCRIPTIONS_PATHNAME,
   TOOLS_PATHNAME,
 } from "@/src/shared/config/pathname";
-import { MainTabNavigation } from "@/features/main-navigation";
-import { ArrowUpRight, Bell, Home } from "lucide-react";
-import Link from "next/link";
 
 export default function MainLayout({
   children,
