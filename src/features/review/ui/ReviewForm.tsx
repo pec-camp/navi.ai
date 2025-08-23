@@ -91,9 +91,8 @@ export default function ReviewForm({
           )}
 
           {/* 별점 */}
-          <input type="hidden" name="rating" value={rating} />
-          <RatingStars 
-            rating={rating} 
+          <RatingStars
+            rating={rating}
             onRatingChange={handleRatingClick}
             error={reviewFormState?.errors?.rating?.[0]}
           />

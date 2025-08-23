@@ -1,7 +1,5 @@
 // Review feature exports (mutations and interactions)
 
-// Server Actions (mutations)
-export { loadMoreReviews } from "./action/loadMoreReviews";
 export { addReview, removeReview, updateReviewAction } from "./api";
 
 // Interactive UI Components
