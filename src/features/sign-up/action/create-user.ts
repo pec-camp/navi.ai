@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+
 import { User } from "@/entities/user/model/user.interface";
 import { createClient } from "@/shared/utils/supabase/server";
 

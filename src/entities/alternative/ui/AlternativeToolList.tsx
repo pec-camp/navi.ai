@@ -1,12 +1,12 @@
 import { ChevronRight, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { Card, CardContent } from "@/shared/ui/card";
 import { ToolLogo } from "@/src/shared/ui";
 import { ExternalLink } from "@/src/shared/ui/ExternalLink";
 
-import { Suspense } from "react";
 import { getAlternativeToolList } from "../api/getAlternativeToolList";
 
 interface AlternativeToolListProps {

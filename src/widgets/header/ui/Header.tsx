@@ -8,6 +8,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/shared/ui/navigation-menu";
+import { MAIN_PATHNAME } from "@/src/shared/config/pathname";
 import { Logo } from "@/src/shared/ui";
 
 export async function Header() {
@@ -15,13 +16,13 @@ export async function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full border-b border-[#0000001a] duration-300",
-        "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        "supports-[backdrop-filter]:bg-background/60 bg-white/80 backdrop-blur",
       )}
     >
       <div className="container mx-auto flex h-16 items-center px-4">
         {/* Logo and Navigation */}
         <div className="flex items-center space-x-8">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={MAIN_PATHNAME} className="flex items-center space-x-2">
             <Logo />
             <span className="text-xl font-semibold text-foreground">
               Navi.ai

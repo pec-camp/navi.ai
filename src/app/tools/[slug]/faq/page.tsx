@@ -1,12 +1,13 @@
-import { getToolBySlug } from "@/src/entities/tool-detail";
+import { Plus } from "lucide-react";
+import { notFound } from "next/navigation";
+
+import { getToolBySlug } from "@/src/entities/tool";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/src/shared/ui/accordion";
-import { Plus } from "lucide-react";
-import { notFound } from "next/navigation";
 
 interface ToolFAQPageProps {
   params: Promise<{

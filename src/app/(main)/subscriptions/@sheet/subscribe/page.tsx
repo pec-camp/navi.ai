@@ -1,8 +1,9 @@
+import { redirect } from "next/navigation";
+
 import { getCategoriesWithSub } from "@/src/entities/category";
 import { getSubscriptionsCategories } from "@/src/entities/subscription/api/getSubscriptionCategories";
 import { CategorySideSheet } from "@/src/features/subscription";
 import { createClient } from "@/src/shared/utils/supabase/server";
-import { redirect } from "next/navigation";
 
 export default async function Subscribe() {
   // Get current user from Supabase session

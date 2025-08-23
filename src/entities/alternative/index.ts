@@ -1,8 +1,8 @@
 // API
-export { getAlternativeTools } from "./api/getAlternativeTools";
+export { getAlternativeToolList } from "./api/getAlternativeToolList";
 
 // Model
 export type { AlternativeTool } from "./model/AlternativeTool.interface";
 
 // UI
-export { AlternativeToolsSection } from "./ui/AlternativeToolsSection";
+export { AlternativeToolList } from "./ui/AlternativeToolList";

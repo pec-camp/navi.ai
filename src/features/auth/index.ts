@@ -8,12 +8,12 @@ export { UserAvatar } from "./ui/UserAvatar";
 export { UserDropdown } from "./ui/UserDropdown";
 
 // Server Actions
-export { signOut } from "./action/sign-out";
 export { signInWithGoogle, signInWithKakao } from "./action/sign-in-oauth";
+export { signOut } from "./action/sign-out";
 
 // API Functions
 export { getCurrentUser, getUserProfile } from "./api/get-user-profile";
 
 // Model Functions
-export { getUserDisplayName, getUserInitials, getUserAvatarColor } from "./model/user";
 export type { UserProfile } from "./model/user";
+export { getUserAvatarColor,getUserDisplayName, getUserInitials } from "./model/user";

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+
 import { AuthFormState } from "@/features/auth/model/auth.interface";
 import { createClient } from "@/shared/utils/supabase/server";
 

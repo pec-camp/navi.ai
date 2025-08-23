@@ -3,6 +3,7 @@
 import { User } from "@supabase/supabase-js";
 import { LogOut, Settings, User as UserIcon } from "lucide-react";
 import { useState } from "react";
+
 import { UserAvatar } from "./UserAvatar";
 
 interface UserDropdownProps {

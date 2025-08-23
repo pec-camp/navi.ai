@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { LOGIN_PATHNAME } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui";
-import { getCurrentUser } from "../api/get-user-profile";
-import { getUserProfile } from "../api/get-user-profile";
+
+import { getCurrentUser , getUserProfile } from "../api/get-user-profile";
 import { AuthButtonClient } from "./AuthButtonClient";
 
 export default async function AuthButton() {
