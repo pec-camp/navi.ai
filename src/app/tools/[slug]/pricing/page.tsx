@@ -1,6 +1,4 @@
-import { getToolBySlug } from "@/src/entities/tool-detail";
-
-import { notFound } from "next/navigation";
+import { getToolBySlug } from "@/src/entities/tool";
 
 interface ToolPricingPageProps {
   params: Promise<{
@@ -13,12 +11,7 @@ export default async function ToolPricingPage({
 }: ToolPricingPageProps) {
   const { slug } = await params;
 
-  const toolData = await getToolBySlug(slug);
-
-  if (!toolData) {
-    notFound();
-  }
-
+  const toolData = (await getToolBySlug(slug))!;
   const aiContent = toolData.content;
 
   const pricingData = aiContent?.pricing || [];

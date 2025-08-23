@@ -1,5 +1,4 @@
 import { CheckCircle, XCircle } from "lucide-react";
-import { notFound } from "next/navigation";
 
 import { getToolBySlug } from "@/src/entities/tool";
 
@@ -12,12 +11,7 @@ interface ToolInfoPageProps {
 export default async function ToolInfoPage({ params }: ToolInfoPageProps) {
   const { slug } = await params;
 
-  const toolData = await getToolBySlug(slug);
-
-  if (!toolData) {
-    notFound();
-  }
-
+  const toolData = (await getToolBySlug(slug))!;
   const aiContent = toolData.content;
 
   const featureList = aiContent?.core_features || [];
