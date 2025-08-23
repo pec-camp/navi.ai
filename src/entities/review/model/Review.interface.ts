@@ -1,8 +1,8 @@
 export interface ReviewAuthor {
   id: string;
-  email: string;
   name?: string;
   avatar_url?: string;
+  profession?: string;
 }
 
 export interface Review {
