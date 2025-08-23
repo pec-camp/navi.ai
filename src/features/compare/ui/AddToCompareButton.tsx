@@ -1,7 +1,8 @@
 "use client";
 
-import { Button } from "@/shared/ui/button";
 import { Plus } from "lucide-react";
+
+import { Button } from "@/shared/ui/button";
 
 interface AddToCompareButtonProps {
   size?: "big" | "small";
