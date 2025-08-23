@@ -1,7 +1,12 @@
 export type {
-  Review,
-  ReviewStats,
+  ActionResult,
   CreateReviewData,
+  CreateReviewResult,
+  DeleteReviewResult,
+  Review,
+  ReviewAuthor,
   ReviewFormData,
   ReviewsResponse,
+  ReviewStats,
+  UpdateReviewResult,
 } from "./Review.interface";
