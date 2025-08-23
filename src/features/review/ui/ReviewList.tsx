@@ -1,8 +1,8 @@
 "use client";
 
+import { getReviewsByTool } from "@/entities/review/api/getToolReviews";
 import { Review, ReviewStats } from "@/entities/review/model/Review.interface";
 import { ReviewItem } from "@/entities/review/ui/ReviewItem";
-import { getReviewsByTool } from "@/entities/review/api/getToolReviews";
 import { ViewMoreButton } from "@/src/shared/ui";
 import { useEffect, useState, useTransition } from "react";
 

@@ -1,5 +1,7 @@
-import { Star } from "lucide-react";
+"use client";
+
 import { cn } from "@/shared/ui/lib/utils";
+import { Star } from "lucide-react";
 
 interface RatingStarsProps {
   rating: number;
@@ -7,12 +9,15 @@ interface RatingStarsProps {
   error?: string;
 }
 
-export default function RatingStars({ rating, onRatingChange, error }: RatingStarsProps) {
+export default function RatingStars({
+  rating,
+  onRatingChange,
+  error,
+}: RatingStarsProps) {
   return (
     <div className="space-y-3">
-      <label className="text-base font-medium text-foreground">
-        평점 *
-      </label>
+      <input type="hidden" name="rating" value={rating} />
+      <label className="text-base font-medium text-foreground">평점 *</label>
       <div className="flex items-center gap-2">
         {[1, 2, 3, 4, 5].map((star) => (
           <button
@@ -33,11 +38,7 @@ export default function RatingStars({ rating, onRatingChange, error }: RatingSta
           </button>
         ))}
       </div>
-      {error && (
-        <p className="text-sm text-red-600">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );
 }
