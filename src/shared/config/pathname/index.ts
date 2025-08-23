@@ -21,7 +21,7 @@ export const TOOLS_SLUG_FAQ_PATHNAME = (slug: string) => `/tools/${slug}/faq`;
 export const TOOLS_SLUG_PRICING_PATHNAME = (slug: string) =>
   `/tools/${slug}/pricing`;
 export const TOOLS_SLUG_REVIEW_FORM_PATHNAME = (slug: string) =>
-  `/tools/${slug}/review-form`;
+  `/tools/${slug}/reviews/review-form`;
 export const TOOLS_SLUG_REVIEWS_PATHNAME = (slug: string) =>
   `/tools/${slug}/reviews`;
 

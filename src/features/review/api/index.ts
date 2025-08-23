@@ -1,3 +1,4 @@
-export { addUserReview } from "./addUserReview";
-export { deleteUserReview } from "./deleteUserReview";
-export { updateReview } from "./updateReview";
+// Review CRUD operations (Server Actions)
+export { addReview } from "./addReview";
+export { removeReview } from "./removeReview";
+export { updateReviewAction } from "./updateReviewAction";
