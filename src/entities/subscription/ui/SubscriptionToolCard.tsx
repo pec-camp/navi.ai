@@ -4,8 +4,8 @@ import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
 import { TOOLS_SLUG_PATHNAME } from "@/src/shared/config/pathname";
-
 import { ToolLogo } from "@/src/shared/ui";
+
 import { SubscriptionToolData } from "../model/SubscriptionTool.interface";
 
 type SubscriptionToolCardProps = SubscriptionToolData & {
