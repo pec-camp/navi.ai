@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/shared/ui/card";
 import { ToolLogo } from "@/src/shared/ui";
 import { ExternalLink } from "@/src/shared/ui/ExternalLink";
 
+import { getToolBySlug } from "../../tool";
 import { getAlternativeToolList } from "../api/getAlternativeToolList";
 
 interface AlternativeToolListProps {
@@ -14,13 +15,14 @@ interface AlternativeToolListProps {
 }
 
 export async function AlternativeToolList({ slug }: AlternativeToolListProps) {
+  const toolData = (await getToolBySlug(slug))!;
   const alternativeTools = await getAlternativeToolList(slug, 3);
 
   return (
     <section className="mt-32">
       <div className="container mx-auto max-w-7xl">
         <h2 className="mb-8 text-2xl font-medium text-foreground">
-          <span className="capitalize">{slug}</span>와 비슷한 도구들을
+          <span className="capitalize">{toolData.name}</span>와 비슷한 도구들을
           추천해드려요
         </h2>
 
