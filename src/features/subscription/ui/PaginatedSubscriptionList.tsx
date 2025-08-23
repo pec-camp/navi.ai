@@ -6,7 +6,7 @@ import { getSubscriptionToolList } from "@/src/entities/subscription";
 import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
 import SubscriptionToolList from "@/src/entities/subscription/ui/SubscriptionToolList";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
-import { Button } from "@/src/shared/ui";
+import { ViewMoreButton } from "@/src/shared/ui";
 
 interface PaginatedSubscriptionListProps {
   initialTools: SubscriptionToolData[];
@@ -44,17 +44,11 @@ export default function PaginatedSubscriptionList({
       <SubscriptionToolList subscriptionToolList={tools} />
 
       {hasMoreTools && (
-        <div className="flex justify-center">
-          <Button
-            variant="outline"
-            onClick={handleLoadMore}
-            disabled={isPending}
-            className="px-8"
-          >
-            {isPending
-              ? "로딩 중..."
-              : `더보기 (${totalCount - tools.length}개)`}
-          </Button>
+        <div className="flex justify-center pt-4">
+          <ViewMoreButton
+            isPending={isPending}
+            handleLoadMore={handleLoadMore}
+          />
         </div>
       )}
     </div>
