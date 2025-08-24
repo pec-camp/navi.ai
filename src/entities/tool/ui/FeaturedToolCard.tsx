@@ -2,9 +2,9 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
+import { TOOLS_SLUG_PATHNAME } from "@/src/shared/config/pathname";
 import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 
-import { TOOLS_SLUG_PATHNAME } from "@/src/shared/config/pathname";
 import { FeaturedTool } from "../model/FeaturedTool.interface";
 
 export default function FeaturedToolCard({

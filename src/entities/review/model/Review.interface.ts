@@ -1,42 +1,42 @@
-// 리뷰 관련 인터페이스 정의
+export interface ReviewAuthor {
+  id: string;
+  name?: string;
+  avatar_url?: string;
+  profession?: string;
+}
 
 export interface Review {
-  id: string;
-  toolSlug: string;
-  userId: string;
-  author: string;
-  rating: number; // 1-5 점
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isVerified?: boolean;
-  helpfulCount?: number;
-  tools?: string; // 함께 사용한 도구
+  id: number;
+  ai_tool_id: number;
+  user_id: string;
+  rating: number;
+  review_text: string;
+  recommend: boolean;
+  created_at: string;
+  used_with_tool_id: number | null;
+  // JOIN된 사용자 정보
+  author?: ReviewAuthor;
+}
+
+export interface CreateReviewData {
+  ai_tool_id: number;
+  rating: number;
+  review_text: string;
+  recommend?: boolean;
+  used_with_tool_id?: number | null;
+}
+
+export interface ReviewFormData {
+  rating: number;
+  review_text: string;
+  recommend?: boolean;
+  used_with_tool_id?: number | null;
 }
 
 export interface ReviewStats {
   totalReviews: number;
   averageRating: number;
-  ratingDistribution: {
-    1: number;
-    2: number;
-    3: number;
-    4: number;
-    5: number;
-  };
-}
-
-export interface CreateReviewData {
-  toolSlug: string;
-  rating: number;
-  content: string;
-  tools?: string;
-}
-
-export interface ReviewFormData {
-  rating: number;
-  content: string;
-  tools?: string;
+  recommendPercentage: number;
 }
 
 export interface ReviewsResponse {
@@ -44,3 +44,12 @@ export interface ReviewsResponse {
   stats: ReviewStats;
   total: number;
 }
+
+// Server Action Response Types (mutation용)
+export type ActionResult<T = unknown> = 
+  | { success: true; data: T }
+  | { success: false; error: string };
+
+export type CreateReviewResult = ActionResult<Review>;
+export type UpdateReviewResult = ActionResult<Review>;
+export type DeleteReviewResult = ActionResult<{ deleted: boolean }>;

@@ -253,34 +253,34 @@ export type Database = {
       }
       reviews: {
         Row: {
-          ai_tool_id: number | null
-          created_at: string | null
+          ai_tool_id: number
+          created_at: string
           id: number
-          rating: number | null
-          recommend: boolean | null
-          review_text: string | null
+          rating: number
+          recommend: boolean
+          review_text: string
           used_with_tool_id: number | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          ai_tool_id?: number | null
-          created_at?: string | null
+          ai_tool_id: number
+          created_at?: string
           id?: never
-          rating?: number | null
-          recommend?: boolean | null
-          review_text?: string | null
+          rating: number
+          recommend: boolean
+          review_text: string
           used_with_tool_id?: number | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
-          ai_tool_id?: number | null
-          created_at?: string | null
+          ai_tool_id?: number
+          created_at?: string
           id?: never
-          rating?: number | null
-          recommend?: boolean | null
-          review_text?: string | null
+          rating?: number
+          recommend?: boolean
+          review_text?: string
           used_with_tool_id?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
