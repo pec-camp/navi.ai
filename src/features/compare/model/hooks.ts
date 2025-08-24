@@ -1,6 +1,6 @@
 "use client";
 
-import { Tool } from "@/entities/tool";
+import { formatToolDetail } from "@/entities/tool";
 
 import { useCompareContext } from "./context";
 import { COMPARE_CONFIG } from "./types";
@@ -45,7 +45,7 @@ export function useCompareDrawer() {
   };
 }
 
-export function useCanAddToCompare(tool: Tool) {
+export function useCanAddToCompare(tool: ReturnType<typeof formatToolDetail>) {
   const { items, isInCompare } = useCompareContext();
   
   const isFull = items.length >= COMPARE_CONFIG.MAX_ITEMS;

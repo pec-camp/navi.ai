@@ -4,7 +4,7 @@ import { ArrowRight,Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Tool } from "@/entities/tool";
+import { formatToolDetail } from "@/entities/tool";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,11 +30,28 @@ export default function CompareContent({ onClose }: CompareContentProps) {
   const router = useRouter();
   
   const handleCompare = () => {
-    if (!canCompare) return;
+    if (!canCompare) {
+      console.log('Cannot compare - need at least 2 items');
+      return;
+    }
     
-    const toolIds = items.map(item => item.tool.slug).join(',');
-    router.push(`/compare?tools=${toolIds}`);
-    onClose();
+    const toolSlugs = items
+      .map(item => item.tool.slug)
+      .filter(slug => slug && slug !== '')
+      .join(',');
+    
+    if (toolSlugs) {
+      const url = `/compare-result?tools=${toolSlugs}`;
+      console.log('Navigating to:', url);
+      
+      // Close the sheet (this will set the navigation flag)
+      onClose();
+      
+      // Navigate immediately
+      router.push(url);
+    } else {
+      console.error('No valid slugs found in items:', items);
+    }
   };
   
   const handleClearAll = () => {
@@ -93,6 +110,7 @@ export default function CompareContent({ onClose }: CompareContentProps) {
           <div className="mt-auto border-t border-border bg-background/95">
             <div className="px-6 py-5 space-y-3">
               <Button 
+                type="button"
                 onClick={handleCompare}
                 disabled={!canCompare}
                 className="w-full h-12 text-base font-medium shadow-sm"
@@ -133,7 +151,7 @@ export default function CompareContent({ onClose }: CompareContentProps) {
 }
 
 interface CompareToolCardProps {
-  tool: Tool;
+  tool: ReturnType<typeof formatToolDetail>;
   onRemove: () => void;
 }
 
@@ -142,29 +160,26 @@ function CompareToolCard({ tool, onRemove }: CompareToolCardProps) {
     <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/50">
       <ToolLogo 
         websiteLogo={tool.websiteLogo || ""}
-        name={tool.name}
+        name={tool.name ?? ""}
         size="lg" 
       />
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold text-foreground truncate text-base">{tool.name}</h3>
         <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-          {tool.description || "설명이 없습니다"}
+          {tool.whatIsSummary || tool.description || "설명이 없습니다"}
         </p>
         <div className="flex items-center gap-3 mt-2">
           <span className="text-xs font-medium px-2 py-1 rounded-full bg-muted">
-            {tool.pricing === 'free' ? '🆓 무료' : 
-             tool.pricing === 'paid' ? `💰 유료${tool.fromPriceMonth ? ` $${tool.fromPriceMonth}/월` : ''}` : 
-             '가격 정보 없음'}
+            {tool.isFree ? '🆓 무료' : '💰 유료'}
           </span>
-          {tool.rating && (
+          {tool.extension?.userNumRaw && (
             <span className="text-xs text-muted-foreground">
-              ⭐ {tool.rating.toFixed(1)}
+              👥 {tool.extension.userNum} 사용자
             </span>
           )}
-          {tool.installs && (
+          {!tool.extension && tool.monthlyUsers?.count > 0 && (
             <span className="text-xs text-muted-foreground">
-              👥 {typeof tool.installs === 'number' ? 
-                tool.installs.toLocaleString() : tool.installs} 사용자
+              📊 {tool.monthlyUsers.formatted} 월간 방문
             </span>
           )}
         </div>

@@ -1,11 +1,13 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
-import { Tool } from "@/entities/tool";
+import { formatToolDetail } from "@/entities/tool";
 import { CompareState, CompareActions, CompareItem, COMPARE_CONFIG } from "./types";
 
+type FormattedTool = ReturnType<typeof formatToolDetail>;
+
 type CompareAction =
-  | { type: "ADD_ITEM"; payload: Tool }
+  | { type: "ADD_ITEM"; payload: FormattedTool }
   | { type: "REMOVE_ITEM"; payload: number }
   | { type: "CLEAR_ALL" }
   | { type: "TOGGLE_DRAWER" }
@@ -117,7 +119,7 @@ export function CompareProvider({ children }: CompareProviderProps) {
   }, [state.items]);
   
   const actions: CompareActions = {
-    addToCompare: (tool: Tool) => {
+    addToCompare: (tool: FormattedTool) => {
       dispatch({ type: "ADD_ITEM", payload: tool });
     },
     
