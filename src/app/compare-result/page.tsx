@@ -39,24 +39,6 @@ export default function CompareResultPage() {
           </div>
           
           <CompareTable />
-          
-          {/* Bottom navigation for convenience */}
-          <div className="mt-12 pt-8 border-t border-border">
-            <div className="flex justify-center gap-4">
-              <Button variant="outline" size="lg" asChild>
-                <Link href="/tools">
-                  <ArrowLeft className="mr-2 h-5 w-5" />
-                  더 많은 도구 둘러보기
-                </Link>
-              </Button>
-              <Button variant="secondary" size="lg" asChild>
-                <Link href="/tools?compare=open">
-                  <ListPlus className="mr-2 h-5 w-5" />
-                  새로운 비교 시작하기
-                </Link>
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
     </main>
