@@ -28,7 +28,7 @@ export async function getSubscriptionToolList(
     return { tools: [], totalCount: 0 };
   }
 
-  const tools: SubscriptionToolData[] = data.tools.map((tool) => ({
+  const tools: SubscriptionToolData[] = data.tools.map((tool: any) => ({
     id: tool.id,
     slug: tool.slug,
     name: tool.website_name,

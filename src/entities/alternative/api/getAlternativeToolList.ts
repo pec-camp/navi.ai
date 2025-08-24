@@ -36,7 +36,7 @@ export async function getAlternativeToolList(
     }
 
     // 응답 데이터 포맷팅
-    const formattedTools: AlternativeTool[] = alternativeTools.map((tool) => ({
+    const formattedTools: AlternativeTool[] = alternativeTools.map((tool: any) => ({
       id: tool.id,
       name: tool.name,
       slug: tool.slug,

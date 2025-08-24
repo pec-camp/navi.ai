@@ -1,6 +1,9 @@
-import { ArrowUpRight, Plus } from "lucide-react";
+"use client";
+
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
+import { AddToCompareButton } from "@/features/compare";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Card, CardContent } from "@/shared/ui/card";
 import type { Tool } from "@/src/entities/tool/model/Tool.interface";
@@ -85,13 +88,9 @@ export default function CatalogToolCard({ tool }: CatalogToolCardProps) {
               </span>
             )}
           </div>
-          <button
-            className="group/button absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-white shadow-sm transition-all hover:shadow"
-            aria-label="Add to comparison"
-            type="button"
-          >
-            <Plus className="h-4 w-4 text-secondary" />
-          </button>
+          <div className="absolute right-3 top-3">
+            <AddToCompareButton tool={tool} size="small" />
+          </div>
         </div>
 
         <div className="flex items-center justify-between">

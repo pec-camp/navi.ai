@@ -1,6 +1,7 @@
 import { ArrowUpRight, Bell, Home } from "lucide-react";
 import Link from "next/link";
 
+import { CompareFAB, CompareSideSheet } from "@/features/compare";
 import { MainTabNavigation } from "@/features/main-navigation";
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
 import {
@@ -88,6 +89,12 @@ export default function MainLayout({
 
       {/* Page Content */}
       <main className="flex-1">{children}</main>
+      
+      {/* Compare FAB */}
+      <CompareFAB />
+      
+      {/* Compare Sheet */}
+      <CompareSideSheet />
     </div>
   );
 }

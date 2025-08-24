@@ -6,7 +6,7 @@ export { getCategoriesWithSub } from "./api/getCategoriesWithSub";
 export type {
   Category,
   CategoryWithSubcategory,
-  Subcategory,
+  SubCategory,
 } from "./model/Category.interface";
 
 /** ui */

@@ -14,6 +14,7 @@ export interface Tool {
   image_url?: string;
   logo_url?: string;
   website_url?: string;
+  websiteLogo?: string;
   created_at?: string;
   pricing?: "free" | "paid";
   popularity?: number;

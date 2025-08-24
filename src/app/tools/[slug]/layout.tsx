@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CompareFAB, CompareSideSheet } from "@/features/compare";
 import { ToolDetailTabs } from "@/features/tool-detail";
 import {
   TOOLS_SLUG_FAQ_PATHNAME,
@@ -301,6 +302,12 @@ export default async function ToolDetailLayout({
 
       {/* 대안 도구 섹션 */}
       <AlternativeToolList slug={slug} />
+      
+      {/* Compare FAB */}
+      <CompareFAB />
+      
+      {/* Compare Sheet */}
+      <CompareSideSheet />
     </main>
   );
 }
