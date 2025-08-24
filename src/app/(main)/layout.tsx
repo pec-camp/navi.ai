@@ -1,9 +1,13 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Bell, Home } from "lucide-react";
 import Link from "next/link";
 
+import { MainTabNavigation } from "@/features/main-navigation";
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
-import { TabNavigation } from "@/shared/ui/TabNavigation";
-import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
+import {
+  MAIN_PATHNAME,
+  SUBSCRIPTIONS_PATHNAME,
+  TOOLS_PATHNAME,
+} from "@/src/shared/config/pathname";
 
 export default function MainLayout({
   children,
@@ -67,7 +71,20 @@ export default function MainLayout({
       <div className="w-full border-b border-[#E1E5E9]" />
 
       {/* Tab Navigation */}
-      <TabNavigation />
+      <MainTabNavigation
+        tabs={[
+          {
+            name: "Home",
+            href: MAIN_PATHNAME,
+            icon: <Home className="h-6 w-6" />,
+          },
+          {
+            name: "Subscriptions",
+            href: SUBSCRIPTIONS_PATHNAME,
+            icon: <Bell className="h-6 w-6" />,
+          },
+        ]}
+      />
 
       {/* Page Content */}
       <main className="flex-1">{children}</main>

@@ -6,6 +6,11 @@ interface FeaturedTool {
   slug: string;
   isFree?: boolean;
   tags?: string[];
+  extension?: {
+    userNum: string;
+    userNumRaw: number;
+    avatar: string;
+  } | null;
 }
 
 export type { FeaturedTool };

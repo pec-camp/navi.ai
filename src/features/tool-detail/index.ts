@@ -1,0 +1,1 @@
+export { ToolDetailTabs } from "./ui/ToolDetailTabs";

@@ -1,3 +1,4 @@
+// 기존 함수들 (현재 사용되지 않음, 추후 정리 예정)
 import { createClient } from "@/shared/utils/supabase/server";
 
 export async function getReview(reviewId: string) {
@@ -42,3 +43,6 @@ export async function getReviewsByToolId(toolId: string) {
 
   return data;
 }
+
+export { createReview } from "./createReview";
+export { getReviewsByTool } from "./getReviewsByTool";

@@ -3,7 +3,7 @@ interface ToolBadgeProps {
   maxCount?: number;
 }
 
-export default function ToolBadge({ tags, maxCount = 3 }: ToolBadgeProps) {
+export function ToolBadge({ tags, maxCount = 3 }: ToolBadgeProps) {
   if (!tags) return null;
 
   return (

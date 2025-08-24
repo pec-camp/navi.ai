@@ -108,37 +108,47 @@ async function scanDirectory(
           });
         }
 
-        // Check for parallel routes (@) and their intercepting routes
+        // Check for parallel routes (@) and their nested routes
         const parallelDirs = dirContents.filter((name) => name.startsWith("@"));
         for (const parallelDir of parallelDirs) {
           const parallelPath = join(itemPath, parallelDir);
 
           try {
             const parallelContents = await readdir(parallelPath);
-            const interceptingDirs = parallelContents.filter((name) =>
-              name.startsWith("(."),
-            );
+            
+            // Process all directories inside parallel routes (both intercepting and regular)
+            for (const nestedDir of parallelContents) {
+              // Skip files, only process directories
+              const nestedPath = join(parallelPath, nestedDir);
+              const nestedStat = await stat(nestedPath);
+              
+              if (nestedStat.isDirectory()) {
+                // Handle intercepting routes (remove the (.) prefix)
+                const routeName = nestedDir.startsWith("(.")
+                  ? nestedDir.replace(/^\(\.+\)/, "")
+                  : nestedDir;
+                
+                try {
+                  const nestedContents = await readdir(nestedPath);
+                  if (nestedContents.includes("page.tsx")) {
+                    const inferredSegments = [...newSegments, routeName];
+                    const path = generatePath(inferredSegments);
+                    const allParams = inferredSegments.flatMap(extractParams);
 
-            for (const interceptDir of interceptingDirs) {
-              const routeName = interceptDir.replace(/^\(\.+\)/, "");
-              const interceptPath = join(parallelPath, interceptDir);
-
-              try {
-                const interceptContents = await readdir(interceptPath);
-                if (interceptContents.includes("page.tsx")) {
-                  const inferredSegments = [...newSegments, routeName];
-                  const path = generatePath(inferredSegments);
-                  const allParams = inferredSegments.flatMap(extractParams);
-
-                  routes.push({
-                    path,
-                    constantName: generateConstantName(path),
-                    hasParams: allParams.length > 0,
-                    params: allParams.length > 0 ? allParams : undefined,
-                  });
+                    routes.push({
+                      path,
+                      constantName: generateConstantName(path),
+                      hasParams: allParams.length > 0,
+                      params: allParams.length > 0 ? allParams : undefined,
+                    });
+                  }
+                  
+                  // Recursively scan nested directories within parallel routes
+                  const nestedRoutes = await scanDirectory(nestedPath, [...newSegments, routeName]);
+                  routes.push(...nestedRoutes);
+                } catch {
+                  // Skip if we can't read the nested directory
                 }
-              } catch {
-                // Skip if we can't read the intercepting directory
               }
             }
           } catch {

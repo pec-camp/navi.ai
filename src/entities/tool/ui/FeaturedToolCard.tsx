@@ -2,15 +2,16 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
+import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 
+import { TOOLS_SLUG_PATHNAME } from "@/src/shared/config/pathname";
 import { FeaturedTool } from "../model/FeaturedTool.interface";
-import ToolBadge from "./ToolBadge";
-import ToolLogo from "./ToolLogo";
 
 export default function FeaturedToolCard({
   name,
   websiteLogo,
   whatIsSummary,
+  extension,
   tags,
   slug,
   isFree,
@@ -19,7 +20,7 @@ export default function FeaturedToolCard({
   className?: string;
 }) {
   return (
-    <Link href={`/tools/${slug}`}>
+    <Link href={TOOLS_SLUG_PATHNAME(slug)}>
       <Card
         className={`group relative h-full cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm ${className}`}
       >
@@ -27,8 +28,11 @@ export default function FeaturedToolCard({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <ToolLogo websiteLogo={websiteLogo} name={name} />
-                <h3 className="text-lg font-semibold leading-[27px] text-secondary">
+                <ToolLogo
+                  websiteLogo={websiteLogo || extension?.avatar}
+                  name={name}
+                />
+                <h3 className="text-lg font-medium leading-[27px] text-secondary">
                   {name}
                 </h3>
               </div>

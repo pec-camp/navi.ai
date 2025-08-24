@@ -1,37 +1,26 @@
 "use client";
 
-import { Bell, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import {
-  MAIN_PATHNAME,
-  SUBSCRIPTIONS_PATHNAME,
-} from "@/shared/config/pathname";
 import { cn } from "@/shared/ui/lib/utils";
 
-const tabs = [
-  {
-    name: "Home",
-    href: MAIN_PATHNAME,
-    icon: Home,
-  },
-  {
-    name: "Subscriptions",
-    href: SUBSCRIPTIONS_PATHNAME,
-    icon: Bell,
-  },
-];
+interface Tab {
+  name: string;
+  href: string;
+  icon: React.ReactNode;
+  className?: string;
+}
 
-export function TabNavigation() {
+export function MainTabNavigation({ tabs }: { tabs: Tab[] }) {
   const pathname = usePathname();
   const safePathname = pathname || "/";
 
   return (
     <div className="flex justify-center bg-background">
-      <nav className="flex items-center gap-8 p-8">
+      <nav className="flex items-center gap-8 p-10">
         {tabs.map((tab) => {
-          const Icon = tab.icon;
+          const icon = tab.icon;
           const isActive = safePathname === tab.href;
 
           return (
@@ -41,12 +30,13 @@ export function TabNavigation() {
               className={cn(
                 "font-onest flex h-12 items-center gap-2 px-0 py-3 text-base transition-colors",
                 isActive
-                  ? "font-semibold text-primary"
+                  ? "font-medium text-primary"
                   : "font-medium hover:text-primary",
+                tab.className,
               )}
             >
-              <Icon className="h-4 w-4" strokeWidth={isActive ? 2.5 : 2} />
-              <span>{tab.name}</span>
+              {icon}
+              <span className="text-lg">{tab.name}</span>
             </Link>
           );
         })}

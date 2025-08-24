@@ -7,3 +7,5 @@ export { Input } from "./input";
 export { Label } from "./label";
 export { Logo } from "./Logo";
 export { Skeleton } from "./skeleton";
+export { ToolBadge } from "./ToolBadge";
+export { ToolLogo } from "./ToolLogo";
