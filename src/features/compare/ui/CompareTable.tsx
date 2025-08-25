@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Star, Check } from "lucide-react";
 
+import { formatToolDetail } from "@/entities/tool";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
 import { Button } from "@/shared/ui/button";
 import { createClient } from "@/shared/utils/supabase/client";
 
 export default function CompareTable() {
   const searchParams = useSearchParams();
-  const [tools, setTools] = useState<any[]>([]);
+  const [tools, setTools] = useState<ReturnType<typeof formatToolDetail>[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,26 +38,10 @@ export default function CompareTable() {
       }
 
       // Format the data
-      const formattedTools = data?.map(tool => ({
-        id: tool.id,
-        name: tool.website_name || tool.slug,
-        slug: tool.slug,
-        description: tool.description,
-        whatIsSummary: tool.what_is_summary,
-        tags: tool.tags || [],
-        website: tool.website,
-        websiteLogo: tool.website_logo,
-        isFree: tool.is_free,
-        extension: tool.extension ? JSON.parse(tool.extension) : null,
-        monthlyUsers: tool.month_visited_count ? {
-          count: tool.month_visited_count,
-          formatted: formatNumber(tool.month_visited_count)
-        } : null,
-        content: tool.ai_content || {},
-        rating: tool.rating,
-        pricing: {
-          fromPriceMonth: tool.from_price_month
-        }
+      const formattedTools = data?.map(tool => formatToolDetail({
+        ...tool,
+        rating: 0,
+        review_count: 0,
       })) || [];
       
       setTools(formattedTools);
@@ -65,12 +50,6 @@ export default function CompareTable() {
 
     fetchTools();
   }, [searchParams]);
-
-  const formatNumber = (num: number): string => {
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
-    return num.toString();
-  };
 
   if (loading) {
     return (
@@ -173,9 +152,9 @@ export default function CompareTable() {
             {tools.map((tool) => (
               <td key={tool.id} className="border-b border-r border-border p-4 text-center">
                 <div className="text-base">
-                  {tool.extension?.user_num ? (
+                  {tool.extension?.userNumRaw ? (
                     <div>
-                      <p className="font-medium">{formatNumber(tool.extension.user_num)}</p>
+                      <p className="font-medium">{tool.extension.userNum}</p>
                       <p className="text-xs text-muted-foreground">활성 사용자</p>
                     </div>
                   ) : tool.monthlyUsers?.formatted ? (

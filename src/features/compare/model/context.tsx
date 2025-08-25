@@ -91,8 +91,8 @@ export function CompareProvider({ children }: CompareProviderProps) {
     try {
       const stored = localStorage.getItem(COMPARE_CONFIG.STORAGE_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        const items = parsed.items.map((item: any) => ({
+        const parsed = JSON.parse(stored) as { items: Array<CompareItem & { addedAt: string }> };
+        const items = parsed.items.map((item) => ({
           ...item,
           addedAt: new Date(item.addedAt),
         }));

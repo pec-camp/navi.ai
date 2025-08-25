@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/shared/utils/supabase/server";
+import { Database } from "@/shared/utils/supabase";
 import { formatToolDetail } from "../model/formatToolData";
 
 export interface ToolsResult {
@@ -41,26 +42,11 @@ export async function getAllToolsWithPagination(
     );
   }
 
-  // Category filter - will need to be implemented based on your actual schema
-  // if (filters?.category) {
-  //   query = query.eq("category_slug", filters.category);
-  // }
-
   if (filters?.pricing === "free") {
     query = query.eq("is_free", true);
   } else if (filters?.pricing === "paid") {
     query = query.eq("is_free", false);
   }
-
-  // Rating filter - would need to join with reviews table
-  // if (filters?.minRating && filters.minRating > 0) {
-  //   query = query.gte("rating", filters.minRating);
-  // }
-
-  // Trial filter - field doesn't exist in ai_tools
-  // if (filters?.hasTrial) {
-  //   query = query.eq("has_trial", true);
-  // }
 
   // Apply sorting
   switch (filters?.sort) {
@@ -89,13 +75,8 @@ export async function getAllToolsWithPagination(
     return { tools: [], totalCount: 0 };
   }
 
-  // Format tools data
-  const formattedTools = (data || []).map((tool: any) => {
-    return formatToolDetail({
-      ...tool,
-      rating: tool.rating || 0,
-      review_count: tool.review_count || 0,
-    });
+  const formattedTools: ReturnType<typeof formatToolDetail>[] = data.map((tool) => {
+    return formatToolDetail(tool);
   });
 
   return {
