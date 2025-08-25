@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import { Button } from "@/shared/ui/button";
@@ -19,10 +20,16 @@ export function MainSearchBar({
   className,
 }: MainSearchBarProps) {
   const [query, setQuery] = React.useState("");
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch?.(query);
+    if (onSearch) {
+      onSearch(query);
+    } else {
+      // Navigate to search page with query
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
