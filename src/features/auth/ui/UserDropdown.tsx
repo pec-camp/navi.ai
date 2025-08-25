@@ -36,10 +36,13 @@ export function UserDropdown({ user, onSignOut }: UserDropdownProps) {
             </div>
             
             <div className="p-2">
-              <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+             <a
+                href="/profile"
+                className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              >
                 <UserIcon className="h-4 w-4" />
                 프로필
-              </button>
+              </a>
               <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
                 <Settings className="h-4 w-4" />
                 설정

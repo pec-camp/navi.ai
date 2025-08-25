@@ -1,11 +1,9 @@
 export {
   getAllToolList,
-  getAllToolsWithPagination,
   getFeaturedToolList,
   getToolBySlug,
   getToolListBySlug,
 } from "./api";
-export type { ToolFilters, ToolsResult } from "./api";
 export type {
   AIContent,
   AIContentData,

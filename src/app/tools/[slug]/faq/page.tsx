@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import { getToolBySlug } from "@/src/entities/tool";
+import { getToolBySlug } from "@/src/entities/tool/api";
 import {
   Accordion,
   AccordionContent,
