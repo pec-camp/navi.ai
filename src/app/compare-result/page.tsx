@@ -3,7 +3,7 @@ import { ArrowLeft, Home, ListPlus } from "lucide-react";
 import { CompareTable } from "@/features/compare";
 import { Button } from "@/shared/ui/button";
 
-export default function CompareResultPage() {
+export default async function CompareResultPage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="w-full px-6 py-12">

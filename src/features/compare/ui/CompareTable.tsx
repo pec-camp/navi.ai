@@ -3,16 +3,21 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Star, Check } from "lucide-react";
+import { ArrowLeft, Check, Star } from "lucide-react";
 
-import { formatToolDetail } from "@/entities/tool";
+import { formatToolDetail } from "@/entities/tool/model/formatToolData";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
 import { Button } from "@/shared/ui/button";
 import { createClient } from "@/shared/utils/supabase/client";
 
+interface ToolWithRating extends ReturnType<typeof formatToolDetail> {
+  avgRating?: number;
+  reviewCount?: number;
+}
+
 export default function CompareTable() {
   const searchParams = useSearchParams();
-  const [tools, setTools] = useState<ReturnType<typeof formatToolDetail>[]>([]);
+  const [tools, setTools] = useState<ToolWithRating[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,23 +31,45 @@ export default function CompareTable() {
 
       const supabase = createClient();
       
-      const { data, error } = await supabase
+      // Fetch tools data
+      const { data: toolsData, error: toolsError } = await supabase
         .from("ai_tools")
         .select("*")
         .in("slug", toolSlugs);
 
-      if (error) {
-        console.error("Error fetching tools:", error);
+      if (toolsError) {
+        console.error("Error fetching tools:", toolsError);
         setLoading(false);
         return;
       }
 
-      // Format the data
-      const formattedTools = data?.map(tool => formatToolDetail({
-        ...tool,
-        rating: 0,
-        review_count: 0,
-      })) || [];
+      // Format the data and get ratings
+      const formattedTools: ToolWithRating[] = await Promise.all(
+        (toolsData || []).map(async (tool) => {
+          const formatted = formatToolDetail(tool);
+          
+          // Fetch average rating for each tool
+          const { data: reviewData } = await supabase
+            .from("reviews")
+            .select("rating")
+            .eq("ai_tool_id", tool.id);
+          
+          let avgRating: number | undefined;
+          let reviewCount: number | undefined;
+          
+          if (reviewData && reviewData.length > 0) {
+            reviewCount = reviewData.length;
+            const totalRating = reviewData.reduce((sum, review) => sum + review.rating, 0);
+            avgRating = totalRating / reviewCount;
+          }
+          
+          return {
+            ...formatted,
+            avgRating,
+            reviewCount
+          };
+        })
+      );
       
       setTools(formattedTools);
       setLoading(false);
@@ -86,7 +113,7 @@ export default function CompareTable() {
                 <div className="flex flex-col items-center space-y-3">
                   <ToolLogo
                     websiteLogo={tool.websiteLogo || ""}
-                    name={tool.name}
+                    name={tool.name || ""}
                     size="lg"
                   />
                   <h3 className="font-bold text-base text-foreground text-center px-2 break-words">{tool.name}</h3>
@@ -113,11 +140,6 @@ export default function CompareTable() {
                       <span className="inline-flex items-center rounded-full border border-border px-4 py-2 text-sm font-semibold text-foreground">
                         유료
                       </span>
-                      {tool.pricing?.fromPriceMonth && (
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          ${tool.pricing.fromPriceMonth}/월부터
-                        </p>
-                      )}
                     </div>
                   )}
                 </div>
@@ -132,13 +154,13 @@ export default function CompareTable() {
             </td>
             {tools.map((tool) => (
               <td key={tool.id} className="border-b border-r border-border p-4 text-center">
-                {tool.rating ? (
+                {tool.avgRating ? (
                   <div className="flex items-center justify-center space-x-1">
                     <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">{tool.rating.toFixed(1)}</span>
+                    <span className="font-medium text-lg">{tool.avgRating.toFixed(1)}</span>
                   </div>
                 ) : (
-                  <span className="text-muted-foreground text-sm">정보 없음</span>
+                  <span className="text-muted-foreground text-sm">리뷰 없음</span>
                 )}
               </td>
             ))}
