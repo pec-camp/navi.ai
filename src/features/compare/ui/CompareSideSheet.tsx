@@ -11,6 +11,7 @@ export default function CompareSideSheet() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   
   // Check if compare query param is present
   useEffect(() => {
@@ -18,13 +19,23 @@ export default function CompareSideSheet() {
   }, [searchParams]);
   
   const handleClose = () => {
-    // Remove query parameter when closing
-    const currentPath = window.location.pathname;
-    router.push(currentPath);
+    // Don't change route if we're navigating to compare-result
+    if (!isNavigating) {
+      // Remove query parameter when closing normally
+      const currentPath = window.location.pathname;
+      router.push(currentPath);
+    }
+  };
+  
+  const handleNavigateAndClose = () => {
+    // Set flag to prevent route conflict
+    setIsNavigating(true);
+    setIsOpen(false);
   };
   
   const handleExitComplete = () => {
-    // Clean up after animation completes
+    // Reset navigation flag after animation completes
+    setIsNavigating(false);
   };
 
   return (
@@ -35,7 +46,7 @@ export default function CompareSideSheet() {
       side="right"
       size="md"
     >
-      <CompareContent onClose={handleClose} />
+      <CompareContent onClose={handleNavigateAndClose} />
     </AnimatedSideSheet>
   );
 }

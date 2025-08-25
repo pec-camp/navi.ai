@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { CompareFAB, CompareSideSheet } from "@/features/compare";
+import { AddToCompareButton, CompareFAB, CompareSideSheet } from "@/features/compare";
 import { ToolDetailTabs } from "@/features/tool-detail";
 import {
   TOOLS_SLUG_FAQ_PATHNAME,
@@ -124,15 +124,7 @@ export default async function ToolDetailLayout({
                 </Button>
               )}
 
-              <Button
-                size="lg"
-                variant="outline"
-                className="hover:bg-foreground/90 h-12 w-full"
-                aria-label={`${toolData.name}를 비교목록에 추가`}
-              >
-                <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                비교목록에 추가
-              </Button>
+              <AddToCompareButton tool={toolData} size="big" className="w-full" />
             </div>
           </aside>
 
