@@ -150,7 +150,7 @@ export function formatToolBasic(
 ) {
   return {
     id: rawData.id,
-    name: rawData.website_name,
+    name: rawData.website_name || rawData.name || rawData.slug,
     slug: rawData.slug,
     description: rawData.description,
     whatIsSummary: rawData.what_is_summary,
@@ -169,7 +169,10 @@ export function formatToolBasic(
  * 상세 도구 정보 포맷팅
  */
 export function formatToolDetail(
-  rawData: Database["public"]["Tables"]["ai_tools"]["Row"],
+  rawData: Database["public"]["Tables"]["ai_tools"]["Row"] & {
+    rating?: number;
+    review_count?: number;
+  },
 ) {
   return {
     ...formatToolBasic(rawData),
@@ -178,5 +181,11 @@ export function formatToolDetail(
       rawData.original_updated_at,
     ),
     content: formatAIContent(rawData.ai_content),
+    rating: rawData.rating,
+    reviewCount: rawData.review_count,
+    createdAt: rawData.original_created_at,
+    pricing: {
+      fromPriceMonth: null, // This field doesn't exist in ai_tools table
+    },
   };
 }

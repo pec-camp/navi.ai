@@ -50,6 +50,8 @@ export default function AddToCompareButton({
     }
   };
   
+  const tooltipText = isAdded ? "비교 목록 보기" : "비교 목록에 추가";
+  
   const button = size === "big" ? (
     <Button
       onClick={handleClick}
@@ -77,29 +79,40 @@ export default function AddToCompareButton({
   ) : (
     <Button
       onClick={handleClick}
-      variant={isAdded ? "default" : "outline"}
-      size="sm"
+      variant={isAdded ? "default" : "ghost"}
+      size="icon"
       disabled={!canAdd && !isAdded}
-      className={`h-9 px-3 transition-all duration-200 ${
+      className={`h-8 w-8 rounded-full transition-all duration-200 ${
         isAdded 
-          ? "bg-primary hover:bg-primary/90" 
-          : "border border-muted-foreground/30 hover:border-primary/50 hover:bg-primary/5"
+          ? "bg-primary hover:bg-primary/90 text-primary-foreground" 
+          : "hover:bg-muted"
       } ${className}`}
     >
       {isAdded ? (
-        <>
-          <Check className="mr-1.5 h-4 w-4" />
-          <span className="text-sm font-medium">추가됨</span>
-        </>
+        <Check className="h-4 w-4" />
       ) : (
-        <>
-          <Plus className="mr-1.5 h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">비교</span>
-        </>
+        <Plus className="h-4 w-4" />
       )}
     </Button>
   );
   
+  // Always wrap in tooltip for small size
+  if (size === "small") {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            {button}
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{reason || tooltipText}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+  
+  // For big size, only show tooltip if there's a reason (disabled state)
   if (!canAdd && !isAdded && reason) {
     return (
       <TooltipProvider>

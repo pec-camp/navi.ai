@@ -96,21 +96,21 @@ export default function CompareTable() {
 
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-border shadow-lg bg-card">
-      <table className="w-full border-collapse">
+      <table className="w-full border-collapse table-fixed">
         <thead>
           <tr className="bg-muted/30">
-            <th className="sticky left-0 z-10 bg-muted/30 border-r border-b border-border p-6 text-left">
-              <span className="text-lg font-bold text-foreground">비교 항목</span>
+            <th className="sticky left-0 z-10 bg-muted/30 border-r border-b border-border p-4 text-left w-[180px]">
+              <span className="text-base font-bold text-foreground">비교 항목</span>
             </th>
             {tools.map((tool) => (
-              <th key={tool.id} className="border-b border-r border-border p-6 min-w-[350px]">
-                <div className="flex flex-col items-center space-y-4">
+              <th key={tool.id} className="border-b border-r border-border p-4">
+                <div className="flex flex-col items-center space-y-3">
                   <ToolLogo
                     websiteLogo={tool.websiteLogo || ""}
                     name={tool.name}
-                    size="xl"
+                    size="lg"
                   />
-                  <h3 className="font-bold text-xl text-foreground">{tool.name}</h3>
+                  <h3 className="font-bold text-base text-foreground text-center px-2 break-words">{tool.name}</h3>
                 </div>
               </th>
             ))}
@@ -119,11 +119,11 @@ export default function CompareTable() {
         <tbody>
           {/* 가격 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">가격</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">가격</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6 text-center">
+              <td key={tool.id} className="border-b border-r border-border p-4 text-center">
                 <div className="flex justify-center">
                   {tool.isFree ? (
                     <span className="inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
@@ -148,11 +148,11 @@ export default function CompareTable() {
 
           {/* 평점 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">평점</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">평점</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6 text-center">
+              <td key={tool.id} className="border-b border-r border-border p-4 text-center">
                 {tool.rating ? (
                   <div className="flex items-center justify-center space-x-1">
                     <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
@@ -167,11 +167,11 @@ export default function CompareTable() {
 
           {/* 사용자 수 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">사용자 수</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">사용자 수</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6 text-center">
+              <td key={tool.id} className="border-b border-r border-border p-4 text-center">
                 <div className="text-base">
                   {tool.extension?.user_num ? (
                     <div>
@@ -193,11 +193,11 @@ export default function CompareTable() {
 
           {/* 카테고리/태그 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">카테고리</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">카테고리</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6">
+              <td key={tool.id} className="border-b border-r border-border p-4">
                 <div className="flex flex-wrap gap-1 justify-center">
                   {tool.tags && tool.tags.length > 0 ? (
                     tool.tags.slice(0, 3).map((tag: string, index: number) => (
@@ -218,11 +218,11 @@ export default function CompareTable() {
 
           {/* 주요 기능 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">주요 기능</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">주요 기능</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6">
+              <td key={tool.id} className="border-b border-r border-border p-4">
                 {tool.content?.core_features && tool.content.core_features.length > 0 ? (
                   <ul className="space-y-2 text-sm">
                     {tool.content.core_features.slice(0, 4).map((feature: string, index: number) => (
@@ -241,11 +241,11 @@ export default function CompareTable() {
 
           {/* 플랫폼 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">플랫폼</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">플랫폼</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6 text-center">
+              <td key={tool.id} className="border-b border-r border-border p-4 text-center">
                 <div className="flex justify-center gap-2">
                   {tool.website && (
                     <span className="inline-flex items-center rounded-md border border-border px-3 py-1.5 text-sm font-medium">
@@ -267,11 +267,11 @@ export default function CompareTable() {
 
           {/* 설명 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-6">
-              <span className="text-base font-semibold text-foreground">설명</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-b border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">설명</span>
             </td>
             {tools.map((tool) => (
-              <td key={tool.id} className="border-b border-r border-border p-6">
+              <td key={tool.id} className="border-b border-r border-border p-4">
                 <p className="text-sm text-muted-foreground line-clamp-3">
                   {tool.whatIsSummary || tool.description || "설명이 없습니다"}
                 </p>
@@ -281,8 +281,8 @@ export default function CompareTable() {
 
           {/* 웹사이트 링크 */}
           <tr className="hover:bg-muted/10 transition-colors">
-            <td className="sticky left-0 z-10 bg-muted/50 border-r border-border p-6">
-              <span className="text-base font-semibold text-foreground">링크</span>
+            <td className="sticky left-0 z-10 bg-muted/50 border-r border-border p-4 w-[180px]">
+              <span className="text-sm font-semibold text-foreground">링크</span>
             </td>
             {tools.map((tool) => (
               <td key={tool.id} className="border-r border-border p-4 text-center">
