@@ -1,5 +1,6 @@
 import { User } from "@supabase/supabase-js";
-import { getUserInitials, getUserAvatarColor, getUserDisplayName } from "../model/user";
+
+import { getUserAvatarColor, getUserDisplayName,getUserInitials } from "../model/user";
 
 interface UserAvatarProps {
   user: User;

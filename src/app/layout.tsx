@@ -3,6 +3,7 @@ import "@/app/globals.css";
 import { Onest, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
+import { CompareProvider } from "@/features/compare/model";
 import { Logo } from "../shared/ui";
 import { Header } from "../widgets/header";
 
@@ -45,15 +46,16 @@ export default function RootLayout({
       className={`${onest.variable} ${pretendard.variable} ${rajdhani.variable}`}
     >
       <body className="bg-background text-foreground">
-        {/* Global background removed; mounted per-route where needed */}
+        <CompareProvider>
+          {/* Global background removed; mounted per-route where needed */}
 
-        {/* Header */}
-        <Header />
+          {/* Header */}
+          <Header />
 
-        {/* Main */}
-        <main className="container mx-auto mb-20 flex min-h-screen flex-col items-center px-4">
-          {children}
-        </main>
+          {/* Main */}
+          <main className="container mx-auto mb-20 flex min-h-screen flex-col items-center px-4">
+            {children}
+          </main>
 
         {/* Footer */}
         <footer className="w-full border-t border-border bg-surface-secondary">
@@ -105,6 +107,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </CompareProvider>
       </body>
     </html>
   );

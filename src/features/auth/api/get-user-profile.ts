@@ -1,4 +1,5 @@
 import { createClient } from "@/shared/utils/supabase/server";
+
 import { UserProfile } from "../model/user";
 
 export async function getCurrentUser() {
