@@ -1,7 +1,8 @@
 "use server";
 
-import { createClient } from "@/shared/utils/supabase/server";
 import { headers } from "next/headers";
+
+import { createClient } from "@/shared/utils/supabase/server";
 
 export async function signInWithGoogle() {
   const supabase = await createClient();

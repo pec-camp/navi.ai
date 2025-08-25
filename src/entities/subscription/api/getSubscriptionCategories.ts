@@ -4,7 +4,10 @@ import { randomUUID } from "crypto";
 
 import { createClient } from "@/shared/utils/supabase/server";
 
-import { CategorySubscription } from "../model/CategorySubscription.interface";
+import {
+  CategorySubscription,
+  SubscriptionCategoryResponse,
+} from "../model/CategorySubscription.interface";
 
 /**
  * 유저의 구독 카테고리 목록 조회
@@ -50,7 +53,7 @@ export async function getSubscriptionsCategories(userId: string) {
   >();
 
   // 카테고리별로 그룹화
-  data.forEach((subscription) => {
+  data.forEach((subscription: SubscriptionCategoryResponse) => {
     const categoryId = subscription.sub_categories.category_id;
     const subCategoryId = subscription.sub_category_id;
 

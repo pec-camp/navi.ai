@@ -16,6 +16,7 @@ export const SUBSCRIPTIONS_PATHNAME = "/subscriptions";
 export const SUBSCRIPTIONS_SUBSCRIBE_PATHNAME = "/subscriptions/subscribe";
 export const TERMS_PATHNAME = "/terms";
 export const TOOLS_PATHNAME = "/tools";
+export const COMPARE_LIST_PATHNAME = "/compare-list";
 export const TOOLS_SLUG_PATHNAME = (slug: string) => `/tools/${slug}`;
 export const TOOLS_SLUG_FAQ_PATHNAME = (slug: string) => `/tools/${slug}/faq`;
 export const TOOLS_SLUG_PRICING_PATHNAME = (slug: string) =>
@@ -47,6 +48,7 @@ export const ROUTES = {
   TOOLS_SLUG_PRICING_PATHNAME,
   TOOLS_SLUG_REVIEW_FORM_PATHNAME,
   TOOLS_SLUG_REVIEWS_PATHNAME,
+  COMPARE_LIST_PATHNAME,
 } as const;
 
 // Type for all static routes
@@ -65,7 +67,8 @@ export type StaticRoute =
   | "/subscriptions"
   | "/subscriptions/subscribe"
   | "/terms"
-  | "/tools";
+  | "/tools"
+  | "/compare-list";
 
 // Type for dynamic route functions
 export type DynamicRoute =

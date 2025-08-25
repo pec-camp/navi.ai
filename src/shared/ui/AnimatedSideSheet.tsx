@@ -93,7 +93,7 @@ export function AnimatedSideSheet({
               duration: 0.2,
               ease: [0.4, 0, 0.2, 1],
             }}
-            className="fixed inset-0 z-50 bg-black/80"
+            className="fixed inset-0 z-50 bg-black/40"
             onClick={onClose}
             aria-label="Close sheet"
           />
@@ -119,7 +119,7 @@ export function AnimatedSideSheet({
               },
             }}
             className={cn(
-              "fixed z-50 w-full rounded-md bg-background shadow-lg",
+              "fixed z-50 w-full rounded-md bg-white shadow-lg",
               positionClasses,
               sizeClasses[size],
               className,

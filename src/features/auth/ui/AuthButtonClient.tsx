@@ -2,8 +2,10 @@
 
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { UserDropdown } from "./UserDropdown";
+
 import { createClient } from "@/shared/utils/supabase/client";
+
+import { UserDropdown } from "./UserDropdown";
 
 interface AuthButtonClientProps {
   user: User;
