@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 import type { SuggestionTool } from "@/entities/tool";
+import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
 import { applyHighlight } from "@/shared/utils/highlightText";
 import { cn } from "@/src/shared/ui/lib/utils";
 
@@ -12,8 +14,6 @@ interface SearchSuggestionItemProps {
   tool: SuggestionTool;
   /** 선택 상태 여부 */
   isSelected?: boolean;
-  /** 클릭 이벤트 핸들러 */
-  onClick?: () => void;
   /** 검색어 (하이라이팅용) */
   searchQuery?: string;
   /** 아이템 인덱스 (하이라이팅 ID 구분용) */
@@ -27,7 +27,6 @@ interface SearchSuggestionItemProps {
 export function SearchSuggestionItem({
   tool,
   isSelected = false,
-  onClick,
   searchQuery = "",
   index = 0,
 }: SearchSuggestionItemProps) {
@@ -48,8 +47,8 @@ export function SearchSuggestionItem({
   }, [searchQuery, tool.name, index]);
 
   return (
-    <button
-      type="button"
+    <Link
+      href={TOOLS_SLUG_PATHNAME(tool.slug)}
       className={cn(
         "flex w-full items-center gap-3 rounded-lg px-3 py-2.5",
         "transition-all duration-200",
@@ -58,7 +57,6 @@ export function SearchSuggestionItem({
         "focus:ring-primary/30 focus:outline-none focus:ring-2",
         "group",
       )}
-      onClick={onClick}
       aria-selected={isSelected}
       role="option"
     >
@@ -102,6 +100,6 @@ export function SearchSuggestionItem({
           <span className="text-xs text-muted-foreground">Enter ↵</span>
         </div>
       )}
-    </button>
+    </Link>
   );
 }
