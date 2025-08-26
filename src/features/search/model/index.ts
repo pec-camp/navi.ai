@@ -1,2 +1,2 @@
 // types
-export type { UseSearchOptions, UseSearchReturn } from "./useSearch.types";
+export type { UseSearchOptions, UseSearchReturn } from "./useSearch.interface";

@@ -2,10 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
-import type { SuggestionTool } from "@/entities/tool";
-
+import { getToolSuggestionList, type SuggestionTool } from "@/entities/tool";
 import { useDebounce } from "@/shared/hooks";
-import type { UseSearchOptions, UseSearchReturn } from "../model/useSearch.types";
+
+import type {
+  UseSearchOptions,
+  UseSearchReturn,
+} from "../model/useSearch.interface";
 
 /**
  * 실시간 검색을 위한 커스텀 훅
@@ -46,13 +49,8 @@ export function useSearch(options: UseSearchOptions = {}): UseSearchReturn {
       abortControllerRef.current = controller;
 
       try {
-        // getToolSuggestionList 직접 임포트 (클라이언트에서 사용 가능)
-        const { getToolSuggestionList } = await import(
-          "@/entities/tool/api/getToolSuggestionList"
-        );
         const searchResults = await getToolSuggestionList(query, maxResults);
 
-        // 요청이 취소되지 않았다면 결과 업데이트
         if (!controller.signal.aborted) {
           startTransition(() => {
             setResults(searchResults);
@@ -118,7 +116,7 @@ export function useSearch(options: UseSearchOptions = {}): UseSearchReturn {
   return {
     searchQuery,
     setSearchQuery,
-    isLoading: isPending, // useTransition의 isPending 사용
+    isLoading: isPending,
     results,
     error,
     clearResults,
