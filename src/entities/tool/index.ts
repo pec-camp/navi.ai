@@ -34,4 +34,5 @@ export type { ToolDetail } from "./model/ToolDetail.interface";
 export { default as CatalogToolCard } from "./ui/CatalogToolCard";
 export { default as FeaturedToolCard } from "./ui/FeaturedToolCard";
 export { default as FeaturedToolList } from "./ui/FeaturedToolList";
+export { SearchSuggestionItem } from "./ui/SearchSuggestionItem";
 export { ToolPalette } from "./ui/ToolPalette";

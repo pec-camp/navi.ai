@@ -4,13 +4,12 @@ import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { ToolPalette } from "@/entities/tool";
+import { SearchSuggestionItem, ToolPalette } from "@/entities/tool";
 import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
 import { useClickOutside, useKeyboardNavigation } from "@/shared/hooks";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/ui/lib/utils";
-import { SearchSuggestionItem } from "@/src/entities/tool/ui/SearchSuggestionItem";
 
 import { useSearch } from "../hooks";
 
