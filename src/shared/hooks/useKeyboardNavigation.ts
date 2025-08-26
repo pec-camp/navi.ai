@@ -44,13 +44,13 @@ export function useKeyboardNavigation({
   isEnabled = true,
   loop = true,
 }: UseKeyboardNavigationOptions): UseKeyboardNavigationReturn {
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   /**
-   * 선택 인덱스 초기화
+   * 선택 인덱스 초기화 (헤더를 선택)
    */
   const resetSelectedIndex = useCallback(() => {
-    setSelectedIndex(-1);
+    setSelectedIndex(0);
   }, []);
 
   /**
@@ -75,7 +75,7 @@ export function useKeyboardNavigation({
           event.preventDefault();
           setSelectedIndex((prevIndex) => {
             if (prevIndex <= 0) {
-              return loop ? itemCount - 1 : -1;
+              return loop ? itemCount - 1 : 0;
             }
             return prevIndex - 1;
           });
