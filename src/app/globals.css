@@ -134,27 +134,3 @@
     background-image: url("/home/home_bg.webp");
   }
 }
-
-/* Multiple element highlights */
-::highlight(search-highlight-0),
-::highlight(search-highlight-1),
-::highlight(search-highlight-2),
-::highlight(search-highlight-3),
-::highlight(search-highlight-4),
-::highlight(search-highlight-5),
-::highlight(search-highlight-6),
-::highlight(search-highlight-7),
-::highlight(search-highlight-8),
-::highlight(search-highlight-9) {
-  background-color: var(--search-highlight-bg);
-  color: var(--search-highlight-color);
-}
-
-/* Fallback styles for browsers without CSS Highlight API support */
-.highlight-mark {
-  background-color: var(--search-highlight-bg);
-  color: var(--search-highlight-color);
-  font-weight: 500;
-  border-radius: 2px;
-  padding: 0 1px;
-}

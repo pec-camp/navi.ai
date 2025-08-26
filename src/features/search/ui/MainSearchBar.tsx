@@ -36,22 +36,29 @@ export function MainSearchBar({
     maxResults: 10,
   });
 
-  // 키보드 네비게이션 훅
+  // 키보드 네비게이션 훅 (헤더 포함: -1=헤더, 0+= 결과 아이템)
   const { selectedIndex, setSelectedIndex, resetSelectedIndex } = useKeyboardNavigation({
-    itemCount: results.length,
+    itemCount: results.length + 1, // 헤더 1개 + 결과 아이템들
     onSelect: (index) => {
-      // Enter 키로 선택 시 해당 도구 페이지로 이동
-      const selectedTool = results[index];
-      if (selectedTool) {
-        router.push(TOOLS_SLUG_PATHNAME(selectedTool.slug));
+      if (index === 0) {
+        // 헤더 선택 시 검색 결과 페이지로 이동
+        const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
+        router.push(searchResultsUrl);
         handleClose();
+      } else {
+        // 결과 아이템 선택 시 해당 도구 페이지로 이동
+        const selectedTool = results[index - 1];
+        if (selectedTool) {
+          router.push(TOOLS_SLUG_PATHNAME(selectedTool.slug));
+          handleClose();
+        }
       }
     },
     onEscape: () => {
       // ESC 키로 팔레트 닫기
       handleClose();
     },
-    isEnabled: showPalette && results.length > 0,
+    isEnabled: showPalette && searchQuery.trim() !== "",
     loop: true,
   });
 
@@ -73,12 +80,19 @@ export function MainSearchBar({
     e.preventDefault();
 
     // Enter 키로 폼 제출 시, 선택된 항목이 있으면 해당 페이지로 이동
-    if (selectedIndex >= 0 && results[selectedIndex]) {
-      router.push(TOOLS_SLUG_PATHNAME(results[selectedIndex].slug));
+    if (selectedIndex === 0) {
+      // 헤더가 선택된 경우
+      const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
+      router.push(searchResultsUrl);
       handleClose();
-    } else if (results.length > 0) {
-      // 선택된 항목이 없으면 첫 번째 결과로 이동
-      router.push(TOOLS_SLUG_PATHNAME(results[0].slug));
+    } else if (selectedIndex > 0 && results[selectedIndex - 1]) {
+      // 결과 아이템이 선택된 경우
+      router.push(TOOLS_SLUG_PATHNAME(results[selectedIndex - 1].slug));
+      handleClose();
+    } else if (searchQuery.trim()) {
+      // 선택된 항목이 없으면 검색 결과 페이지로 이동
+      const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
+      router.push(searchResultsUrl);
       handleClose();
     }
   };
@@ -152,18 +166,22 @@ export function MainSearchBar({
           id="search-results"
           className="absolute left-0 right-0 top-full z-50 mt-2"
         >
-          <ToolPalette.Root onMouseLeave={resetSelectedIndex}>
-            <ToolPalette.Header searchQuery={searchQuery} />
+          <ToolPalette.Root>
+            <ToolPalette.Header 
+              searchQuery={searchQuery} 
+              isSelected={selectedIndex === 0}
+              onMouseEnter={() => setSelectedIndex(0)}
+            />
             <ToolPalette.Results 
               tools={results}
-              onItemMouseEnter={setSelectedIndex}
+              onItemMouseEnter={(index) => setSelectedIndex(index + 1)}
             >
               {(tool, index) => (
                 <SearchSuggestionItem
                   key={tool.id}
                   tool={tool}
                   index={index}
-                  isSelected={selectedIndex === index}
+                  isSelected={selectedIndex === index + 1}
                   searchQuery={searchQuery}
                 />
               )}

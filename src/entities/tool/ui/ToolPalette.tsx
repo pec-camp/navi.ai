@@ -1,8 +1,8 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
 import type { SuggestionTool } from "@/entities/tool";
+import { SelectionButton, SparklesText } from "@/shared/ui";
 import { cn } from "@/shared/ui/lib/utils";
 
 interface ToolPaletteRootProps {
@@ -17,6 +17,10 @@ interface ToolPaletteRootProps {
 interface ToolPaletteHeaderProps {
   /** 검색어 */
   searchQuery: string;
+  /** 선택 상태 여부 */
+  isSelected?: boolean;
+  /** 마우스 진입 시 콜백 */
+  onMouseEnter?: () => void;
 }
 
 interface ToolPaletteResultsProps {
@@ -31,7 +35,11 @@ interface ToolPaletteResultsProps {
 /**
  * 팔레트 루트 컴포넌트
  */
-function ToolPaletteRoot({ children, className, onMouseLeave }: ToolPaletteRootProps) {
+function ToolPaletteRoot({
+  children,
+  className,
+  onMouseLeave,
+}: ToolPaletteRootProps) {
   return (
     <div
       className={cn(
@@ -51,27 +59,38 @@ function ToolPaletteRoot({ children, className, onMouseLeave }: ToolPaletteRootP
 /**
  * 팔레트 헤더 컴포넌트
  */
-function ToolPaletteHeader({ searchQuery }: ToolPaletteHeaderProps) {
+function ToolPaletteHeader({
+  searchQuery,
+  isSelected = false,
+  onMouseEnter,
+}: ToolPaletteHeaderProps) {
   if (!searchQuery) return null;
 
   // 검색 결과 페이지 URL
   const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
 
   return (
-    <div className="bg-muted/30 border-b px-4 py-3">
+    <div className="px-2 py-2" onMouseEnter={onMouseEnter}>
       {/* 메인 헤더 - 검색어와 화살표 */}
       <Link
         href={searchResultsUrl}
-        className="hover:bg-muted/50 group flex items-center justify-between rounded-lg px-2 py-2 transition-colors"
+        className={cn(
+          "hover:bg-muted/50 group flex min-h-12 items-center justify-between rounded-lg px-2 py-2 transition-colors",
+          isSelected && "bg-accent",
+        )}
       >
         <div className="flex-1">
-          <span className="text-sm text-muted-foreground">Search for </span>
-          <span className="font-medium text-foreground">{searchQuery}</span>
-          <span className="text-sm text-muted-foreground"> using AI</span>
+          <span className="text-base text-muted-foreground">Show me </span>
+          <SparklesText
+            className="inline text-base font-medium text-primary"
+            sparklesCount={2}
+          >
+            {searchQuery}
+          </SparklesText>
+          <span className="text-base text-muted-foreground"> AI tools</span>
         </div>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform group-hover:translate-x-1">
-          <ArrowRight className="h-4 w-4" />
-        </div>
+        {/* 선택된 아이템에만 버튼 표시 */}
+        <SelectionButton isSelected={isSelected} />
       </Link>
     </div>
   );
@@ -86,10 +105,10 @@ function ToolPaletteResults({
   onItemMouseEnter,
 }: ToolPaletteResultsProps) {
   return (
-    <div className="max-h-[400px] overflow-y-auto p-1">
+    <div className="bg-muted/30 relative max-h-[400px] overflow-y-auto border-t">
       {/* 검색 결과 갯수 */}
       {tools && tools.length > 0 && (
-        <div className="mt-2 flex items-center text-xs font-medium text-muted-foreground">
+        <div className="sticky top-0 z-10 mb-2 flex items-center bg-muted px-4 py-2 text-xs font-medium text-muted-foreground">
           <span className="mr-2">🔧</span>
           AI TOOLS ({tools.length})
         </div>

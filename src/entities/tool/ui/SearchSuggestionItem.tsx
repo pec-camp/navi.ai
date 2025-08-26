@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 
 import type { SuggestionTool } from "@/entities/tool";
 import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
+import { SelectionButton } from "@/shared/ui";
 import { cn } from "@/src/shared/ui/lib/utils";
 
 interface SearchSuggestionItemProps {
@@ -28,7 +29,6 @@ interface SearchSuggestionItemProps {
 export function SearchSuggestionItem({
   tool,
   isSelected = false,
-  searchQuery,
   index = 0,
   onMouseEnter,
 }: SearchSuggestionItemProps) {
@@ -54,7 +54,7 @@ export function SearchSuggestionItem({
         "flex w-full items-center gap-3 rounded-lg px-3 py-2.5",
         "transition-all duration-200",
         "hover:bg-muted/60",
-        isSelected && "bg-muted/80 ring-primary/20 ring-1",
+        isSelected && "bg-accent",
         "focus:ring-primary/30 focus:outline-none focus:ring-2",
         "group",
       )}
@@ -96,12 +96,8 @@ export function SearchSuggestionItem({
         </span>
       </div>
 
-      {/* 선택 인디케이터 (옵션) */}
-      {isSelected && (
-        <div className="flex-shrink-0">
-          <span className="text-xs text-muted-foreground">Enter ↵</span>
-        </div>
-      )}
+      {/* 선택된 아이템에만 버튼 표시 */}
+      <SelectionButton isSelected={isSelected} />
     </Link>
   );
 }
