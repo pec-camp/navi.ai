@@ -13,6 +13,7 @@ import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/ui/lib/utils";
 
 import { useSearch } from "../hooks";
+import { SearchSuggestionItem } from "./SearchSuggestionItem";
 
 interface MainSearchBarProps {
   placeholder?: string;
@@ -159,13 +160,20 @@ export function MainSearchBar({
           id="search-results"
           className="absolute left-0 right-0 top-full z-50 mt-2"
         >
-          <ToolPalette
-            tools={results}
-            isLoading={isLoading}
-            selectedIndex={selectedIndex}
-            searchQuery={searchQuery}
-            maxResults={10}
-          />
+          <ToolPalette.Root>
+            <ToolPalette.Header searchQuery={searchQuery} />
+            <ToolPalette.Results tools={results}>
+              {(tool, index) => (
+                <SearchSuggestionItem
+                  key={tool.id}
+                  tool={tool}
+                  index={index}
+                  isSelected={selectedIndex === index}
+                  searchQuery={searchQuery}
+                />
+              )}
+            </ToolPalette.Results>
+          </ToolPalette.Root>
 
           {/* 에러 표시 */}
           {error && !isLoading && (

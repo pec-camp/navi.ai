@@ -1,75 +1,33 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import type { ReactNode } from "react";
+
 import type { SuggestionTool } from "@/entities/tool";
-import { SearchSuggestionItem } from "@/features/search";
 import { cn } from "@/shared/ui/lib/utils";
 
-interface ToolPaletteProps {
-  /** 도구 목록 */
-  tools: SuggestionTool[];
-  /** 로딩 상태 */
-  isLoading?: boolean;
-  /** 선택된 아이템 인덱스 */
-  selectedIndex?: number;
-  /** 검색어 (하이라이팅용) */
-  searchQuery?: string;
+interface ToolPaletteRootProps {
+  /** 자식 컴포넌트 */
+  children: ReactNode;
   /** 추가 클래스명 */
   className?: string;
-  /** 최대 표시 개수 */
-  maxResults?: number;
+}
+
+interface ToolPaletteHeaderProps {
+  /** 검색어 */
+  searchQuery: string;
+}
+
+interface ToolPaletteResultsProps {
+  /** 도구 목록 */
+  tools: SuggestionTool[];
+  /** 각 도구 아이템을 렌더링하는 함수 */
+  children: (tool: SuggestionTool, index: number) => ReactNode;
 }
 
 /**
- * 검색 결과를 팔레트 형태로 표시하는 컴포넌트
- * 서버 컴포넌트로 구현되어 데이터를 받아 표시만 합니다.
+ * 팔레트 루트 컴포넌트
  */
-export function ToolPalette({
-  tools,
-  isLoading = false,
-  selectedIndex = -1,
-  searchQuery = "",
-  className,
-  maxResults = 10,
-}: ToolPaletteProps) {
-  // 표시할 도구 목록 제한
-  const displayTools = tools.slice(0, maxResults);
-
-  // 로딩 상태
-  if (isLoading) {
-    return (
-      <div
-        className={cn("rounded-lg border bg-popover p-4 shadow-lg", className)}
-        role="listbox"
-        aria-label="검색 중..."
-        aria-busy="true"
-      >
-        <div className="flex items-center justify-center">
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent" />
-          <span className="ml-2 text-sm text-muted-foreground">검색 중...</span>
-        </div>
-      </div>
-    );
-  }
-
-  // 검색 결과 없음
-  if (displayTools.length === 0) {
-    return (
-      <div
-        className={cn("rounded-lg border bg-popover p-4 shadow-lg", className)}
-        role="listbox"
-        aria-label="검색 결과 없음"
-      >
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">검색 결과가 없습니다</p>
-          {searchQuery && (
-            <p className="mt-1 text-xs text-muted-foreground">
-              &quot;{searchQuery}&quot;와 일치하는 도구를 찾을 수 없습니다
-            </p>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // 검색 결과 표시
+function ToolPaletteRoot({ children, className }: ToolPaletteRootProps) {
   return (
     <div
       className={cn(
@@ -80,26 +38,72 @@ export function ToolPalette({
       aria-label="검색 결과"
       aria-expanded="true"
     >
-      <div className="max-h-[400px] overflow-y-auto p-1">
-        {displayTools.map((tool, index) => (
-          <SearchSuggestionItem
-            key={tool.id}
-            tool={tool}
-            isSelected={selectedIndex === index}
-            searchQuery={searchQuery}
-            index={index}
-          />
-        ))}
-      </div>
-
-      {/* 결과 개수 표시 (옵션) */}
-      {tools.length > maxResults && (
-        <div className="border-t px-3 py-2">
-          <p className="text-xs text-muted-foreground">
-            {tools.length - maxResults}개 더 있습니다
-          </p>
-        </div>
-      )}
+      {children}
     </div>
   );
 }
+
+/**
+ * 팔레트 헤더 컴포넌트
+ */
+function ToolPaletteHeader({ searchQuery }: ToolPaletteHeaderProps) {
+  if (!searchQuery) return null;
+
+  // 검색 결과 페이지 URL
+  const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
+
+  return (
+    <div className="bg-muted/30 border-b px-4 py-3">
+      {/* 메인 헤더 - 검색어와 화살표 */}
+      <Link
+        href={searchResultsUrl}
+        className="hover:bg-muted/50 group flex items-center justify-between rounded-lg px-2 py-2 transition-colors"
+      >
+        <div className="flex-1">
+          <span className="text-sm text-muted-foreground">Search for </span>
+          <span className="font-medium text-foreground">{searchQuery}</span>
+          <span className="text-sm text-muted-foreground"> using AI</span>
+        </div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform group-hover:translate-x-1">
+          <ArrowRight className="h-4 w-4" />
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * 팔레트 결과 목록 컴포넌트
+ */
+function ToolPaletteResults({
+  tools,
+  children,
+}: ToolPaletteResultsProps) {
+  return (
+    <div className="max-h-[400px] overflow-y-auto p-1">
+      {/* 검색 결과 갯수 */}
+      {tools && tools.length > 0 && (
+        <div className="mt-2 flex items-center text-xs font-medium text-muted-foreground">
+          <span className="mr-2">🔧</span>
+          AI TOOLS ({tools.length})
+        </div>
+      )}
+
+      {/* 도구 목록 */}
+      {tools.map((tool, index) => (
+        <div key={tool.id}>
+          {children(tool, index)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * 컴파운드 컴포넌트 패턴의 ToolPalette
+ */
+export const ToolPalette = {
+  Root: ToolPaletteRoot,
+  Header: ToolPaletteHeader,
+  Results: ToolPaletteResults,
+};

@@ -4,7 +4,6 @@ export {
   getAllToolsWithPagination,
   getFeaturedToolList,
   getToolBySlug,
-  getToolListByQuery,
   getToolSuggestionList,
 } from "./api";
 
