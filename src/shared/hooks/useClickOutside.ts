@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type RefObject } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 
 /**
  * useClickOutside 훅의 옵션 인터페이스
@@ -17,7 +17,7 @@ export interface UseClickOutsideOptions {
  */
 export interface UseClickOutsideReturn<T extends HTMLElement = HTMLElement> {
   /** 감지할 요소의 ref */
-  ref: RefObject<T>;
+  ref: RefObject<T | null>;
 }
 
 /**
