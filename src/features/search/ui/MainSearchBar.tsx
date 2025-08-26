@@ -11,9 +11,9 @@ import { useKeyboardNavigation } from "@/shared/hooks";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/ui/lib/utils";
+import { SearchSuggestionItem } from "@/src/entities/tool/ui/SearchSuggestionItem";
 
 import { useSearch } from "../hooks";
-import { SearchSuggestionItem } from "./SearchSuggestionItem";
 
 interface MainSearchBarProps {
   placeholder?: string;
@@ -39,7 +39,7 @@ export function MainSearchBar({
   });
 
   // 키보드 네비게이션 훅
-  const { selectedIndex, resetSelectedIndex } = useKeyboardNavigation({
+  const { selectedIndex, setSelectedIndex, resetSelectedIndex } = useKeyboardNavigation({
     itemCount: results.length,
     onSelect: (index) => {
       // Enter 키로 선택 시 해당 도구 페이지로 이동
@@ -62,6 +62,7 @@ export function MainSearchBar({
     setShowPalette(false);
     resetSelectedIndex();
   }, [resetSelectedIndex]);
+
 
   // 폼 제출 처리
   const handleSubmit = (e: React.FormEvent) => {
@@ -160,9 +161,12 @@ export function MainSearchBar({
           id="search-results"
           className="absolute left-0 right-0 top-full z-50 mt-2"
         >
-          <ToolPalette.Root>
+          <ToolPalette.Root onMouseLeave={resetSelectedIndex}>
             <ToolPalette.Header searchQuery={searchQuery} />
-            <ToolPalette.Results tools={results}>
+            <ToolPalette.Results 
+              tools={results}
+              onItemMouseEnter={setSelectedIndex}
+            >
               {(tool, index) => (
                 <SearchSuggestionItem
                   key={tool.id}

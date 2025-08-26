@@ -10,6 +10,8 @@ interface ToolPaletteRootProps {
   children: ReactNode;
   /** 추가 클래스명 */
   className?: string;
+  /** 마우스 떠날 때 콜백 */
+  onMouseLeave?: () => void;
 }
 
 interface ToolPaletteHeaderProps {
@@ -22,12 +24,14 @@ interface ToolPaletteResultsProps {
   tools: SuggestionTool[];
   /** 각 도구 아이템을 렌더링하는 함수 */
   children: (tool: SuggestionTool, index: number) => ReactNode;
+  /** 아이템 마우스 진입 시 콜백 */
+  onItemMouseEnter?: (index: number) => void;
 }
 
 /**
  * 팔레트 루트 컴포넌트
  */
-function ToolPaletteRoot({ children, className }: ToolPaletteRootProps) {
+function ToolPaletteRoot({ children, className, onMouseLeave }: ToolPaletteRootProps) {
   return (
     <div
       className={cn(
@@ -37,6 +41,7 @@ function ToolPaletteRoot({ children, className }: ToolPaletteRootProps) {
       role="listbox"
       aria-label="검색 결과"
       aria-expanded="true"
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </div>
@@ -78,6 +83,7 @@ function ToolPaletteHeader({ searchQuery }: ToolPaletteHeaderProps) {
 function ToolPaletteResults({
   tools,
   children,
+  onItemMouseEnter,
 }: ToolPaletteResultsProps) {
   return (
     <div className="max-h-[400px] overflow-y-auto p-1">
@@ -91,7 +97,7 @@ function ToolPaletteResults({
 
       {/* 도구 목록 */}
       {tools.map((tool, index) => (
-        <div key={tool.id}>
+        <div key={tool.id} onMouseEnter={() => onItemMouseEnter?.(index)}>
           {children(tool, index)}
         </div>
       ))}

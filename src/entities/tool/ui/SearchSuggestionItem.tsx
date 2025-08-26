@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 
 import type { SuggestionTool } from "@/entities/tool";
 import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
-import { applyHighlight } from "@/shared/utils/highlightText";
 import { cn } from "@/src/shared/ui/lib/utils";
 
 interface SearchSuggestionItemProps {
@@ -18,6 +17,8 @@ interface SearchSuggestionItemProps {
   searchQuery?: string;
   /** 아이템 인덱스 (하이라이팅 ID 구분용) */
   index?: number;
+  /** 마우스 진입 시 콜백 */
+  onMouseEnter?: () => void;
 }
 
 /**
@@ -27,27 +28,27 @@ interface SearchSuggestionItemProps {
 export function SearchSuggestionItem({
   tool,
   isSelected = false,
-  searchQuery = "",
+  searchQuery,
   index = 0,
+  onMouseEnter,
 }: SearchSuggestionItemProps) {
   const nameRef = useRef<HTMLSpanElement>(null);
+  const itemRef = useRef<HTMLAnchorElement>(null);
 
-  // 검색어 하이라이팅 적용
+  // 선택된 아이템을 뷰포트에 스크롤
   useEffect(() => {
-    if (!searchQuery || searchQuery.trim() === "") {
-      return;
+    if (isSelected && itemRef.current) {
+      itemRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
     }
-
-    const cleanup = applyHighlight(nameRef.current, searchQuery, {
-      highlightName: `search-highlight-${index}`,
-      caseSensitive: false,
-    });
-
-    return cleanup;
-  }, [searchQuery, tool.name, index]);
+  }, [isSelected]);
 
   return (
     <Link
+      ref={itemRef}
       href={TOOLS_SLUG_PATHNAME(tool.slug)}
       className={cn(
         "flex w-full items-center gap-3 rounded-lg px-3 py-2.5",
@@ -59,6 +60,7 @@ export function SearchSuggestionItem({
       )}
       aria-selected={isSelected}
       role="option"
+      onMouseEnter={onMouseEnter}
     >
       {/* 도구 로고 */}
       <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-md bg-background">
