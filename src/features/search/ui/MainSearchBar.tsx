@@ -37,30 +37,31 @@ export function MainSearchBar({
   });
 
   // 키보드 네비게이션 훅 (헤더 포함: -1=헤더, 0+= 결과 아이템)
-  const { selectedIndex, setSelectedIndex, resetSelectedIndex } = useKeyboardNavigation({
-    itemCount: results.length + 1, // 헤더 1개 + 결과 아이템들
-    onSelect: (index) => {
-      if (index === 0) {
-        // 헤더 선택 시 검색 결과 페이지로 이동
-        const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
-        router.push(searchResultsUrl);
-        handleClose();
-      } else {
-        // 결과 아이템 선택 시 해당 도구 페이지로 이동
-        const selectedTool = results[index - 1];
-        if (selectedTool) {
-          router.push(TOOLS_SLUG_PATHNAME(selectedTool.slug));
+  const { selectedIndex, setSelectedIndex, resetSelectedIndex } =
+    useKeyboardNavigation({
+      itemCount: results.length + 1, // 헤더 1개 + 결과 아이템들
+      onSelect: (index) => {
+        if (index === 0) {
+          // 헤더 선택 시 검색 결과 페이지로 이동
+          const searchResultsUrl = `/tools?q=${encodeURIComponent(searchQuery)}`;
+          router.push(searchResultsUrl);
           handleClose();
+        } else {
+          // 결과 아이템 선택 시 해당 도구 페이지로 이동
+          const selectedTool = results[index - 1];
+          if (selectedTool) {
+            router.push(TOOLS_SLUG_PATHNAME(selectedTool.slug));
+            handleClose();
+          }
         }
-      }
-    },
-    onEscape: () => {
-      // ESC 키로 팔레트 닫기
-      handleClose();
-    },
-    isEnabled: showPalette && searchQuery.trim() !== "",
-    loop: true,
-  });
+      },
+      onEscape: () => {
+        // ESC 키로 팔레트 닫기
+        handleClose();
+      },
+      isEnabled: showPalette && searchQuery.trim() !== "",
+      loop: true,
+    });
 
   // 팔레트 닫기 함수
   const handleClose = useCallback(() => {
@@ -74,10 +75,11 @@ export function MainSearchBar({
     isEnabled: showPalette,
   });
 
-
   // 폼 제출 처리
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (searchQuery === "") return;
 
     // Enter 키로 폼 제출 시, 선택된 항목이 있으면 해당 페이지로 이동
     if (selectedIndex === 0) {
@@ -110,7 +112,6 @@ export function MainSearchBar({
       setShowPalette(false);
     }
   };
-
 
   // 결과가 변경되면 선택 인덱스 초기화
   useEffect(() => {
@@ -153,7 +154,6 @@ export function MainSearchBar({
           <Button
             type="submit"
             className="hover:bg-primary/90 h-11 rounded-full bg-secondary px-6 py-2.5 text-base font-normal text-white"
-            disabled={!searchQuery.trim()}
           >
             Search
           </Button>
@@ -167,12 +167,12 @@ export function MainSearchBar({
           className="absolute left-0 right-0 top-full z-50 mt-2"
         >
           <ToolPalette.Root>
-            <ToolPalette.Header 
-              searchQuery={searchQuery} 
+            <ToolPalette.Header
+              searchQuery={searchQuery}
               isSelected={selectedIndex === 0}
               onMouseEnter={() => setSelectedIndex(0)}
             />
-            <ToolPalette.Results 
+            <ToolPalette.Results
               tools={results}
               onItemMouseEnter={(index) => setSelectedIndex(index + 1)}
             >

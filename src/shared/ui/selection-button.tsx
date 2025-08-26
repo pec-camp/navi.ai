@@ -22,12 +22,12 @@ export function SelectionButton({
   return (
     <div
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all",
+        "boder flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-secondary transition-all",
         "transition-transform group-hover:translate-x-1",
         className,
       )}
     >
-      <ArrowUpRight className="h-4 w-4" />
+      <ArrowUpRight className="h-5 w-5" />
     </div>
   );
 }

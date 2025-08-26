@@ -79,15 +79,21 @@ function ToolPaletteHeader({
           isSelected && "bg-accent",
         )}
       >
-        <div className="flex-1">
-          <span className="text-base text-muted-foreground">Show me </span>
-          <SparklesText
-            className="inline text-base font-medium text-primary"
-            sparklesCount={2}
-          >
+        <div className="flex flex-1 items-center gap-1">
+          <span className="text-sm font-light text-muted-foreground">
+            View all{" "}
+          </span>
+          <span className="inline text-base font-bold text-primary">
             {searchQuery}
+          </span>
+          <span className="text-sm font-light text-muted-foreground">
+            {" "}
+            AI tools
+          </span>
+
+          <SparklesText sparklesCount={3} className="text-sm">
+            <span className="ml-1 text-yellow-400">✨</span>
           </SparklesText>
-          <span className="text-base text-muted-foreground"> AI tools</span>
         </div>
         {/* 선택된 아이템에만 버튼 표시 */}
         <SelectionButton isSelected={isSelected} />

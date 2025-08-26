@@ -42,10 +42,11 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // click 이벤트로 변경하여 링크 클릭이 정상 작동하도록 함
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [onClickOutside, isEnabled]);
 
