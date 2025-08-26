@@ -4,7 +4,6 @@ import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { SearchSuggestionItem, ToolPalette } from "@/entities/tool";
 import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
 import { useClickOutside, useKeyboardNavigation } from "@/shared/hooks";
 import { Button } from "@/shared/ui/button";
@@ -12,6 +11,8 @@ import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/ui/lib/utils";
 
 import { useSearch } from "../hooks";
+import { SearchSuggestionItem } from "./SearchSuggestionItem";
+import { ToolPalette } from "./ToolPalette";
 
 interface MainSearchBarProps {
   placeholder?: string;

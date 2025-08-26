@@ -28,11 +28,8 @@ export {
 } from "./model/formatToolData";
 export type { SuggestionTool } from "./model/SuggestionTool.interface";
 export type { Tool, ToolTag } from "./model/Tool.interface";
-export type { ToolDetail } from "./model/ToolDetail.interface";
 
 /** ui */
 export { default as CatalogToolCard } from "./ui/CatalogToolCard";
 export { default as FeaturedToolCard } from "./ui/FeaturedToolCard";
 export { default as FeaturedToolList } from "./ui/FeaturedToolList";
-export { SearchSuggestionItem } from "./ui/SearchSuggestionItem";
-export { ToolPalette } from "./ui/ToolPalette";
