@@ -1,3 +1,5 @@
+export { useClickOutside } from "./useClickOutside";
+export type { UseClickOutsideOptions, UseClickOutsideReturn } from "./useClickOutside";
 export { useDebounce } from "./useDebounce";
 export { useKeyboardNavigation } from "./useKeyboardNavigation";
 export type { 

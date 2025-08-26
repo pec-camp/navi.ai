@@ -2,12 +2,11 @@
 
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import * as React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ToolPalette } from "@/entities/tool";
 import { TOOLS_SLUG_PATHNAME } from "@/shared/config/pathname";
-import { useKeyboardNavigation } from "@/shared/hooks";
+import { useClickOutside, useKeyboardNavigation } from "@/shared/hooks";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/ui/lib/utils";
@@ -25,7 +24,6 @@ export function MainSearchBar({
   className,
 }: MainSearchBarProps) {
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 팔레트 표시 상태
@@ -63,9 +61,15 @@ export function MainSearchBar({
     resetSelectedIndex();
   }, [resetSelectedIndex]);
 
+  // 외부 클릭 감지
+  const { ref: formRef } = useClickOutside<HTMLFormElement>({
+    onClickOutside: handleClose,
+    isEnabled: showPalette,
+  });
+
 
   // 폼 제출 처리
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Enter 키로 폼 제출 시, 선택된 항목이 있으면 해당 페이지로 이동
@@ -93,19 +97,6 @@ export function MainSearchBar({
     }
   };
 
-  // 검색바 외부 클릭 시 팔레트 닫기
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (formRef.current && !formRef.current.contains(event.target as Node)) {
-        handleClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handleClose]);
 
   // 결과가 변경되면 선택 인덱스 초기화
   useEffect(() => {
