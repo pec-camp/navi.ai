@@ -110,6 +110,10 @@
     --shadow-xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.05),
       0px 8px 10px -1px hsl(0 0% 0% / 0.05);
     --shadow-2xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.13);
+    
+    /* Search highlight colors */
+    --search-highlight-bg: #ffd54f;
+    --search-highlight-color: #000000;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -133,4 +137,34 @@
   .home-background {
     background-image: url("/home/home_bg.webp");
   }
+}
+
+/* CSS Custom Highlight API styles */
+::highlight(search-highlight) {
+  background-color: var(--search-highlight-bg);
+  color: var(--search-highlight-color);
+}
+
+/* Multiple element highlights */
+::highlight(search-highlight-0),
+::highlight(search-highlight-1),
+::highlight(search-highlight-2),
+::highlight(search-highlight-3),
+::highlight(search-highlight-4),
+::highlight(search-highlight-5),
+::highlight(search-highlight-6),
+::highlight(search-highlight-7),
+::highlight(search-highlight-8),
+::highlight(search-highlight-9) {
+  background-color: var(--search-highlight-bg);
+  color: var(--search-highlight-color);
+}
+
+/* Fallback styles for browsers without CSS Highlight API support */
+.highlight-mark {
+  background-color: var(--search-highlight-bg);
+  color: var(--search-highlight-color);
+  font-weight: 500;
+  border-radius: 2px;
+  padding: 0 1px;
 }
