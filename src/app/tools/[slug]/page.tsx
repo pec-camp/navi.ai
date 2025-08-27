@@ -16,6 +16,7 @@ export default async function ToolInfoPage({ params }: ToolInfoPageProps) {
 
   const featureList = aiContent?.core_features || [];
   const bestForList = aiContent?.best_for || [];
+
   const prosAndCons = aiContent?.pros_and_cons;
 
   return (

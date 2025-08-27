@@ -4,15 +4,22 @@ import { AnimatedSideSheet } from "@/shared/ui/AnimatedSideSheet";
 import { useSideSheet } from "@/src/shared/hooks";
 
 import ReviewForm from "./ReviewForm";
+import { Review } from "@/src/entities/review";
 
 interface ReviewSideSheetProps {
-  toolName?: string;
   toolId: number;
+  toolName: string;
+  mode?: "create" | "edit";
+  reviewId?: number;
+  initialData?: Review;
 }
 
 export default function ReviewSideSheet({
-  toolName = "도구",
   toolId,
+  toolName,
+  mode = "create",
+  reviewId,
+  initialData,
 }: ReviewSideSheetProps) {
   const { isOpen, handleClose, handleExitComplete } = useSideSheet();
 
@@ -24,7 +31,14 @@ export default function ReviewSideSheet({
       side="right"
       size="md"
     >
-      <ReviewForm toolName={toolName} toolId={toolId} onClose={handleClose} />
+      <ReviewForm
+        onClose={handleClose}
+        mode={mode}
+        reviewId={reviewId}
+        initialData={initialData}
+        toolId={toolId}
+        toolName={toolName}
+      />
     </AnimatedSideSheet>
   );
 }

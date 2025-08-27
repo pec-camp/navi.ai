@@ -1,21 +1,18 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { ReactNode } from "react";
 
 import { Review } from "../model/Review.interface";
 
 interface ReviewItemProps {
   review: Review;
-  showActions?: boolean; // 추후 수정/삭제 버튼 표시 여부
+  actionSlot?: ReactNode;
 }
 
-export function ReviewItem({ review, showActions = false }: ReviewItemProps) {
+export default function ReviewItem({ review, actionSlot }: ReviewItemProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    return date.toISOString().split("T")[0].replace(/-/g, ".");
   };
 
   const getAuthorName = () => {
@@ -34,9 +31,9 @@ export function ReviewItem({ review, showActions = false }: ReviewItemProps) {
         <div className="flex min-w-0 flex-1 items-start gap-3">
           {/* 아바타 */}
           <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-surface">
-            {review.author?.avatar_url ? (
+            {review.author?.avatarUrl ? (
               <Image
-                src={review.author.avatar_url}
+                src={review.author.avatarUrl}
                 width={48}
                 height={48}
                 alt={`${getAuthorName()}의 아바타`}
@@ -73,19 +70,19 @@ export function ReviewItem({ review, showActions = false }: ReviewItemProps) {
                 ))}
               </div>
 
-              <span className="text-muted-foreground">•</span>
+              <span className="text-border">•</span>
 
               <time
-                dateTime={review.created_at}
+                dateTime={review.createdAt}
                 className="font-light text-muted-foreground"
               >
-                {formatDate(review.created_at)}
+                {formatDate(review.createdAt)}
               </time>
 
               {/* 직업 */}
               {review.author?.profession && (
                 <>
-                  <span className="text-muted-foreground">•</span>
+                  <span className="text-border">•</span>
                   <span className="font-light text-muted-foreground">
                     {review.author.profession}
                   </span>
@@ -106,29 +103,24 @@ export function ReviewItem({ review, showActions = false }: ReviewItemProps) {
           </div>
         </div>
 
-        {/* 액션 버튼 공간 (추후 구현) */}
-        {showActions && (
-          <div className="ml-2 flex items-start gap-1">
-            {/* TODO: 수정/삭제 버튼이 여기에 들어갈 예정 */}
-            <div className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100">
-              {/* 버튼 placeholder */}
-            </div>
-          </div>
+        {/* 액션 버튼 슬롯 */}
+        {actionSlot && (
+          <div className="ml-2 flex items-start">{actionSlot}</div>
         )}
       </header>
 
       {/* 리뷰 내용 */}
       <div className="space-y-3">
         <p className="pl-13 text-sm font-light leading-relaxed text-foreground">
-          {review.review_text}
+          {review.reviewText}
         </p>
 
         {/* 함께 사용한 도구 */}
-        {review.used_with_tool_id && (
+        {review.usedWithToolId && (
           <div className="ml-13 rounded-md bg-surface p-3">
             <p className="text-xs font-light text-muted-foreground-secondary">
               <span className="font-normal">함께 사용:</span> Tool ID{" "}
-              {review.used_with_tool_id}
+              {review.usedWithToolId}
             </p>
           </div>
         )}

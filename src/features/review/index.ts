@@ -1,20 +1,15 @@
 // Review feature exports (mutations and interactions)
 
-export { addReview, removeReview, updateReviewAction } from "./api";
+export { addReview, deleteReview, updateReview } from "./api";
 
 // Interactive UI Components
-export { default as RatingStars } from "./ui/RatingStars";
+export { default as DeleteReviewDialog } from "./ui/DeleteReviewDialog";
 export { default as ReviewForm } from "./ui/ReviewForm";
 export { ReviewList } from "./ui/ReviewList";
 export { default as ReviewSideSheet } from "./ui/ReviewSideSheet";
+export { default as ReviewActions } from "./ui/ReviewActions";
 
 // // Tool search components
 // export { SimpleToolSearch } from "./ui/SimpleToolSearch";
 
-// Model exports (for features)
-export type {
-  ReviewFormData,
-  ReviewResponse,
-  ReviewUpdateData,
-} from "./model/review.interface";
 export { useReviewActionState } from "./model/useReviewActionState";

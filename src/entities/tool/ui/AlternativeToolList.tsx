@@ -1,4 +1,4 @@
-import { ChevronRight, ExternalLinkIcon } from "lucide-react";
+import { ArrowUpRight, ChevronRight, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,6 +9,7 @@ import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
 
 import { getAlternativeToolList, getToolBySlug } from "../api";
 import { AlternativeTool } from "../model/AlternativeTool.interface";
+import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
 
 interface AlternativeToolListProps {
   slug: string;
@@ -50,11 +51,11 @@ export default async function AlternativeToolList({
 
         <div className="mt-8 text-center">
           <Link
-            href="/tools"
-            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+            href={TOOLS_PATHNAME}
+            className="group flex items-center justify-center gap-1 text-sm font-medium text-primary transition-all duration-200 hover:text-foreground"
           >
-            더 많은 AI 도구 보기
-            <ChevronRight className="h-4 w-4" />
+            View more
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
         </div>
       </div>
@@ -71,6 +72,11 @@ function AlternativeCard({
     alternativeTool?.isFree,
     alternativeTool?.pricingLabel,
   );
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0].replace(/-/g, ".");
+  };
 
   return (
     <Card className="group relative h-full cursor-pointer overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm">
@@ -143,7 +149,7 @@ function AlternativeCard({
               <span className={pricing.className}>{pricing.text}</span>
             </div>
             <span className="text-xs font-light text-muted-foreground-secondary">
-              {alternativeTool.dates.createdAtFormatted}
+              {formatDate(alternativeTool.dates.createdAt)}
             </span>
           </div>
         </div>

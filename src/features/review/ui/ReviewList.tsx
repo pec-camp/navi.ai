@@ -1,13 +1,18 @@
 "use client";
 
+import { useEffect, useState, useTransition } from "react";
+
 import { getReviewsByTool } from "@/entities/review/api/getToolReviews";
 import { Review, ReviewStats } from "@/entities/review/model/Review.interface";
-import { ReviewItem } from "@/entities/review/ui/ReviewItem";
+
 import { ViewMoreButton } from "@/src/shared/ui";
-import { useEffect, useState, useTransition } from "react";
+import { ReviewItem } from "@/src/entities/review";
+import ReviewActions from "./ReviewActions";
 
 interface ReviewListProps {
   toolId: number;
+  toolSlug: string;
+  currentUserId?: string;
   initialReviews: Review[];
   stats: ReviewStats;
   total: number;
@@ -17,6 +22,8 @@ interface ReviewListProps {
 
 export function ReviewList({
   toolId,
+  toolSlug,
+  currentUserId,
   initialReviews,
   stats,
   total,
@@ -69,7 +76,20 @@ export function ReviewList({
 
       {/* 리뷰 목록 */}
       {reviews.map((review) => (
-        <ReviewItem key={review.id} review={review} />
+        <ReviewItem
+          key={review.id}
+          review={review}
+          actionSlot={
+            currentUserId && currentUserId === review.userId ? (
+              <ReviewActions
+                reviewId={review.id}
+                toolSlug={toolSlug}
+                currentUserId={currentUserId}
+                reviewUserId={review.userId}
+              />
+            ) : null
+          }
+        />
       ))}
 
       {/* 더보기 버튼 */}

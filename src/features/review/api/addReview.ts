@@ -2,11 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 
+import { createClient } from "@/shared/utils/supabase/server";
 import {
   CreateReviewData,
   CreateReviewResult,
-} from "@/entities/review/model/Review.interface";
-import { createClient } from "@/shared/utils/supabase/server";
+} from "../model/ReviewMutation.interface";
 
 /**
  * 새로운 리뷰를 생성하는 서버 액션
@@ -37,7 +37,6 @@ export async function addReview(
       .from("reviews")
       .select("id")
       .eq("ai_tool_id", reviewData.ai_tool_id)
-
       .eq("user_id", user.id)
       .single();
 
@@ -49,18 +48,14 @@ export async function addReview(
     }
 
     // 리뷰 생성
-    const { data: review, error } = await supabase
-      .from("reviews")
-      .insert({
-        ai_tool_id: reviewData.ai_tool_id,
-        user_id: user.id,
-        rating: reviewData.rating,
-        review_text: reviewData.review_text,
-        recommend: reviewData.recommend ?? true,
-        used_with_tool_id: reviewData.used_with_tool_id,
-      })
-      .select()
-      .single();
+    const { error } = await supabase.from("reviews").insert({
+      ai_tool_id: reviewData.ai_tool_id,
+      user_id: user.id,
+      rating: reviewData.rating,
+      review_text: reviewData.review_text,
+      recommend: reviewData.recommend ?? true,
+      used_with_tool_id: reviewData.used_with_tool_id,
+    });
 
     if (error) {
       console.error("Error creating review:", error);
@@ -72,11 +67,10 @@ export async function addReview(
 
     // 성공시 관련 페이지 캐시 무효화
     revalidatePath("/tools");
-    revalidatePath(`/tools`, 'layout');
+    revalidatePath(`/tools`, "layout");
 
     return {
       success: true,
-      data: review,
     };
   } catch (error) {
     console.error("Error in addReview:", error);
