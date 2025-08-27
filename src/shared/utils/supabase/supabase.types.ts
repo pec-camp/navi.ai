@@ -1,6 +1,6 @@
-import { MergeDeep } from "type-fest";
+import type { MergeDeep } from "type-fest";
 
-import { Database as DatabaseGenerated } from "./database.types";
+import type { Database as DatabaseGenerated } from "./database.types";
 
 /** 유저 구독 도구 목록 및 총 개수 조회 RPC 함수 반환 타입 정의 */
 interface SubscribedToolsResponse {

@@ -115,19 +115,19 @@ async function scanDirectory(
 
           try {
             const parallelContents = await readdir(parallelPath);
-            
+
             // Process all directories inside parallel routes (both intercepting and regular)
             for (const nestedDir of parallelContents) {
               // Skip files, only process directories
               const nestedPath = join(parallelPath, nestedDir);
               const nestedStat = await stat(nestedPath);
-              
+
               if (nestedStat.isDirectory()) {
                 // Handle intercepting routes (remove the (.) prefix)
                 const routeName = nestedDir.startsWith("(.")
                   ? nestedDir.replace(/^\(\.+\)/, "")
                   : nestedDir;
-                
+
                 try {
                   const nestedContents = await readdir(nestedPath);
                   if (nestedContents.includes("page.tsx")) {
@@ -142,9 +142,12 @@ async function scanDirectory(
                       params: allParams.length > 0 ? allParams : undefined,
                     });
                   }
-                  
+
                   // Recursively scan nested directories within parallel routes
-                  const nestedRoutes = await scanDirectory(nestedPath, [...newSegments, routeName]);
+                  const nestedRoutes = await scanDirectory(nestedPath, [
+                    ...newSegments,
+                    routeName,
+                  ]);
                   routes.push(...nestedRoutes);
                 } catch {
                   // Skip if we can't read the nested directory
@@ -213,15 +216,8 @@ export type DynamicRoute = ${routes
 
 async function main() {
   try {
-    console.log("🔍 Scanning app directory for routes...");
     const routes = await scanDirectory(APP_FOLDER);
 
-    console.log(`📊 Found ${routes.length} routes:`);
-    routes.forEach((route) => {
-      console.log(`  ${route.path} → ${route.constantName}`);
-    });
-
-    console.log("📝 Generating TypeScript constants...");
     const typescript = generateTypeScript(routes);
 
     await writeFile(OUTPUT_FILE, typescript, "utf-8");
