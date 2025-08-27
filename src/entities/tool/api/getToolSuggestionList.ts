@@ -16,22 +16,17 @@ export async function getToolSuggestionList(
   query: string,
   limit: number = 5,
 ): Promise<SuggestionTool[]> {
-  // 자동완성은 1자부터 시작
   const trimmedQuery = query.trim();
   if (!trimmedQuery || trimmedQuery.length < 1) {
     return [];
   }
 
-  // 제한 설정 (자동완성은 최대 10개까지만)
   const finalLimit = Math.min(limit, 10);
-  const sanitizedQuery = trimmedQuery.slice(0, 30); // 자동완성은 더 짧은 쿼리
+  const sanitizedQuery = trimmedQuery.slice(0, 30);
 
   try {
     const supabase = await createClient();
 
-    // 자동완성 최적화 쿼리
-    // 1. name prefix 매칭 우선
-    // 2. 인기도 높은 순서
     const { data, error } = await supabase
       .from("ai_tools")
       .select("id, slug, website_logo, name")
@@ -61,7 +56,6 @@ export async function getToolSuggestionList(
       }
     }
 
-    // 포맷팅 및 중복 제거
     const seen = new Set<number>();
     return results
       .filter((tool) => {
@@ -69,12 +63,14 @@ export async function getToolSuggestionList(
         seen.add(tool.id);
         return true;
       })
-      .map((tool) => ({
-        id: tool.id,
-        slug: tool.slug,
-        websiteLogo: tool.website_logo || null,
-        name: tool.name,
-      }))
+      .map((tool) => {
+        return {
+          id: tool.id,
+          slug: tool.slug,
+          name: tool.name,
+          websiteLogo: tool.website_logo || "",
+        };
+      })
       .slice(0, finalLimit);
   } catch (error) {
     console.error("Unexpected error in getToolSuggestionList:", error);
