@@ -429,6 +429,7 @@ export type Database = {
       get_similar_tools_v1: {
         Args: { limit_count?: number; target_slug: string }
         Returns: {
+          attribute_handles: string[]
           avg_rating: number
           description: string
           id: number
@@ -436,11 +437,16 @@ export type Database = {
           is_free: boolean
           month_visited_count: number
           name: string
+          original_created_at: string
+          original_updated_at: string
           review_count: number
           similarity_score: number
           slug: string
+          tags: string[]
           website: string
           website_logo: string
+          website_name: string
+          what_is: string
         }[]
       }
       get_user_subscribed_tools: {

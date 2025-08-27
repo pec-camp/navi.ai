@@ -10,7 +10,7 @@ import { FeaturedTool } from "../model/FeaturedTool.interface";
 export default function FeaturedToolCard({
   name,
   websiteLogo,
-  whatIsSummary,
+  description,
   extension,
   tags,
   slug,
@@ -30,10 +30,10 @@ export default function FeaturedToolCard({
               <div className="flex items-center space-x-3">
                 <ToolLogo
                   websiteLogo={websiteLogo || extension?.avatar}
-                  name={name}
+                  name={name || ""}
                 />
                 <h3 className="text-lg font-medium leading-[27px] text-secondary">
-                  {name}
+                  {name || ""}
                 </h3>
               </div>
               {/* Free Badge */}
@@ -50,7 +50,7 @@ export default function FeaturedToolCard({
 
           {/* 요약 - 항상 하단에 고정 */}
           <p className="mt-4 line-clamp-3 break-keep text-sm font-light leading-[19.6px] text-muted-foreground">
-            {whatIsSummary}
+            {description}
           </p>
         </CardContent>
 

@@ -1,16 +1,13 @@
-interface FeaturedTool {
-  id: number;
-  name: string;
-  websiteLogo?: string;
-  whatIsSummary?: string;
-  slug: string;
-  isFree?: boolean;
-  tags?: string[];
-  extension?: {
-    userNum: string;
-    userNumRaw: number;
-    avatar: string;
-  } | null;
-}
+import { AiToolList } from "./AiTool.interface";
 
-export type { FeaturedTool };
+export type FeaturedTool = Pick<
+  AiToolList,
+  | "id"
+  | "name"
+  | "slug"
+  | "websiteLogo"
+  | "description"
+  | "isFree"
+  | "tags"
+  | "extension"
+>;

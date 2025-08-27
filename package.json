@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "generate:routes": "tsx scripts/generate-routes.ts",
-    "types:generate": "dotenv -e .env.local -- bash -c \"npx supabase gen types typescript --project-id \\$SUPABASE_PROJECT_ID --schema public > src/shared/utils/supabase/database.types.ts\""
+    "types:generate": "dotenv -e .env.local -- bash -c \"npx supabase@latest gen types typescript --project-id \\$SUPABASE_PROJECT_ID --schema public > src/shared/utils/supabase/database.types.ts\"",
+    "types:refresh": "./scripts/generate-types.sh"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -22,8 +23,8 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.12",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@supabase/ssr": "^0.4.0",
-    "@supabase/supabase-js": "^2.45.1",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.56.0",
     "@tosspayments/tosspayments-sdk": "^2.2.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
