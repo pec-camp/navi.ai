@@ -201,6 +201,10 @@ export function formatToolBasic(rawData: AiToolRawData) {
     monthlyUsers: formatMonthlyUsers(rawData.month_visited_count),
     avgRating: Math.round(formatRating(rawData.reviews) * 10) / 10,
     reviewCount: rawData.reviews.length,
+    dates: formatDates(
+      rawData.original_created_at,
+      rawData.original_updated_at,
+    ),
   };
 }
 
@@ -210,10 +214,6 @@ export function formatToolBasic(rawData: AiToolRawData) {
 export function formatToolDetail(rawData: AiToolRawData) {
   return {
     ...formatToolBasic(rawData),
-    dates: formatDates(
-      rawData.original_created_at,
-      rawData.original_updated_at,
-    ),
     content: formatAIContent(rawData.ai_content),
   };
 }
