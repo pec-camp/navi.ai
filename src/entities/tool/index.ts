@@ -1,11 +1,13 @@
+/** api  */
+export type { ToolFilters, ToolsResult } from "./api";
 export {
-  getAllToolList,
   getAllToolsWithPagination,
   getFeaturedToolList,
   getToolBySlug,
-  getToolListBySlug,
+  getToolSuggestionList,
 } from "./api";
-export type { ToolFilters, ToolsResult } from "./api";
+
+/** model  */
 export type {
   AIContent,
   AIContentData,
@@ -24,8 +26,10 @@ export {
   formatToolBasic,
   formatToolDetail,
 } from "./model/formatToolData";
+export type { SuggestionTool } from "./model/SuggestionTool.interface";
 export type { Tool, ToolTag } from "./model/Tool.interface";
-export type { ToolDetail } from "./model/ToolDetail.interface";
+
+/** ui */
 export { default as CatalogToolCard } from "./ui/CatalogToolCard";
 export { default as FeaturedToolCard } from "./ui/FeaturedToolCard";
 export { default as FeaturedToolList } from "./ui/FeaturedToolList";

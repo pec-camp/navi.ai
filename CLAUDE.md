@@ -260,3 +260,7 @@ This ensures proper session management across the application.
 - Follow Tailwind utility-first approach
 - Implement proper error boundaries
 - Test authentication flows thoroughly
+
+## Task Master AI Instructions
+**Import Task Master's development workflow commands and guidelines, treat as if import is in the main CLAUDE.md file.**
+@./.taskmaster/CLAUDE.md
