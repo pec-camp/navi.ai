@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/shared/utils/supabase/server";
+
 import { formatToolDetail } from "../model/formatToolData";
 
 export interface ToolsResult {
@@ -22,22 +23,17 @@ export interface ToolFilters {
 export async function getAllToolsWithPagination(
   limit: number = 12,
   offset: number = 0,
-  filters?: ToolFilters
+  filters?: ToolFilters,
 ): Promise<ToolsResult> {
   const supabase = await createClient();
 
   // Start building the query
-  let query = supabase
-    .from("ai_tools")
-    .select(
-      `*`,
-      { count: "exact" }
-    );
+  let query = supabase.from("ai_tools").select(`*`, { count: "exact" });
 
   // Apply filters
   if (filters?.query) {
     query = query.or(
-      `website_name.ilike.%${filters.query}%,description.ilike.%${filters.query}%,what_is_summary.ilike.%${filters.query}%,name.ilike.%${filters.query}%`
+      `website_name.ilike.%${filters.query}%,description.ilike.%${filters.query}%,what_is_summary.ilike.%${filters.query}%,name.ilike.%${filters.query}%`,
     );
   }
 
@@ -50,13 +46,22 @@ export async function getAllToolsWithPagination(
   // Apply sorting
   switch (filters?.sort) {
     case "latest":
-      query = query.order("original_created_at", { ascending: false, nullsFirst: false });
+      query = query.order("original_created_at", {
+        ascending: false,
+        nullsFirst: false,
+      });
       break;
     case "rating":
-      query = query.order("month_visited_count", { ascending: false, nullsFirst: false });
+      query = query.order("month_visited_count", {
+        ascending: false,
+        nullsFirst: false,
+      });
       break;
     case "popularity":
-      query = query.order("month_visited_count", { ascending: false, nullsFirst: false });
+      query = query.order("month_visited_count", {
+        ascending: false,
+        nullsFirst: false,
+      });
       break;
     case "name":
     default:
@@ -74,8 +79,11 @@ export async function getAllToolsWithPagination(
     return { tools: [], totalCount: 0 };
   }
 
-  const formattedTools: ReturnType<typeof formatToolDetail>[] = data.map((tool) => {
-    return formatToolDetail(tool);
+  const formattedTools = data.map((tool) => {
+    return formatToolDetail({
+      ...tool,
+      reviews: [],
+    });
   });
 
   return {

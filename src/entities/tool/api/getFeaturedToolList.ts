@@ -2,6 +2,7 @@
 
 import { createClient } from "@/shared/utils/supabase/server";
 
+import { FeaturedTool } from "../model/FeaturedTool.interface";
 import { formatExtension } from "../model/formatToolData";
 
 /**
@@ -10,7 +11,7 @@ import { formatExtension } from "../model/formatToolData";
  *
  * @returns 인기 툴 목록 (20개)
  */
-export async function getFeaturedToolList() {
+export async function getFeaturedToolList(): Promise<FeaturedTool[]> {
   const supabase = await createClient();
 
   const { data: tools, error } = await supabase
@@ -20,7 +21,7 @@ export async function getFeaturedToolList() {
         id,
         name,
         website_logo,
-        what_is_summary,
+        description,
         tags,
         slug,
         is_free,
@@ -43,9 +44,9 @@ export async function getFeaturedToolList() {
     id: tool.id,
     name: tool.name,
     websiteLogo: tool.website_logo || "",
-    whatIsSummary: tool.what_is_summary || "",
+    description: tool.description || "",
     slug: tool.slug,
-    isFree: tool.is_free || false,
+    isFree: tool.is_free ?? false,
     tags: tool.tags || [],
     extension: formatExtension(tool.extension),
   }));

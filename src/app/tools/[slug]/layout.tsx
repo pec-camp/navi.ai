@@ -215,16 +215,16 @@ export default async function ToolDetailLayout({
                       <div className="flex items-baseline gap-1">
                         <span
                           className="text-lg font-medium leading-6 text-foreground"
-                          aria-label="평점 4.8점"
+                          aria-label="평점"
                         >
-                          4.8
+                          {toolData.avgRating}
                         </span>
                         <span className="text-xs font-light leading-[22px] text-muted-foreground">
-                          (1.2K+ 리뷰)
+                          ({toolData.reviewCount} 리뷰)
                         </span>
                       </div>
                       <span className="text-sm font-light leading-5 text-muted-foreground">
-                        평점
+                        평균 평점
                       </span>
                     </div>
                   </div>
