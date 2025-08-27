@@ -142,7 +142,9 @@ export function formatAIContent(rawContent: unknown): AIContent {
 }
 
 // 가격 정보 파싱
-const getPricingLabel = (attributeHandles: string[] | null): string => {
+export const formatPricingLabel = (
+  attributeHandles: string[] | null,
+): string => {
   if (!attributeHandles || attributeHandles.length === 0) {
     return "가격 문의";
   }
@@ -171,7 +173,7 @@ const getPricingLabel = (attributeHandles: string[] | null): string => {
 };
 
 // 리뷰 평점 계산
-function formatRating(reviews: { rating: number }[]) {
+export function formatRating(reviews: { rating: number }[]) {
   return reviews.length > 0
     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
     : 5; // Default to 5 stars when no reviews
@@ -194,8 +196,7 @@ export function formatToolBasic(rawData: AiToolRawData) {
     imageUrl: rawData.image_url,
     websiteLogo: rawData.website_logo,
     isFree: rawData.is_free ?? false,
-    attributeHandles: rawData.attribute_handles || [],
-    pricingLabel: getPricingLabel(rawData.attribute_handles),
+    pricingLabel: formatPricingLabel(rawData.attribute_handles),
     extension: formatExtension(rawData.extension),
     monthlyUsers: formatMonthlyUsers(rawData.month_visited_count),
     avgRating: Math.round(formatRating(rawData.reviews) * 10) / 10,
