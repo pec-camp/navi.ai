@@ -1,6 +1,5 @@
-import { Database } from "@/src/shared/utils/supabase";
-
 import { AIContent } from "./AIContent.interface";
+import { AiToolRawData } from "./AiTool.interface";
 
 const NUMBER_UNITS = {
   BILLION: 100_000_000, // 억
@@ -142,15 +141,50 @@ export function formatAIContent(rawContent: unknown): AIContent {
   return aiContent;
 }
 
+// 가격 정보 파싱
+const getPricingLabel = (attributeHandles: string[] | null): string => {
+  if (!attributeHandles || attributeHandles.length === 0) {
+    return "가격 문의";
+  }
+
+  if (attributeHandles.includes("pricing-freemium")) {
+    return "무료 + 유료 플랜";
+  }
+
+  if (attributeHandles.includes("pricing-free-trial")) {
+    return "무료 체험 + 유료 플랜";
+  }
+
+  if (attributeHandles.includes("pricing-free")) {
+    return "무료 플랜";
+  }
+
+  if (attributeHandles.includes("pricing-paid")) {
+    return "유료 플랜";
+  }
+
+  if (attributeHandles.includes("pricing-contact-for-pricing")) {
+    return "가격문의";
+  }
+
+  return "가격문의";
+};
+
+// 리뷰 평점 계산
+function formatRating(reviews: { rating: number }[]) {
+  return reviews.length > 0
+    ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+    : 5; // Default to 5 stars when no reviews
+}
+
 /**
  * 기본 도구 정보 포맷팅 (리스트용)
  */
-export function formatToolBasic(
-  rawData: Database["public"]["Tables"]["ai_tools"]["Row"],
-) {
+export function formatToolBasic(rawData: AiToolRawData) {
   return {
     id: rawData.id,
-    name: rawData.website_name,
+    name: rawData.name,
+    websiteName: rawData.website_name,
     slug: rawData.slug,
     description: rawData.description,
     whatIsSummary: rawData.what_is_summary,
@@ -160,17 +194,19 @@ export function formatToolBasic(
     imageUrl: rawData.image_url,
     websiteLogo: rawData.website_logo,
     isFree: rawData.is_free ?? false,
+    attributeHandles: rawData.attribute_handles || [],
+    pricingLabel: getPricingLabel(rawData.attribute_handles),
     extension: formatExtension(rawData.extension),
     monthlyUsers: formatMonthlyUsers(rawData.month_visited_count),
+    avgRating: Math.round(formatRating(rawData.reviews) * 10) / 10,
+    reviewCount: rawData.reviews.length,
   };
 }
 
 /**
  * 상세 도구 정보 포맷팅
  */
-export function formatToolDetail(
-  rawData: Database["public"]["Tables"]["ai_tools"]["Row"],
-) {
+export function formatToolDetail(rawData: AiToolRawData) {
   return {
     ...formatToolBasic(rawData),
     dates: formatDates(
