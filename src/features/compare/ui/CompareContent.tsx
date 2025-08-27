@@ -17,6 +17,8 @@ import {
 } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import LoginInduceModal from "@/features/auth/ui/LoginInduceModal";
 
 import { useCompare } from "../model";
 
@@ -27,11 +29,19 @@ interface CompareContentProps {
 export default function CompareContent({ onClose }: CompareContentProps) {
   const { items, removeFromCompare, clearCompare, canCompare } = useCompare();
   const [showClearDialog, setShowClearDialog] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   
   const handleCompare = () => {
     if (!canCompare) {
       console.log('Cannot compare - need at least 2 items');
+      return;
+    }
+    
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setShowLoginModal(true);
       return;
     }
     
@@ -146,6 +156,13 @@ export default function CompareContent({ onClose }: CompareContentProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      
+      <LoginInduceModal
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
+        title="로그인이 필요합니다"
+        description="도구 비교 기능을 사용하려면 로그인이 필요합니다. 로그인하시겠습니까?"
+      />
     </>
   );
 }

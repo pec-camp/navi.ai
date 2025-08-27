@@ -7,6 +7,9 @@ export { default as ResetPasswordButton } from "./ui/ResetPasswordButton";
 export { UserAvatar } from "./ui/UserAvatar";
 export { UserDropdown } from "./ui/UserDropdown";
 
+// Hooks
+export { useAuth } from "./hooks/useAuth";
+
 // Server Actions
 export { signInWithGoogle, signInWithKakao } from "./action/sign-in-oauth";
 export { signOut } from "./action/sign-out";
