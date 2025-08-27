@@ -19,8 +19,7 @@ import {
   TOOLS_SLUG_REVIEWS_PATHNAME,
 } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
-import { AlternativeToolList } from "@/src/entities/alternative";
-import { getToolBySlug } from "@/src/entities/tool";
+import { AlternativeToolList, getToolBySlug } from "@/src/entities/tool";
 import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 
 interface ToolDetailLayoutProps {
