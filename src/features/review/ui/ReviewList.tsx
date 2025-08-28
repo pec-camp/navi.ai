@@ -4,9 +4,9 @@ import { useEffect, useState, useTransition } from "react";
 
 import { getReviewsByTool } from "@/entities/review/api/getToolReviews";
 import { Review, ReviewStats } from "@/entities/review/model/Review.interface";
-
-import { ViewMoreButton } from "@/src/shared/ui";
 import { ReviewItem } from "@/src/entities/review";
+import { ViewMoreButton } from "@/src/shared/ui";
+
 import ReviewActions from "./ReviewActions";
 
 interface ReviewListProps {
