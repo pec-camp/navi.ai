@@ -1,8 +1,8 @@
 import { Settings } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-import { getSubscriptionToolList } from "@/src/entities/subscription";
+import { getSubscriptionToolList, SubscriptionsBlurredView } from "@/src/entities/subscription";
+import { getCurrentUser } from "@/src/features/auth";
 import {
   EmptyState,
   PaginatedSubscriptionList,
@@ -10,17 +10,18 @@ import {
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { SUBSCRIPTIONS_SUBSCRIBE_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
-import { createClient } from "@/src/shared/utils/supabase/server";
 
 export default async function Subscriptions() {
-  // Get current user from Supabase session
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
+  // 사용자가 로그인하지 않은 경우 블러 처리된 UI 표시
   if (!user) {
-    redirect("/login");
+    return (
+      <section>
+        <h2 className="hidden">Subscriptions</h2>
+        <SubscriptionsBlurredView />
+      </section>
+    );
   }
 
   const userId = user.id;
