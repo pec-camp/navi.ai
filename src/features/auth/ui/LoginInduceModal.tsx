@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { LogIn } from "lucide-react";
+import { Lock } from "lucide-react";
 
 import {
   Dialog,
@@ -11,8 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui/dialog";
-import { Button } from "@/shared/ui/button";
-import { LOGIN_PATHNAME } from "@/shared/config/pathname";
+
+import { GoogleLoginButton } from "./GoogleLoginButton";
+import { KakaoLoginButton } from "./KakaoLoginButton";
 
 interface LoginInduceModalProps {
   open: boolean;
@@ -24,43 +24,24 @@ interface LoginInduceModalProps {
 export default function LoginInduceModal({
   open,
   onOpenChange,
-  title = "로그인이 필요합니다",
-  description = "이 기능을 사용하려면 로그인이 필요합니다. 로그인하시겠습니까?",
+  title = "로그인하고 계속하기",
+  description = "소셜 계정으로 3초만에 시작할 수 있어요.",
 }: LoginInduceModalProps) {
-  const router = useRouter();
-
-  const handleLogin = () => {
-    onOpenChange(false);
-    router.push(LOGIN_PATHNAME);
-  };
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={() => onOpenChange(false)}>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <LogIn className="h-5 w-5" />
-            {title}
-          </DialogTitle>
-          <DialogDescription className="pt-2">
-            {description}
-          </DialogDescription>
+        <DialogHeader className="space-y-4">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+            <Lock className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <DialogTitle className="text-center">{title}</DialogTitle>
         </DialogHeader>
-        <DialogFooter className="gap-2 pt-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
-            취소
-          </Button>
-          <Button
-            type="button"
-            variant="default"
-            onClick={handleLogin}
-          >
-            로그인하기
-          </Button>
+        <DialogDescription className="space-y-2 text-center font-light">
+          {description}
+        </DialogDescription>
+        <DialogFooter className="flex w-full gap-2 pt-4 sm:flex-col">
+          <GoogleLoginButton />
+          <KakaoLoginButton />
         </DialogFooter>
       </DialogContent>
     </Dialog>

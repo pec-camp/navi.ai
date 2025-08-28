@@ -1,12 +1,17 @@
+"use server";
+
 import { createClient } from "@/shared/utils/supabase/server";
 
 import { UserProfile } from "../model/user";
 
 export async function getCurrentUser() {
   const supabase = await createClient();
-  
-  const { data: { user }, error } = await supabase.auth.getUser();
-  
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
   if (error || !user) {
     return null;
   }
@@ -14,9 +19,11 @@ export async function getCurrentUser() {
   return user;
 }
 
-export async function getUserProfile(email: string): Promise<UserProfile | null> {
+export async function getUserProfile(
+  email: string,
+): Promise<UserProfile | null> {
   const supabase = await createClient();
-  
+
   const { data, error } = await supabase
     .from("users")
     .select("email, profession, current_tools")

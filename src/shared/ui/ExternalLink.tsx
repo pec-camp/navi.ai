@@ -17,7 +17,9 @@ export const ExternalLink = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          href && window.open(href, "_blank", "noopener,noreferrer");
+          if (href) {
+            window.open(href, "_blank", "noopener,noreferrer");
+          }
         }}
         aria-label="외부 사이트로 이동"
       >
