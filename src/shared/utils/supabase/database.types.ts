@@ -429,9 +429,12 @@ export type Database = {
       get_similar_tools_v1: {
         Args: { limit_count?: number; target_slug: string }
         Returns: {
+          affiliate_link: string
           attribute_handles: string[]
+          attributes: Json
           avg_rating: number
           description: string
+          extension: string
           id: number
           image_url: string
           is_free: boolean
@@ -442,11 +445,13 @@ export type Database = {
           review_count: number
           similarity_score: number
           slug: string
+          source_id: number
           tags: string[]
           website: string
           website_logo: string
           website_name: string
           what_is: string
+          what_is_summary: string
         }[]
       }
       get_user_subscribed_tools: {

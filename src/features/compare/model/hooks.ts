@@ -1,13 +1,12 @@
 "use client";
 
-import { formatToolDetail } from "@/entities/tool";
-
+import { AiTool } from "./../../../entities/tool/model/AiTool.interface";
 import { useCompareContext } from "./context";
 import { COMPARE_CONFIG } from "./types";
 
 export function useCompare() {
   const context = useCompareContext();
-  
+
   return {
     items: context.items,
     addToCompare: context.addToCompare,
@@ -32,7 +31,7 @@ export function useIsInCompare(toolId: number) {
 
 export function useCompareDrawer() {
   const { isDrawerOpen, toggleDrawer } = useCompareContext();
-  
+
   return {
     isOpen: isDrawerOpen,
     toggle: toggleDrawer,
@@ -45,15 +44,18 @@ export function useCompareDrawer() {
   };
 }
 
-export function useCanAddToCompare(tool: ReturnType<typeof formatToolDetail>) {
+export function useCanAddToCompare(tool: AiTool) {
   const { items, isInCompare } = useCompareContext();
-  
+
   const isFull = items.length >= COMPARE_CONFIG.MAX_ITEMS;
   const isAlreadyAdded = isInCompare(tool.id);
-  
+
   return {
     canAdd: !isFull && !isAlreadyAdded,
-    reason: isFull ? "최대 비교 개수에 도달했습니다" : 
-            isAlreadyAdded ? "이미 비교 목록에 있습니다" : null,
+    reason: isFull
+      ? "최대 비교 개수에 도달했습니다"
+      : isAlreadyAdded
+        ? "이미 비교 목록에 있습니다"
+        : null,
   };
 }
