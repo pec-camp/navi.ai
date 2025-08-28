@@ -10,12 +10,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/ui/tooltip";
-import { AiToolDetail } from "@/src/entities/tool/model/AiTool.interface";
+import { AiTool } from "@/src/entities/tool/model/AiTool.interface";
 
 import { useCompare } from "../model";
 
 interface AddToCompareButtonProps {
-  tool: AiToolDetail;
+  tool: AiTool;
   size?: "big" | "small";
   className?: string;
 }
@@ -38,17 +38,17 @@ export default function AddToCompareButton({
         ? "이미 비교 목록에 있습니다"
         : null;
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     if (isAdded) {
       // 현재 경로에 query parameter 추가하여 비교함 열기
       const currentPath = window.location.pathname;
-      router.push(`${currentPath}?compare=open`);
+      router.push(`${currentPath}?compare=open`, { scroll: false });
     } else if (canAdd) {
       // Tool 객체를 표준 형식으로 변환
       addToCompare(tool);
       // 비교함 열기
       const currentPath = window.location.pathname;
-      router.push(`${currentPath}?compare=open`);
+      router.push(`${currentPath}?compare=open`, { scroll: false });
     }
   };
 
