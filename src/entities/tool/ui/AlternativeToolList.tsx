@@ -1,15 +1,15 @@
-import { ArrowUpRight, ChevronRight, ExternalLinkIcon } from "lucide-react";
+import { ArrowUpRight, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
+import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
 import { ToolLogo } from "@/src/shared/ui";
 import { ExternalLink } from "@/src/shared/ui/ExternalLink";
 import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
 
 import { getAlternativeToolList, getToolBySlug } from "../api";
 import { AlternativeTool } from "../model/AlternativeTool.interface";
-import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
 
 interface AlternativeToolListProps {
   slug: string;

@@ -6,6 +6,6 @@ export interface AiToolRawData extends Tables<"ai_tools"> {
   reviews: { rating: number }[];
 }
 
-export type AiToolList = ReturnType<typeof formatToolBasic>;
+export type AiTool = ReturnType<typeof formatToolBasic>;
 
-export type AiToolDetailList = ReturnType<typeof formatToolDetail>;
+export type AiToolDetail = ReturnType<typeof formatToolDetail>;

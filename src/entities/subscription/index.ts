@@ -13,5 +13,6 @@ export type {
 } from "./model/SubscriptionTool.interface";
 
 /** ui */
+export { SubscriptionsBlurredView } from "./ui/SubscriptionsBlurredView";
 export { default as SubscriptionToolCard } from "./ui/SubscriptionToolCard";
 export { default as SubscriptionToolList } from "./ui/SubscriptionToolList";
