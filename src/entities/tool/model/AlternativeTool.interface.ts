@@ -2,22 +2,6 @@
 
 import { AiTool } from "./AiTool.interface";
 
-export type AlternativeTool = Pick<
-  AiTool,
-  | "id"
-  | "name"
-  | "slug"
-  | "whatIs"
-  | "isFree"
-  | "tags"
-  | "website"
-  | "websiteLogo"
-  | "avgRating"
-  | "reviewCount"
-  | "monthlyUsers"
-  | "imageUrl"
-  | "pricingLabel"
-  | "dates"
-> & {
+export type AlternativeTool = AiTool & {
   similarityScore?: number;
 };

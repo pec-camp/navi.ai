@@ -3,11 +3,7 @@
 import { createClient } from "@/shared/utils/supabase/server";
 
 import { AlternativeTool } from "../model/AlternativeTool.interface";
-import {
-  formatDates,
-  formatMonthlyUsers,
-  formatPricingLabel,
-} from "../model/formatToolData";
+import { formatToolBasic } from "../model/formatToolData";
 
 /**
  * 대안 도구 추천 함수 (RPC 기반)
@@ -44,21 +40,10 @@ export async function getAlternativeToolList(
 
     // 응답 데이터 포맷팅 - AlternativeTool 인터페이스에 맞게 매핑
     const formattedTools: AlternativeTool[] = alternativeTools.map((tool) => ({
-      id: tool.id,
-      name: tool.name,
-      slug: tool.slug,
-      whatIs: tool.what_is || "",
-      similarityScore: tool.similarity_score,
-      isFree: tool.is_free,
-      tags: tool.tags || [],
-      website: tool.website,
-      websiteLogo: tool.website_logo,
-      imageUrl: tool.image_url,
+      ...formatToolBasic(tool),
       avgRating: tool.avg_rating || 5,
       reviewCount: tool.review_count || 0,
-      pricingLabel: formatPricingLabel(tool.attribute_handles),
-      monthlyUsers: formatMonthlyUsers(tool.month_visited_count),
-      dates: formatDates(tool.original_created_at, tool.original_updated_at),
+      similarityScore: tool.similarity_score,
     }));
 
     return formattedTools;

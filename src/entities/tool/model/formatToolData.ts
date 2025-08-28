@@ -182,7 +182,7 @@ export function formatRating(reviews: { rating: number }[]) {
 /**
  * 기본 도구 정보 포맷팅 (리스트용)
  */
-export function formatToolBasic(rawData: AiToolRawData) {
+export function formatToolBasic(rawData: Omit<AiToolRawData, "ai_content">) {
   return {
     id: rawData.id,
     name: rawData.name,
@@ -199,8 +199,8 @@ export function formatToolBasic(rawData: AiToolRawData) {
     pricingLabel: formatPricingLabel(rawData.attribute_handles),
     extension: formatExtension(rawData.extension),
     monthlyUsers: formatMonthlyUsers(rawData.month_visited_count),
-    avgRating: Math.round(formatRating(rawData.reviews) * 10) / 10,
-    reviewCount: rawData.reviews.length,
+    avgRating: Math.round(formatRating(rawData?.reviews || []) * 10) / 10,
+    reviewCount: rawData?.reviews?.length || 0,
     dates: formatDates(
       rawData.original_created_at,
       rawData.original_updated_at,
