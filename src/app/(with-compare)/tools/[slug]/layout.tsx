@@ -33,7 +33,6 @@ interface ToolDetailLayoutProps {
 export default async function ToolDetailLayout({
   children,
   params,
-  modal,
 }: ToolDetailLayoutProps) {
   const { slug } = await params;
 
@@ -299,9 +298,6 @@ export default async function ToolDetailLayout({
 
       {/* 대안 도구 섹션 */}
       <AlternativeToolList slug={slug} />
-      
-      {/* 모달 슬롯 */}
-      {modal}
     </main>
   );
 }
