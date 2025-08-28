@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 
 import {
   getSubscriptionToolList,
-  SubscriptionToolCard,
+  SubscriptionToolList,
 } from "@/src/entities/subscription";
 import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
@@ -45,11 +45,7 @@ export default function PaginatedSubscriptionList({
     <div className="space-y-6">
       <div className="space-y-4">
         {/* 도구 목록 */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {tools.map((tool) => (
-            <SubscriptionToolCard key={tool.id} {...tool} />
-          ))}
-        </div>
+        <SubscriptionToolList subscriptionToolList={tools} />
       </div>
 
       {hasMoreTools && (
