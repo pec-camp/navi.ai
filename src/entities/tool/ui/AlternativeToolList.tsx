@@ -41,7 +41,10 @@ export default async function AlternativeToolList({
                   <AlternativeCard alternativeTool={alternativeTool} />
                 </Link>
                 <div className="absolute right-4 top-4 z-10">
-                  <AddToCompareButton tool={alternativeTool} />
+                  <AddToCompareButton
+                    tool={alternativeTool}
+                    aria-label={`${toolData.name}를 비교목록에 추가`}
+                  />
                 </div>
               </div>
             ))}
