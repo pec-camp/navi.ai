@@ -2,11 +2,8 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import {
-  getSubscriptionToolList,
-  SubscriptionTool,
-  SubscriptionToolList,
-} from "@/src/entities/tool";
+import { SubscriptionTool, SubscriptionToolList } from "@/src/entities/tool";
+import { loadSubscriptionToolList } from "@/src/features/subscription/api";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { ViewMoreButton } from "@/src/shared/ui";
 
@@ -30,7 +27,7 @@ export default function PaginatedSubscriptionList({
 
   const handleLoadMore = () => {
     startTransition(async () => {
-      const { tools: moreTools } = await getSubscriptionToolList(
+      const { tools: moreTools } = await loadSubscriptionToolList(
         userId,
         SUBSCRIPTION_PAGE_LIMIT,
         tools.length,

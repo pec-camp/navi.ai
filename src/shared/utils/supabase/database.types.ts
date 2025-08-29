@@ -488,6 +488,7 @@ export type Database = {
           sub_category_id: number
           sub_category_name: string
           tags: string[]
+          total_count: number
           website: string
           website_logo: string
           website_name: string
