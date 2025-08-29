@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import { SubscriptionTool, SubscriptionToolList } from "@/src/entities/tool";
-import { loadSubscriptionToolList } from "@/src/features/subscription/api";
+import { SubscriptionTool } from "@/src/entities/tool/model/SubscriptionTool.interface";
+import SubscriptionToolList from "@/src/entities/tool/ui/SubscriptionToolList";
+import { loadSubscriptionToolList } from "@/src/features/subscription/action";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { ViewMoreButton } from "@/src/shared/ui";
 

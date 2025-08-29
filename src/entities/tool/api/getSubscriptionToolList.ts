@@ -1,5 +1,3 @@
-"use server";
-
 import { createClient } from "@/shared/utils/supabase/server";
 
 import { formatToolBasic } from "../model/formatToolData";

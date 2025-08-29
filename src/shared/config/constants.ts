@@ -1,2 +1,2 @@
 // Pagination constants
-export const SUBSCRIPTION_PAGE_LIMIT = 20;
+export const SUBSCRIPTION_PAGE_LIMIT = 21;
