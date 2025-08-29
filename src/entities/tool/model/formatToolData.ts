@@ -191,7 +191,7 @@ export function formatRating(reviews: { rating: number }[]) {
 /**
  * 기본 도구 정보 포맷팅 (리스트용)
  */
-export function formatToolBasic(rawData: Partial<AiToolRawData>) {
+export function formatToolBasic(rawData: Omit<AiToolRawData, "ai_content">) {
   return {
     id: rawData.id,
     name: rawData.name,
