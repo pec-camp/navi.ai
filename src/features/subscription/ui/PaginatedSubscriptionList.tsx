@@ -4,14 +4,14 @@ import { useEffect, useState, useTransition } from "react";
 
 import {
   getSubscriptionToolList,
-  SubscriptionToolCard,
-} from "@/src/entities/subscription";
-import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
+  SubscriptionTool,
+  SubscriptionToolList,
+} from "@/src/entities/tool";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { ViewMoreButton } from "@/src/shared/ui";
 
 interface PaginatedSubscriptionListProps {
-  initialTools: SubscriptionToolData[];
+  initialTools: SubscriptionTool[];
   userId: string;
   totalCount: number;
 }
@@ -45,11 +45,7 @@ export default function PaginatedSubscriptionList({
     <div className="space-y-6">
       <div className="space-y-4">
         {/* 도구 목록 */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {tools.map((tool) => (
-            <SubscriptionToolCard key={tool.id} {...tool} />
-          ))}
-        </div>
+        <SubscriptionToolList subscriptionToolList={tools} />
       </div>
 
       {hasMoreTools && (

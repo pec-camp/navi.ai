@@ -3,7 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
-import { TOOLS_PATHNAME } from "@/src/shared/config/pathname";
+import { AddToCompareButton } from "@/src/features/compare";
+import {
+  TOOLS_PATHNAME,
+  TOOLS_SLUG_PATHNAME,
+} from "@/src/shared/config/pathname";
 import { ToolLogo } from "@/src/shared/ui";
 import { ExternalLink } from "@/src/shared/ui/ExternalLink";
 import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
@@ -29,19 +33,20 @@ export default async function AlternativeToolList({
           추천해드려요
         </h2>
 
-        <div className="grid min-h-[480px] gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {alternativeTools.map((alternativeTool) => (
-            <Link
-              key={alternativeTool.slug}
-              href={`/tools/${alternativeTool.slug}`}
-            >
-              <AlternativeCard alternativeTool={alternativeTool} />
-            </Link>
-          ))}
-        </div>
-
-        {/* 데이터가 없는 경우 안내 메시지 */}
-        {alternativeTools.length === 0 && (
+        {alternativeTools.length > 0 ? (
+          <div className="grid min-h-[480px] gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {alternativeTools.map((alternativeTool) => (
+              <div key={alternativeTool.slug} className="relative">
+                <Link href={TOOLS_SLUG_PATHNAME(alternativeTool.slug || "")}>
+                  <AlternativeCard alternativeTool={alternativeTool} />
+                </Link>
+                <div className="absolute right-4 top-4 z-10">
+                  <AddToCompareButton tool={alternativeTool} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
           <div className="py-8 text-center">
             <p className="text-muted-foreground">
               유사한 도구를 찾을 수 없습니다.
@@ -87,7 +92,7 @@ function AlternativeCard({
           <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-2xl bg-surface">
             <ToolLogo
               websiteLogo={alternativeTool.websiteLogo || ""}
-              name={alternativeTool.name}
+              name={alternativeTool.name || ""}
               className="h-6 w-6"
             />
           </div>
@@ -96,9 +101,7 @@ function AlternativeCard({
           <div className="flex flex-1 flex-col">
             <div className="flex items-center gap-2">
               <h3 className="truncate pb-1 text-base font-semibold leading-tight text-foreground">
-                {alternativeTool.name.includes("-")
-                  ? alternativeTool.name.split("-")[0]
-                  : alternativeTool.name}
+                {alternativeTool.websiteName}
               </h3>
               {alternativeTool.website && (
                 <ExternalLink href={alternativeTool.website || ""} asButton>

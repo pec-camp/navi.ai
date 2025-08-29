@@ -1,8 +1,8 @@
-import { formatToolDetail } from "@/src/entities/tool";
+import { AiTool } from "@/src/entities/tool";
 
 // Use any type for tool to support both Tool interface and formatted tool data
 export interface CompareItem {
-  tool: ReturnType<typeof formatToolDetail>;
+  tool: AiTool;
   addedAt: Date;
 }
 
@@ -19,7 +19,7 @@ export interface CompareState {
 }
 
 export interface CompareActions {
-  addToCompare: (tool: ReturnType<typeof formatToolDetail>) => void;
+  addToCompare: (tool: AiTool) => void;
   removeFromCompare: (toolId: number) => void;
   clearCompare: () => void;
   toggleDrawer: () => void;

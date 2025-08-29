@@ -10,6 +10,6 @@ export const getPricingDisplay = (isFree: boolean, PricingPlan: string) => {
   return {
     text: PricingPlan,
     badge: false,
-    className: "text-xs font-light text-foreground",
+    className: "text-xs font-light text-muted-foreground-secondary",
   };
 };

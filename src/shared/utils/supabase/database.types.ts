@@ -429,9 +429,12 @@ export type Database = {
       get_similar_tools_v1: {
         Args: { limit_count?: number; target_slug: string }
         Returns: {
+          affiliate_link: string
           attribute_handles: string[]
+          attributes: Json
           avg_rating: number
           description: string
+          extension: string
           id: number
           image_url: string
           is_free: boolean
@@ -442,20 +445,55 @@ export type Database = {
           review_count: number
           similarity_score: number
           slug: string
+          source_id: number
           tags: string[]
           website: string
           website_logo: string
           website_name: string
           what_is: string
+          what_is_summary: string
         }[]
       }
       get_user_subscribed_tools: {
         Args: {
           input_limit?: number
           input_offset?: number
-          input_user_id: string
+          input_user_id?: string
         }
         Returns: Json
+      }
+      get_user_subscribed_tools_v2: {
+        Args: {
+          input_limit?: number
+          input_offset?: number
+          input_user_id: string
+        }
+        Returns: {
+          affiliate_link: string
+          attribute_handles: string[]
+          attributes: Json
+          avg_rating: number
+          description: string
+          extension: string
+          id: number
+          image_url: string
+          is_free: boolean
+          month_visited_count: number
+          name: string
+          original_created_at: string
+          original_updated_at: string
+          review_count: number
+          slug: string
+          source_id: number
+          sub_category_id: number
+          sub_category_name: string
+          tags: string[]
+          website: string
+          website_logo: string
+          website_name: string
+          what_is: string
+          what_is_summary: string
+        }[]
       }
     }
     Enums: {

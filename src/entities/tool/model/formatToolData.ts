@@ -1,5 +1,14 @@
+import { Tables } from "@/src/shared/utils/supabase";
+
 import { AIContent } from "./AIContent.interface";
-import { AiToolRawData } from "./AiTool.interface";
+
+export interface AiToolRawData extends Tables<"ai_tools"> {
+  reviews?: { rating: number }[];
+}
+
+export type AiTool = ReturnType<typeof formatToolBasic>;
+
+export type AiToolDetail = ReturnType<typeof formatToolDetail>;
 
 const NUMBER_UNITS = {
   BILLION: 100_000_000, // 억
@@ -182,7 +191,7 @@ export function formatRating(reviews: { rating: number }[]) {
 /**
  * 기본 도구 정보 포맷팅 (리스트용)
  */
-export function formatToolBasic(rawData: AiToolRawData) {
+export function formatToolBasic(rawData: Omit<AiToolRawData, "ai_content">) {
   return {
     id: rawData.id,
     name: rawData.name,
@@ -196,14 +205,14 @@ export function formatToolBasic(rawData: AiToolRawData) {
     imageUrl: rawData.image_url,
     websiteLogo: rawData.website_logo,
     isFree: rawData.is_free ?? false,
-    pricingLabel: formatPricingLabel(rawData.attribute_handles),
-    extension: formatExtension(rawData.extension),
-    monthlyUsers: formatMonthlyUsers(rawData.month_visited_count),
-    avgRating: Math.round(formatRating(rawData.reviews) * 10) / 10,
-    reviewCount: rawData.reviews.length,
+    pricingLabel: formatPricingLabel(rawData.attribute_handles || []),
+    extension: formatExtension(rawData?.extension),
+    monthlyUsers: formatMonthlyUsers(rawData?.month_visited_count || 0),
+    avgRating: Math.round(formatRating(rawData?.reviews || []) * 10) / 10,
+    reviewCount: rawData?.reviews?.length || 0,
     dates: formatDates(
-      rawData.original_created_at,
-      rawData.original_updated_at,
+      rawData?.original_created_at || "",
+      rawData?.original_updated_at || "",
     ),
   };
 }

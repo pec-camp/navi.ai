@@ -4,7 +4,6 @@ export { createClient as createSupabaseServerClient } from "./server";
 
 // Types
 export type {
-  Database,
   Enums,
   Json,
   Tables,

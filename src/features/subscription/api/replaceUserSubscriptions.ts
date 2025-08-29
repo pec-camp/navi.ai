@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/shared/utils/supabase/server";
 
-import { validateSubscriptionData } from "../lib/validateSubscriptionData";
+import { validateSubscriptionData } from "../model/validateSubscriptionData";
 
 export interface SubscriptionActionState {
   success: boolean;

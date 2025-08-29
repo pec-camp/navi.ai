@@ -1,10 +1,10 @@
 "use client";
 
-import { ArrowRight, Trash2, X } from "lucide-react";
+import { ArrowRight, Trash2, TrendingUp, User2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { formatToolDetail } from "@/entities/tool";
+import { AiTool } from "@/entities/tool";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import LoginInduceModal from "@/features/auth/ui/LoginInduceModal";
 import {
@@ -19,6 +19,7 @@ import {
 } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
+import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
 
 import { useCompare } from "../model";
 
@@ -170,11 +171,13 @@ export default function CompareContent({ onClose }: CompareContentProps) {
 }
 
 interface CompareToolCardProps {
-  tool: ReturnType<typeof formatToolDetail>;
+  tool: AiTool;
   onRemove: () => void;
 }
 
 function CompareToolCard({ tool, onRemove }: CompareToolCardProps) {
+  const pricing = getPricingDisplay(tool.isFree, tool.pricingLabel);
+
   return (
     <div className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border border-border bg-card p-4 transition-colors">
       <ToolLogo
@@ -183,24 +186,26 @@ function CompareToolCard({ tool, onRemove }: CompareToolCardProps) {
         size="lg"
       />
       <div className="min-w-0 flex-1">
-        <h3 className="truncate text-base font-semibold text-foreground">
+        <h3 className="truncate text-base font-medium text-foreground">
           {tool.name}
         </h3>
-        <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+        <p className="mt-1 line-clamp-2 text-sm font-light text-muted-foreground">
           {tool.whatIsSummary || tool.description || "설명이 없습니다"}
         </p>
         <div className="mt-2 flex items-center gap-3">
-          <span className="rounded-full bg-muted px-2 py-1 text-xs font-medium">
-            {tool.isFree ? "🆓 무료" : "💰 유료"}
-          </span>
+          <span className={pricing.className}>{pricing.text}</span>
           {tool.extension?.userNumRaw && (
-            <span className="text-xs text-muted-foreground">
-              👥 {tool.extension.userNum} 사용자
+            <span className="flex items-center text-xs font-light text-muted-foreground-secondary">
+              <User2 className="inline h-4 w-4" />
+              <span>{tool.extension.userNum} 사용자</span>
             </span>
           )}
           {!tool.extension && tool.monthlyUsers?.count > 0 && (
-            <span className="text-xs text-muted-foreground">
-              📊 {tool.monthlyUsers.formatted} 월간 방문
+            <span className="space-x-1 text-xs font-light text-muted-foreground-secondary">
+              <TrendingUp className="inline h-4 w-4" />
+              <span className="text-muted-foreground-secondary">
+                {tool.monthlyUsers.formatted}
+              </span>
             </span>
           )}
         </div>

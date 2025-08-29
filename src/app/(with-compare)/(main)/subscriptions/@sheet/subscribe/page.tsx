@@ -1,16 +1,14 @@
 import { redirect } from "next/navigation";
 
-import { getCategoriesWithSub } from "@/src/entities/category";
-import { getSubscriptionsCategories } from "@/src/entities/subscription/api/getSubscriptionCategories";
+import {
+  getCategoriesWithSub,
+  getSubscriptionsCategories,
+} from "@/src/entities/category";
+import { getCurrentUser } from "@/src/features/auth";
 import { CategorySideSheet } from "@/src/features/subscription";
-import { createClient } from "@/src/shared/utils/supabase/server";
 
 export default async function Subscribe() {
-  // Get current user from Supabase session
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login");
