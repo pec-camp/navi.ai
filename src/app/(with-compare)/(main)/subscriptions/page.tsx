@@ -1,7 +1,8 @@
 import { Settings } from "lucide-react";
 import Link from "next/link";
 
-import { getSubscriptionToolList, SubscriptionsBlurredView } from "@/src/entities/subscription";
+import { SubscriptionsBlurredView } from "@/src/entities/subscription";
+import { getSubscriptionToolList } from "@/src/entities/tool";
 import { getCurrentUser } from "@/src/features/auth";
 import {
   EmptyState,

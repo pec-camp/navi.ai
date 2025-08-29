@@ -4,8 +4,10 @@ import { RotateCcw, X } from "lucide-react";
 import { useTransition } from "react";
 
 import { AnimatedSideSheet, Button } from "@/shared/ui";
-import { CategoryWithSubcategory } from "@/src/entities/category";
-import { CategorySubscription } from "@/src/entities/subscription";
+import {
+  CategorySubscription,
+  CategoryWithSubcategory,
+} from "@/src/entities/category";
 import { useSideSheet } from "@/src/shared/hooks";
 
 import {
@@ -158,7 +160,7 @@ export default function CategorySideSheet({
               <Button
                 onClick={handleComplete}
                 variant="secondary"
-                size="md"
+                size="lg"
                 disabled={isPending}
               >
                 {isPending ? "처리 중..." : "완료"}

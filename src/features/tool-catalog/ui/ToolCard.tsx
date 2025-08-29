@@ -24,7 +24,7 @@ export default function ToolCard({ tool, className }: ToolCardProps) {
 
   return (
     <div className="relative">
-      <Link href={TOOLS_SLUG_PATHNAME(tool.slug)}>
+      <Link href={TOOLS_SLUG_PATHNAME(tool.slug || "")}>
         <Card
           className={`group relative h-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm ${
             className || ""
@@ -37,7 +37,7 @@ export default function ToolCard({ tool, className }: ToolCardProps) {
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface">
                 <ToolLogo
                   websiteLogo={tool.websiteLogo || ""}
-                  name={tool.name}
+                  name={tool.name || ""}
                   className="h-5 w-5"
                 />
               </div>

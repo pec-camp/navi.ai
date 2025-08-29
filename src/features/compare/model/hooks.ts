@@ -1,6 +1,7 @@
 "use client";
 
-import { AiTool } from "./../../../entities/tool/model/AiTool.interface";
+import { AiTool } from "@/src/entities/tool";
+
 import { useCompareContext } from "./context";
 import { COMPARE_CONFIG } from "./types";
 

@@ -37,7 +37,7 @@ export default async function AlternativeToolList({
           <div className="grid min-h-[480px] gap-6 md:grid-cols-2 lg:grid-cols-3">
             {alternativeTools.map((alternativeTool) => (
               <div key={alternativeTool.slug} className="relative">
-                <Link href={TOOLS_SLUG_PATHNAME(alternativeTool.slug)}>
+                <Link href={TOOLS_SLUG_PATHNAME(alternativeTool.slug || "")}>
                   <AlternativeCard alternativeTool={alternativeTool} />
                 </Link>
                 <div className="absolute right-4 top-4 z-10">
@@ -92,7 +92,7 @@ function AlternativeCard({
           <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-2xl bg-surface">
             <ToolLogo
               websiteLogo={alternativeTool.websiteLogo || ""}
-              name={alternativeTool.name}
+              name={alternativeTool.name || ""}
               className="h-6 w-6"
             />
           </div>
@@ -101,9 +101,7 @@ function AlternativeCard({
           <div className="flex flex-1 flex-col">
             <div className="flex items-center gap-2">
               <h3 className="truncate pb-1 text-base font-semibold leading-tight text-foreground">
-                {alternativeTool.name.includes("-")
-                  ? alternativeTool.name.split("-")[0]
-                  : alternativeTool.name}
+                {alternativeTool.websiteName}
               </h3>
               {alternativeTool.website && (
                 <ExternalLink href={alternativeTool.website || ""} asButton>

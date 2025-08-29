@@ -3,71 +3,34 @@ import Image from "next/image";
 
 import { Card, CardContent } from "@/shared/ui/card";
 import { ExternalLink, ToolLogo } from "@/src/shared/ui";
+import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
 
-import { SubscriptionToolData } from "../model/SubscriptionTool.interface";
+import { SubscriptionTool } from "../model/SubscriptionTool.interface";
 
-type SubscriptionToolCardProps = SubscriptionToolData & {
+type SubscriptionToolCardProps = SubscriptionTool & {
   className?: string;
 };
 
 export default function SubscriptionToolCard({
   name,
   websiteLogo,
+  websiteName,
+  description,
   imageUrl,
   website,
-  category,
-  rating,
-  summary,
-  isFreePlan,
-  isPaidPlan,
-  isFreemium,
-  hasTrial,
-  date,
+  isFree,
   reviewCount,
+  pricingLabel,
+  subcategoryName,
+  dates,
+  avgRating,
   className,
 }: SubscriptionToolCardProps) {
-  const getPricingDisplay = () => {
-    if (isFreePlan && !isPaidPlan && !isFreemium) {
-      return {
-        text: "무료",
-        badge: true,
-        className:
-          "inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800",
-      };
-    }
-
-    if (isFreemium || (isFreePlan && isPaidPlan)) {
-      return {
-        text: "무료 + 유료 플랜",
-        badge: false,
-        className: "text-xs font-light text-foreground",
-      };
-    }
-
-    if (hasTrial && isPaidPlan) {
-      return {
-        text: "무료 체험 + 유료",
-        badge: false,
-        className: "text-xs font-light text-foreground",
-      };
-    }
-
-    if (isPaidPlan) {
-      return {
-        text: "유료 플랜",
-        badge: false,
-        className: "text-xs font-light text-foreground",
-      };
-    }
-
-    return {
-      text: "가격 문의",
-      badge: false,
-      className: "text-xs font-light text-muted-foreground",
-    };
+  const pricing = getPricingDisplay(isFree, pricingLabel);
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0].replace(/-/g, ".");
   };
-
-  const pricing = getPricingDisplay();
 
   return (
     <Card
@@ -79,8 +42,8 @@ export default function SubscriptionToolCard({
           {/* 도구 아이콘 */}
           <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-2xl bg-surface">
             <ToolLogo
-              websiteLogo={websiteLogo}
-              name={name}
+              websiteLogo={websiteLogo || ""}
+              name={name || ""}
               className="h-6 w-6"
             />
           </div>
@@ -89,7 +52,7 @@ export default function SubscriptionToolCard({
           <div className="flex flex-1 flex-col">
             <div className="flex items-center gap-2">
               <h3 className="truncate text-base font-semibold leading-tight text-foreground">
-                {name.includes("-") ? name.split("-")[0] : name}
+                {websiteName}
               </h3>
               {website && (
                 <ExternalLink href={website || ""} asButton>
@@ -98,7 +61,7 @@ export default function SubscriptionToolCard({
               )}
             </div>
             <span className="text-xs font-normal leading-tight text-muted-foreground-secondary">
-              {category}
+              {subcategoryName || ""}
             </span>
           </div>
         </div>
@@ -128,7 +91,7 @@ export default function SubscriptionToolCard({
             <div className="flex items-center space-x-1">
               <StarIcon className="h-3.5 w-3.5 text-secondary" />
               <span className="text-sm font-light text-foreground">
-                {rating}
+                {avgRating || 0}
               </span>
             </div>
 
@@ -145,7 +108,7 @@ export default function SubscriptionToolCard({
         {/* 설명 텍스트 - 남은 공간을 모두 차지 */}
         <div className="flex-1 px-4 pb-4">
           <p className="text-sm font-light leading-relaxed text-muted-foreground">
-            {summary}
+            {description}
           </p>
         </div>
 
@@ -156,7 +119,7 @@ export default function SubscriptionToolCard({
               <span className={pricing.className}>{pricing.text}</span>
             </div>
             <span className="text-xs font-light text-muted-foreground-secondary">
-              {date}
+              {formatDate(dates.createdAt)}
             </span>
           </div>
         </div>

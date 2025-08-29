@@ -20,7 +20,7 @@ export default function FeaturedToolCard({
   className?: string;
 }) {
   return (
-    <Link href={TOOLS_SLUG_PATHNAME(slug)}>
+    <Link href={TOOLS_SLUG_PATHNAME(slug || "")}>
       <Card
         className={`group relative h-full cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm ${className}`}
       >

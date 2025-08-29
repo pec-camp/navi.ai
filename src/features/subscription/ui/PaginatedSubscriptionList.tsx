@@ -4,14 +4,14 @@ import { useEffect, useState, useTransition } from "react";
 
 import {
   getSubscriptionToolList,
+  SubscriptionTool,
   SubscriptionToolList,
-} from "@/src/entities/subscription";
-import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
+} from "@/src/entities/tool";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { ViewMoreButton } from "@/src/shared/ui";
 
 interface PaginatedSubscriptionListProps {
-  initialTools: SubscriptionToolData[];
+  initialTools: SubscriptionTool[];
   userId: string;
   totalCount: number;
 }

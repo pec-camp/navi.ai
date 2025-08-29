@@ -1,50 +1,13 @@
-interface SubscriptionToolResponse {
-  id: string;
-  slug: string;
-  website_name: string;
-  website_logo?: string;
-  image_url?: string;
-  website: string;
-  sub_category_name: string;
-  sub_category_id: string;
-  avg_rating: number;
-  what_is_summary: string;
-  is_free_plan: boolean;
-  is_paid_plan: boolean;
-  is_freemium: boolean;
-  has_trial: boolean;
-  is_contact: boolean;
-  original_created_at: string;
-  review_count: number;
-}
+// 구독 도구 관련 인터페이스
 
-interface SubscriptionToolData {
-  id: string;
-  slug: string;
-  name: string;
-  websiteLogo?: string;
-  imageUrl?: string;
-  website?: string;
-  category: string;
-  categoryId: string;
-  rating: number;
-  summary: string;
-  isFreePlan: boolean;
-  isPaidPlan: boolean;
-  isFreemium: boolean;
-  hasTrial: boolean;
-  isContact: boolean;
-  date: string;
-  reviewCount: number;
-}
+import { AiTool } from "./formatToolData";
 
-interface SubscriptionTool {
-  tools: SubscriptionToolData[];
+export type SubscriptionTool = AiTool & {
+  subcategoryId: number;
+  subcategoryName: string;
+};
+
+export interface SubscriptionToolListResponse {
+  tools: SubscriptionTool[];
   totalCount: number;
 }
-
-export type {
-  SubscriptionTool,
-  SubscriptionToolData,
-  SubscriptionToolResponse,
-};

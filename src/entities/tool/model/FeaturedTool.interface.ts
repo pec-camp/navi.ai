@@ -1,4 +1,4 @@
-import { AiTool } from "./AiTool.interface";
+import { AiTool } from "./formatToolData";
 
 export type FeaturedTool = Pick<
   AiTool,

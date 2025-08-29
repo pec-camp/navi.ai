@@ -9,7 +9,6 @@ export type {
   CategoryWithSubcategory,
   SubCategory,
 } from "./model/Category.interface";
-
 export type {
   CategorySubscription,
   SubscriptionCategoryResponse,
