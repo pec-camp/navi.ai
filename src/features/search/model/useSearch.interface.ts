@@ -1,4 +1,4 @@
-import type { SuggestionTool } from "@/entities/tool";
+import type { SuggestionTool } from "@/entities/tool/model/SuggestionTool.interface";
 
 /**
  * useSearch 훅의 옵션 인터페이스

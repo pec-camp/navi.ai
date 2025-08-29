@@ -10,7 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/ui/tooltip";
-import { AiTool } from "@/src/entities/tool";
+import { AiTool } from "@/src/entities/tool/model/formatToolData";
 
 import { useCompare } from "../model";
 
