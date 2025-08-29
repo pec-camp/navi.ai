@@ -1,4 +1,6 @@
+export { AnimatedShinyText } from "./animated-shiny-text";
 export { AnimatedSideSheet } from "./AnimatedSideSheet";
+export { AuroraText } from "./aurora-text";
 export { Button } from "./button";
 export { Card, CardContent, CardHeader } from "./card";
 export { ErrorFallback } from "./ErrorFallback";

@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { LoginInduceModal } from "@/src/features/auth";
+import LoginInduceModal from "@/src/features/auth/ui/LoginInduceModal";
 
 interface ReviewsLoginModalProps {
   isOpen: boolean;
