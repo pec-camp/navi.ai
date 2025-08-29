@@ -1,10 +1,12 @@
 "use client";
 
-import { ArrowRight,Trash2, X } from "lucide-react";
+import { ArrowRight, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { formatToolDetail } from "@/entities/tool";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import LoginInduceModal from "@/features/auth/ui/LoginInduceModal";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +19,6 @@ import {
 } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
-import { useAuth } from "@/features/auth/hooks/useAuth";
-import LoginInduceModal from "@/features/auth/ui/LoginInduceModal";
 
 import { useCompare } from "../model";
 
@@ -32,43 +32,43 @@ export default function CompareContent({ onClose }: CompareContentProps) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  
+
   const handleCompare = () => {
     if (!canCompare) {
-      console.log('Cannot compare - need at least 2 items');
+      console.log("Cannot compare - need at least 2 items");
       return;
     }
-    
+
     // Check if user is authenticated
     if (!isAuthenticated) {
       setShowLoginModal(true);
       return;
     }
-    
+
     const toolSlugs = items
-      .map(item => item.tool.slug)
-      .filter(slug => slug && slug !== '')
-      .join(',');
-    
+      .map((item) => item.tool.slug)
+      .filter((slug) => slug && slug !== "")
+      .join(",");
+
     if (toolSlugs) {
       const url = `/compare-result?tools=${toolSlugs}`;
-      console.log('Navigating to:', url);
-      
+      console.log("Navigating to:", url);
+
       // Close the sheet (this will set the navigation flag)
       onClose();
-      
+
       // Navigate immediately
       router.push(url);
     } else {
-      console.error('No valid slugs found in items:', items);
+      console.error("No valid slugs found in items:", items);
     }
   };
-  
+
   const handleClearAll = () => {
     clearCompare();
     setShowClearDialog(false);
   };
-  
+
   return (
     <>
       <div className="flex h-full flex-col">
@@ -76,28 +76,30 @@ export default function CompareContent({ onClose }: CompareContentProps) {
         <div className="border-b border-border px-6 py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-foreground">비교할 도구</h2>
+              <h2 className="text-xl font-semibold text-foreground">
+                비교할 도구
+              </h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 최대 3개까지 선택 가능 ({items.length}/3)
               </p>
             </div>
             <button
               onClick={onClose}
-              className="rounded-full p-2 hover:bg-muted transition-colors"
+              className="rounded-full p-2 transition-colors hover:bg-muted"
               aria-label="닫기"
             >
               <X className="h-5 w-5 text-muted-foreground" />
             </button>
           </div>
         </div>
-        
+
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {items.length > 0 ? (
             <div className="space-y-3">
               {items.map((item) => (
-                <CompareToolCard 
-                  key={item.tool.id} 
+                <CompareToolCard
+                  key={item.tool.id}
                   tool={item.tool}
                   onRemove={() => removeFromCompare(item.tool.id)}
                 />
@@ -114,34 +116,36 @@ export default function CompareContent({ onClose }: CompareContentProps) {
             </div>
           )}
         </div>
-        
+
         {/* Footer */}
         {items.length > 0 && (
-          <div className="mt-auto border-t border-border bg-background/95">
-            <div className="px-6 py-5 space-y-3">
-              <Button 
+          <div className="bg-background/95 mt-auto border-t border-border">
+            <div className="space-y-3 px-6 py-5">
+              <Button
                 type="button"
                 onClick={handleCompare}
                 disabled={!canCompare}
-                className="w-full h-12 text-base font-medium shadow-sm"
+                className="h-12 w-full text-base font-medium shadow-sm"
                 size="lg"
               >
                 <ArrowRight className="mr-2 h-5 w-5" />
-                {canCompare ? `${items.length}개 도구 비교하기` : '최소 2개 이상 선택하세요'}
+                {canCompare
+                  ? `${items.length}개 도구 비교하기`
+                  : "최소 2개 이상 선택하세요"}
               </Button>
-              
-              <button 
+
+              <button
                 onClick={() => setShowClearDialog(true)}
-                className="w-full py-2 text-sm text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-md transition-all duration-200"
+                className="hover:bg-destructive/5 w-full rounded-md py-2 text-sm text-muted-foreground transition-all duration-200 hover:text-destructive"
               >
-                <Trash2 className="inline mr-1.5 h-4 w-4" />
+                <Trash2 className="mr-1.5 inline h-4 w-4" />
                 전체 삭제
               </button>
             </div>
           </div>
         )}
       </div>
-      
+
       <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -156,12 +160,10 @@ export default function CompareContent({ onClose }: CompareContentProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      
+
       <LoginInduceModal
         open={showLoginModal}
         onOpenChange={setShowLoginModal}
-        title="로그인이 필요합니다"
-        description="도구 비교 기능을 사용하려면 로그인이 필요합니다. 로그인하시겠습니까?"
       />
     </>
   );
@@ -174,20 +176,22 @@ interface CompareToolCardProps {
 
 function CompareToolCard({ tool, onRemove }: CompareToolCardProps) {
   return (
-    <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/50">
-      <ToolLogo 
+    <div className="hover:bg-muted/50 flex items-center gap-4 rounded-lg border border-border bg-card p-4 transition-colors">
+      <ToolLogo
         websiteLogo={tool.websiteLogo || ""}
         name={tool.name ?? ""}
-        size="lg" 
+        size="lg"
       />
-      <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-foreground truncate text-base">{tool.name}</h3>
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+      <div className="min-w-0 flex-1">
+        <h3 className="truncate text-base font-semibold text-foreground">
+          {tool.name}
+        </h3>
+        <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
           {tool.whatIsSummary || tool.description || "설명이 없습니다"}
         </p>
-        <div className="flex items-center gap-3 mt-2">
-          <span className="text-xs font-medium px-2 py-1 rounded-full bg-muted">
-            {tool.isFree ? '🆓 무료' : '💰 유료'}
+        <div className="mt-2 flex items-center gap-3">
+          <span className="rounded-full bg-muted px-2 py-1 text-xs font-medium">
+            {tool.isFree ? "🆓 무료" : "💰 유료"}
           </span>
           {tool.extension?.userNumRaw && (
             <span className="text-xs text-muted-foreground">
@@ -201,9 +205,9 @@ function CompareToolCard({ tool, onRemove }: CompareToolCardProps) {
           )}
         </div>
       </div>
-      <button 
+      <button
         onClick={onRemove}
-        className="rounded-full p-2 hover:bg-destructive/10 transition-colors group flex-shrink-0"
+        className="hover:bg-destructive/10 group flex-shrink-0 rounded-full p-2 transition-colors"
         aria-label={`${tool.name} 제거`}
       >
         <X className="h-4 w-4 text-muted-foreground group-hover:text-destructive" />

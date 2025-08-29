@@ -1,9 +1,9 @@
 import "@/app/globals.css";
 
+import type { Metadata } from "next";
 import { Onest, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
-import { CompareProvider } from "@/features/compare/model";
 import { Logo } from "../shared/ui";
 import { Header } from "../widgets/header";
 
@@ -29,7 +29,7 @@ const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Product Engineer Community",
   description: "코드를 넘어, 가치를 만드는 엔지니어들의 성장 공간",
@@ -39,6 +39,7 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html
@@ -46,16 +47,15 @@ export default function RootLayout({
       className={`${onest.variable} ${pretendard.variable} ${rajdhani.variable}`}
     >
       <body className="bg-background text-foreground">
-        <CompareProvider>
-          {/* Global background removed; mounted per-route where needed */}
+        {/* Global background removed; mounted per-route where needed */}
 
-          {/* Header */}
-          <Header />
+        {/* Header */}
+        <Header />
 
-          {/* Main */}
-          <main className="container mx-auto mb-20 flex min-h-screen flex-col items-center px-4">
-            {children}
-          </main>
+        {/* Main */}
+        <main className="container mx-auto mb-20 flex min-h-screen flex-col items-center px-4">
+          {children}
+        </main>
 
         {/* Footer */}
         <footer className="w-full border-t border-border bg-surface-secondary">
@@ -107,7 +107,6 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
-        </CompareProvider>
       </body>
     </html>
   );

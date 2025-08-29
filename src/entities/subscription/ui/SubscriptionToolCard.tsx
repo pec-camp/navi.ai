@@ -1,10 +1,10 @@
-import { ExternalLink, MessageCircle, StarIcon } from "lucide-react";
+import { ExternalLinkIcon, MessageCircle, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
 import { TOOLS_SLUG_PATHNAME } from "@/src/shared/config/pathname";
-import { ToolLogo } from "@/src/shared/ui";
+import { ExternalLink, ToolLogo } from "@/src/shared/ui";
 
 import { SubscriptionToolData } from "../model/SubscriptionTool.interface";
 
@@ -96,7 +96,9 @@ export default function SubscriptionToolCard({
                   {name.includes("-") ? name.split("-")[0] : name}
                 </h3>
                 {website && (
-                  <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                  <ExternalLink href={website || ""} asButton>
+                    <ExternalLinkIcon className="h-3 w-3 text-muted-foreground hover:text-primary" />
+                  </ExternalLink>
                 )}
               </div>
               <span className="text-xs font-normal leading-tight text-muted-foreground-secondary">

@@ -11,4 +11,3 @@ export type {
 
 // Read-only UI Component exports
 export { default as ReviewItem } from "./ui/ReviewItem";
-export { ReviewsBlurredView } from "./ui";

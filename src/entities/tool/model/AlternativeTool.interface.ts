@@ -1,9 +1,9 @@
 // 대안 도구 추천 관련 인터페이스
 
-import { AiToolList } from "./AiTool.interface";
+import { AiTool } from "./AiTool.interface";
 
 export type AlternativeTool = Pick<
-  AiToolList,
+  AiTool,
   | "id"
   | "name"
   | "slug"

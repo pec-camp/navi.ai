@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import { getSubscriptionToolList } from "@/src/entities/subscription";
+import {
+  getSubscriptionToolList,
+  SubscriptionToolCard,
+} from "@/src/entities/subscription";
 import { SubscriptionToolData } from "@/src/entities/subscription/model/SubscriptionTool.interface";
-import SubscriptionToolList from "@/src/entities/subscription/ui/SubscriptionToolList";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { ViewMoreButton } from "@/src/shared/ui";
 
@@ -41,7 +43,14 @@ export default function PaginatedSubscriptionList({
 
   return (
     <div className="space-y-6">
-      <SubscriptionToolList subscriptionToolList={tools} />
+      <div className="space-y-4">
+        {/* 도구 목록 */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {tools.map((tool) => (
+            <SubscriptionToolCard key={tool.id} {...tool} />
+          ))}
+        </div>
+      </div>
 
       {hasMoreTools && (
         <div className="flex justify-center pt-4">

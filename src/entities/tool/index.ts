@@ -30,6 +30,7 @@ export {
 } from "./model/formatToolData";
 export type { SuggestionTool } from "./model/SuggestionTool.interface";
 export type { Tool, ToolTag } from "./model/Tool.interface";
+export type { AiTool, AiToolDetail } from "./model/AiTool.interface";
 
 /** ui */
 export { default as AlternativeToolList } from "./ui/AlternativeToolList";

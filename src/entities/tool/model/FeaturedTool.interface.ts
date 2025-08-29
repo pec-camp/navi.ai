@@ -1,7 +1,7 @@
-import { AiToolList } from "./AiTool.interface";
+import { AiTool } from "./AiTool.interface";
 
 export type FeaturedTool = Pick<
-  AiToolList,
+  AiTool,
   | "id"
   | "name"
   | "slug"

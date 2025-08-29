@@ -1,2 +1,1 @@
-export { ReviewItem } from "./ReviewItem";
-export { ReviewsBlurredView } from "./ReviewsBlurredView";
+export { default as ReviewItem } from "./ReviewItem";

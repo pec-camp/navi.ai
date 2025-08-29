@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { MainTabNavigation } from "@/features/main-navigation";
 import { MainSearchBar } from "@/features/search/ui/MainSearchBar";
+import { ReviewsLoginInduceModal } from "@/src/features/review";
 import {
   MAIN_PATHNAME,
   SUBSCRIPTIONS_PATHNAME,
@@ -87,7 +88,7 @@ export default function MainLayout({
       />
 
       {/* Page Content */}
-      <main className="flex-1">{children}</main>
+      <div className="flex-1">{children}</div>
     </div>
   );
 }
