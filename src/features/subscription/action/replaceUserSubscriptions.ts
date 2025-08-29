@@ -4,21 +4,9 @@ import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/shared/utils/supabase/server";
 
+import { SubscriptionActionState } from "../model/SubscriptionActionState.interface";
+import { SubscriptionUpdateRequest } from "../model/SubscriptionUpdateRequest.interface";
 import { validateSubscriptionData } from "../model/validateSubscriptionData";
-
-export interface SubscriptionActionState {
-  success: boolean;
-  message: string;
-  data?: {
-    subscribedSubCategoryIds: number[];
-    totalCount: number;
-  };
-}
-
-export interface SubscriptionUpdateRequest {
-  userId: string;
-  subCategoryIds: number[];
-}
 
 export async function replaceUserSubscriptions(
   request: SubscriptionUpdateRequest,

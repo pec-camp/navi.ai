@@ -10,11 +10,9 @@ import {
 } from "@/src/entities/category";
 import { useSideSheet } from "@/src/shared/hooks";
 
-import {
-  replaceUserSubscriptions,
-  SubscriptionUpdateRequest,
-} from "../api/replaceUserSubscriptions";
+import { replaceUserSubscriptions } from "../action";
 import { useCategorySelector } from "../hooks/useCategorySelector";
+import { SubscriptionUpdateRequest } from "../model";
 import CategoryNav from "./CategoryNav";
 import SubcategoryPanel from "./SubcategoryPanel";
 
