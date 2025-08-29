@@ -3,16 +3,20 @@
 import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/shared/utils/supabase/server";
-import { DeleteReviewResult } from "../model/ReviewMutation.interface";
+
+import { UpdateReviewResult } from "../model/ReviewMutation.interface";
 
 /**
- * 기존 리뷰를 삭제하는 서버 액션
- * @param reviewId 삭제할 리뷰 ID
- * @returns 삭제 결과
+ * 기존 리뷰를 업데이트하는 서버 액션
+ * @param reviewId 업데이트할 리뷰 ID
+ * @param formData 폼 데이터 (rating, review_text)
+ * @returns 업데이트 결과
  */
-export async function deleteReview(
+export async function updateReview(
   reviewId: number,
-): Promise<DeleteReviewResult> {
+  rating: number,
+  reviewText: string,
+): Promise<UpdateReviewResult> {
   try {
     const supabase = await createClient();
 
@@ -47,22 +51,47 @@ export async function deleteReview(
     if (existingReview.user_id !== user.id) {
       return {
         success: false,
-        error: "삭제 권한이 없습니다.",
+        error: "수정 권한이 없습니다.",
       };
     }
 
-    // 리뷰 삭제
-    const { error: deleteError } = await supabase
-      .from("reviews")
-      .delete()
-      .eq("id", reviewId)
-      .eq("user_id", user.id); // 이중 권한 검증
-
-    if (deleteError) {
-      console.error("Error deleting review:", deleteError);
+    // 입력 검증
+    if (!rating || rating < 1 || rating > 5) {
       return {
         success: false,
-        error: "리뷰 삭제에 실패했습니다.",
+        error: "올바른 별점을 선택해주세요. (1-5점)",
+      };
+    }
+
+    if (!reviewText || reviewText.trim().length === 0) {
+      return {
+        success: false,
+        error: "리뷰 내용을 입력해주세요.",
+      };
+    }
+
+    if (reviewText.trim().length > 1000) {
+      return {
+        success: false,
+        error: "리뷰는 1000자 이하로 작성해주세요.",
+      };
+    }
+
+    // 리뷰 업데이트 (이중 권한 검증 포함)
+    const { error: updateError } = await supabase
+      .from("reviews")
+      .update({
+        rating,
+        review_text: reviewText.trim(),
+      })
+      .eq("id", reviewId)
+      .eq("user_id", user.id);
+
+    if (updateError) {
+      console.error("Error updating review:", updateError);
+      return {
+        success: false,
+        error: "리뷰 업데이트에 실패했습니다.",
       };
     }
 
@@ -74,7 +103,7 @@ export async function deleteReview(
       success: true,
     };
   } catch (error) {
-    console.error("Error in deleteReview:", error);
+    console.error("Error in updateReview:", error);
     return {
       success: false,
       error: "서버 오류가 발생했습니다.",

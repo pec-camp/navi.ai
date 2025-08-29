@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { TOOLS_PATHNAME } from "@/shared/config/pathname";
-import { FeaturedToolList } from "@/src/entities/tool";
+import { FeaturedToolList } from "@/src/entities/tool/ui";
 
 export default async function Home() {
   return (

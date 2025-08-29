@@ -1,4 +1,4 @@
-"use server";
+import { cache } from "react";
 
 import { createClient } from "@/shared/utils/supabase/server";
 
@@ -8,10 +8,11 @@ import { formatExtension } from "../model/formatToolData";
 /**
  * 메인 AI 도구 카드 목록을 조회합니다.
  * 월간 방문수 순으로 정렬되어 20개의 툴을 반환합니다.
+ * React cache를 사용하여 요청당 메모이제이션 적용
  *
  * @returns 인기 툴 목록 (20개)
  */
-export async function getFeaturedToolList(): Promise<FeaturedTool[]> {
+export const getFeaturedToolList = cache(async (): Promise<FeaturedTool[]> => {
   const supabase = await createClient();
 
   const { data: tools, error } = await supabase
@@ -52,4 +53,4 @@ export async function getFeaturedToolList(): Promise<FeaturedTool[]> {
   }));
 
   return featuredTools;
-}
+});

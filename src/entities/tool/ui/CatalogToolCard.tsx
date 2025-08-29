@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -22,7 +20,7 @@ export default function CatalogToolCard({ tool }: CatalogToolCardProps) {
   const href = tool?.slug ? `/tools/${tool.slug}` : "#";
 
   return (
-    <Card className="group relative z-10 h-full rounded-[24px] border transition-all duration-200 hover:-translate-y-1 hover:z-20 hover:shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+    <Card className="group relative z-10 h-full rounded-[24px] border transition-all duration-200 hover:z-20 hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
       <CardContent className="flex h-full flex-col gap-4 px-5 py-6">
         <div className="flex items-center gap-3">
           <Avatar className="h-[46px] w-[46px] border border-border">
@@ -32,9 +30,13 @@ export default function CatalogToolCard({ tool }: CatalogToolCardProps) {
             </AvatarFallback>
           </Avatar>
           <div className="min-w-0">
-            <h3 className="truncate text-[16px] font-semibold leading-[1.25] text-secondary">{title}</h3>
+            <h3 className="truncate text-[16px] font-semibold leading-[1.25] text-secondary">
+              {title}
+            </h3>
             {tool?.categories?.[0]?.name ? (
-              <p className="truncate text-[12px] text-muted-foreground">{tool.categories[0].name}</p>
+              <p className="truncate text-[12px] text-muted-foreground">
+                {tool.categories[0].name}
+              </p>
             ) : null}
           </div>
         </div>
@@ -53,7 +55,9 @@ export default function CatalogToolCard({ tool }: CatalogToolCardProps) {
         ) : null}
 
         {description ? (
-          <p className="line-clamp-3 flex-1 text-[14px] leading-[1.43] text-muted-foreground">{description}</p>
+          <p className="line-clamp-3 flex-1 text-[14px] leading-[1.43] text-muted-foreground">
+            {description}
+          </p>
         ) : (
           <div className="flex-1" />
         )}
@@ -65,10 +69,10 @@ export default function CatalogToolCard({ tool }: CatalogToolCardProps) {
               {tool.pricing === "free" && tool.fromPriceMonth
                 ? `Free + from $${tool.fromPriceMonth}/월`
                 : tool.fromPriceMonth
-                ? `From $${tool.fromPriceMonth}/월`
-                : tool.pricing === "free"
-                ? "Free"
-                : "Paid"}
+                  ? `From $${tool.fromPriceMonth}/월`
+                  : tool.pricing === "free"
+                    ? "Free"
+                    : "Paid"}
             </span>
           </div>
         )}
