@@ -20,6 +20,8 @@ export type {
 export type { AlternativeTool } from "./model/AlternativeTool.interface";
 export type { FeaturedTool } from "./model/FeaturedTool.interface";
 export {
+  type AiTool,
+  type AiToolDetail,
   formatAIContent,
   formatDates,
   formatDateToKorean,
@@ -29,10 +31,12 @@ export {
   formatToolBasic,
   formatToolDetail,
 } from "./model/formatToolData";
+export type {
+  SubscriptionTool,
+  SubscriptionToolListResponse,
+} from "./model/SubscriptionTool.interface";
 export type { SuggestionTool } from "./model/SuggestionTool.interface";
 export type { Tool, ToolTag } from "./model/Tool.interface";
-export type { AiTool, AiToolDetail } from "./model/AiTool.interface";
-export type { SubscriptionTool, SubscriptionToolData } from "./model/SubscriptionTool.interface";
 
 /** ui */
 export { default as AlternativeToolList } from "./ui/AlternativeToolList";
