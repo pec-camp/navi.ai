@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 
+import { Button } from "@/shared/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui/dialog";
-import { Button } from "@/shared/ui/button";
 
-import { deleteReview } from "../api/deleteReview";
+import { deleteReview } from "../action/deleteReview";
 
 interface DeleteReviewDialogProps {
   reviewId: number;

@@ -3,8 +3,8 @@
 import { useActionState } from "react";
 
 import { ReviewFormState } from "@/features/auth/model/auth.interface";
-import { updateReview } from "../api/updateReview";
-import { addReview } from "../api";
+
+import { addReview, updateReview } from "../action";
 
 export const useReviewActionState = (
   toolId: number,

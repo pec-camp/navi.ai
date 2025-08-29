@@ -1,7 +1,3 @@
-"use server";
-
-import { formatReviews } from "./../model/formatReviews";
-
 import {
   anonymizeNickname,
   formatProfessionForDisplay,
@@ -9,11 +5,8 @@ import {
 } from "@/features/review/model/anonymizeNickname";
 import { createClient } from "@/shared/utils/supabase/server";
 
-import {
-  Review,
-  ReviewsResponse,
-  ReviewStats,
-} from "../model/Review.interface";
+import { ReviewsResponse, ReviewStats } from "../model/Review.interface";
+import { formatReviews } from "./../model/formatReviews";
 
 /**
  * 특정 도구의 리뷰 목록을 가져오는 함수

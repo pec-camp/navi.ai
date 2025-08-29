@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatedSideSheet } from "@/shared/ui/AnimatedSideSheet";
-import { Review } from "@/src/entities/review";
+import { Review } from "@/src/entities/review/model/Review.interface";
 import { useSideSheet } from "@/src/shared/hooks";
 
 import ReviewForm from "./ReviewForm";

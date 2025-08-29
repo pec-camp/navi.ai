@@ -4,7 +4,10 @@ import Link from "next/link";
 import { getReviewsByTool } from "@/src/entities/review";
 import { getToolBySlug } from "@/src/entities/tool";
 import { getCurrentUser } from "@/src/features/auth";
-import { ReviewList, ReviewsLoginInduceModal } from "@/src/features/review";
+import {
+  PaginatedReviewList,
+  ReviewsLoginInduceModal,
+} from "@/src/features/review";
 import { TOOLS_SLUG_REVIEWS_REVIEW_FORM_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
 
@@ -24,8 +27,9 @@ export default async function ToolReviewsPage({
   const { slug } = await params;
   const { modal } = await searchParams;
 
-  const user = await getCurrentUser();
   const toolData = (await getToolBySlug(slug))!;
+
+  const user = await getCurrentUser();
   const reviewsData = await getReviewsByTool(toolData.id, 5, 0);
 
   return (
@@ -51,7 +55,7 @@ export default async function ToolReviewsPage({
       </div>
 
       {/* 리뷰 목록 */}
-      <ReviewList
+      <PaginatedReviewList
         toolId={toolData.id}
         toolSlug={slug}
         currentUserId={user?.id}
