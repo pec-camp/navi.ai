@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 import { createClient } from "@/shared/utils/supabase/server";
 
 import { AlternativeTool } from "../model/AlternativeTool.interface";
@@ -6,15 +8,16 @@ import { formatToolBasic } from "../model/formatToolData";
 /**
  * 대안 도구 추천 함수 (RPC 기반)
  * Supabase RPC 함수를 호출하여 유사도 기반 대안 도구를 추천합니다.
+ * React cache를 사용하여 요청당 메모이제이션 적용
  *
  * @param targetSlug 현재 도구의 슬러그
  * @param limit 추천할 도구의 개수 (기본값: 3, 최대 3개)
  * @returns 대안 도구 배열
  */
-export async function getAlternativeToolList(
+export const getAlternativeToolList = cache(async (
   targetSlug: string,
   limit: number = 3,
-): Promise<AlternativeTool[]> {
+): Promise<AlternativeTool[]> => {
   const supabase = await createClient();
 
   try {
@@ -49,4 +52,4 @@ export async function getAlternativeToolList(
     console.error("Error in getAlternativeTools RPC:", error);
     return [];
   }
-}
+});

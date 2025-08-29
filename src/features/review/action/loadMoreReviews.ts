@@ -1,6 +1,6 @@
 "use server";
 
-import { getReviewsByTool } from "@/entities/review/api/getToolReviews";
+import { getReviewsByTool } from "@/entities/review/api/getReviewsByTool";
 
 export async function loadMoreReviews(
   toolId: number,
