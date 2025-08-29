@@ -94,8 +94,33 @@ export function useCategorySelector({
     [categorySubscriptions],
   );
 
+  // 구독 정보가 포함된 카테고리 배열 (구독 기준으로 정렬)
+  const categoriesWithSubscriptions = useMemo(() => {
+    return categories
+      .map((category) => {
+        const subscription = categorySubscriptions.find(
+          (sub) => sub.categoryId === category.id,
+        );
+        const hasSubscriptions = !!subscription;
+        const subscriptionCount = subscription?.subCategoryIds.length || 0;
+
+        return {
+          ...category,
+          hasSubscriptions,
+          subscriptionCount,
+        };
+      })
+      .sort((a, b) => {
+        // 1. 구독한 카테고리 우선
+        if (a.hasSubscriptions !== b.hasSubscriptions) {
+          return b.hasSubscriptions ? 1 : -1;
+        }
+        return 0;
+      });
+  }, [categories, categorySubscriptions]);
+
   const [state, dispatch] = useReducer(categoryReducer, {
-    selectedCategory: categories[0]?.id ?? null,
+    selectedCategory: categoriesWithSubscriptions[0]?.id ?? null,
     currentSelected: initialSubscribed,
     submissionState: "idle",
   });
@@ -107,16 +132,6 @@ export function useCategorySelector({
       Array.from(state.currentSelected).some((id) => !initialSubscribed.has(id))
     );
   }, [state.currentSelected, initialSubscribed]);
-
-  //  구독 정보가 포함된 카테고리 배열
-  const categoriesWithSubscriptions = useMemo(() => {
-    return categories.map((category) => {
-      const hasSubscriptions = categorySubscriptions.some(
-        (subscription) => subscription.categoryId === category.id,
-      );
-      return { ...category, hasSubscriptions };
-    });
-  }, [categories, categorySubscriptions]);
 
   // 선택된 카테고리 데이터
   const selectedCategoryData = useMemo(

@@ -21,7 +21,10 @@ export default function SubscriptionToolList({
               <SubscriptionToolCard {...tool} />
             </Link>
             <div className="absolute right-4 top-4 z-10">
-              <AddToCompareButton tool={tool} />
+              <AddToCompareButton
+                tool={tool}
+                aria-label={`${tool.name}를 비교목록에 추가`}
+              />
             </div>
           </div>
         ))}
