@@ -1,2 +1,2 @@
 export { getReviewById } from "./getReviewById";
-export { getReviewsByTool } from "./getToolReviews";
+export { getReviewsByTool } from "./getReviewsByTool";
