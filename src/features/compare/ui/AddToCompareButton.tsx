@@ -38,7 +38,7 @@ export default function AddToCompareButton({
         ? "이미 비교 목록에 있습니다"
         : null;
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     if (isAdded) {
       // 현재 경로에 query parameter 추가하여 비교함 열기
       const currentPath = window.location.pathname;
