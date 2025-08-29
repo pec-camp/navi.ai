@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
-import { getToolSuggestionList, type SuggestionTool } from "@/entities/tool";
+import { getToolSuggestionList } from "@/entities/tool/action/getToolSuggestionList";
 import { useDebounce } from "@/shared/hooks";
+import { SuggestionTool } from "@/src/entities/tool/model/SuggestionTool.interface";
 
 import type {
   UseSearchOptions,
