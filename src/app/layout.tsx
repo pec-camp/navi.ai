@@ -4,8 +4,9 @@ import type { Metadata } from "next";
 import { Onest, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
+import { AuthButton } from "../features/auth";
+import { Header } from "../features/header/ui/Header";
 import { Logo } from "../shared/ui";
-import { Header } from "../widgets/header";
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
@@ -31,8 +32,9 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Product Engineer Community",
-  description: "코드를 넘어, 가치를 만드는 엔지니어들의 성장 공간",
+  title: "Navi.ai - Discover the World's Top AI Tools",
+  description:
+    "Discover the world's top AI tools. Find the perfect solution for every task with our curated collection of 21,346+ AI tools.",
 };
 
 export default function RootLayout({
@@ -47,10 +49,14 @@ export default function RootLayout({
       className={`${onest.variable} ${pretendard.variable} ${rajdhani.variable}`}
     >
       <body className="bg-background text-foreground">
-        {/* Global background removed; mounted per-route where needed */}
-
         {/* Header */}
-        <Header />
+        <Header
+          action={
+            <div className="ml-auto flex items-center space-x-4">
+              <AuthButton />
+            </div>
+          }
+        />
 
         {/* Main */}
         <main className="container mx-auto mb-20 flex min-h-screen flex-col items-center px-4">

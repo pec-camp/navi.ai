@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LOGIN_PATHNAME } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui";
 
-import { getCurrentUser , getUserProfile } from "../api/get-user-profile";
+import { getCurrentUser, getUserProfile } from "../api/get-user-profile";
 import { AuthButtonClient } from "./AuthButtonClient";
 
 export default async function AuthButton() {
@@ -11,7 +11,7 @@ export default async function AuthButton() {
 
   if (!user) {
     return (
-      <Button asChild variant="outline">
+      <Button asChild variant="ghost">
         <Link href={LOGIN_PATHNAME}>로그인</Link>
       </Button>
     );
@@ -20,11 +20,11 @@ export default async function AuthButton() {
   // Enrich user metadata with database profile if needed
   if (user.email && !user.user_metadata?.full_name) {
     const profile = await getUserProfile(user.email);
-    
+
     if (profile?.profession) {
       user.user_metadata = {
         ...user.user_metadata,
-        display_name: profile.profession
+        display_name: profile.profession,
       };
     }
   }

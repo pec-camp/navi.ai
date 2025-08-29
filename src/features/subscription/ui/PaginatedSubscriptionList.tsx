@@ -41,10 +41,8 @@ export default function PaginatedSubscriptionList({
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4">
-        {/* 도구 목록 */}
-        <SubscriptionToolList subscriptionToolList={tools} />
-      </div>
+      {/* 도구 목록 */}
+      <SubscriptionToolList subscriptionToolList={tools} />
 
       {hasMoreTools && (
         <div className="flex justify-center pt-4">

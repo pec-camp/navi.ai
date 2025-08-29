@@ -46,7 +46,7 @@ export const getFeaturedToolList = cache(async (): Promise<FeaturedTool[]> => {
     name: tool.name,
     websiteLogo: tool.website_logo || "",
     description: tool.description || "",
-    slug: tool.slug,
+    slug: tool.slug.trim(),
     isFree: tool.is_free ?? false,
     tags: tool.tags || [],
     extension: formatExtension(tool.extension),

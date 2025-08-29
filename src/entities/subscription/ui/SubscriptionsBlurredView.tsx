@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { LoginInduceModal } from "@/src/features/auth";
+import LoginInduceModal from "@/src/features/auth/ui/LoginInduceModal";
 
 export function SubscriptionsBlurredView() {
   const router = useRouter();

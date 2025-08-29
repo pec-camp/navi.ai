@@ -34,7 +34,7 @@ export default function SubscriptionToolCard({
 
   return (
     <Card
-      className={`group relative h-full max-w-sm cursor-pointer overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm ${className || ""}`}
+      className={`group relative h-full max-h-screen cursor-pointer overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm ${className || ""}`}
     >
       <CardContent className="flex h-full flex-col p-0">
         {/* 헤더 섹션 */}

@@ -196,7 +196,7 @@ export function formatToolBasic(rawData: Omit<AiToolRawData, "ai_content">) {
     id: rawData.id,
     name: rawData.name,
     websiteName: rawData.website_name,
-    slug: rawData.slug,
+    slug: rawData.slug.trim(),
     description: rawData.description,
     whatIsSummary: rawData.what_is_summary,
     whatIs: rawData.what_is,

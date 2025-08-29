@@ -1,6 +1,8 @@
-import Link from "next/link";
+"use client";
 
-import { AuthButton } from "@/features/auth";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
 import { cn } from "@/shared/ui/lib/utils";
 import {
   NavigationMenu,
@@ -11,12 +13,25 @@ import {
 import { MAIN_PATHNAME } from "@/src/shared/config/pathname";
 import { Logo } from "@/src/shared/ui";
 
-export async function Header() {
+export function Header({ action }: { action: React.ReactNode }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY > 0;
+      setIsScrolled(scrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <header
       className={cn(
         "sticky top-0 z-50 w-full border-b border-[#0000001a] duration-300",
-        "supports-[backdrop-filter]:bg-background/60 bg-white/80 backdrop-blur",
+        "supports-[backdrop-filter]:backdrop-blur",
+        isScrolled ? "bg-white/80" : "bg-background/60",
       )}
     >
       <div className="container mx-auto flex h-16 items-center px-4">
@@ -48,10 +63,8 @@ export async function Header() {
           </NavigationMenu>
         </div>
 
-        {/* Auth Actions */}
-        <div className="ml-auto flex items-center space-x-4">
-          <AuthButton />
-        </div>
+        {/** Action */}
+        {action}
       </div>
     </header>
   );
