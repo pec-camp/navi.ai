@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { Button } from "@/shared/ui/button";
+import { Review } from "@/src/entities/review/model/Review.interface";
+import { cn } from "@/src/shared/ui/lib/utils";
 
 import { useReviewActionState } from "../model/useReviewActionState";
-import { Review } from "@/src/entities/review";
-import { cn } from "@/src/shared/ui/lib/utils";
 
 interface ReviewFormProps {
   toolName: string;

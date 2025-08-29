@@ -1,13 +1,12 @@
-"use server";
-
-import { createClient } from "@/src/shared/utils/supabase/server";
-import type { Review } from "../model/Review.interface";
-import { formatReviews } from "../model/formatReviews";
 import {
   anonymizeNickname,
-  generateAvatarUrl,
   formatProfessionForDisplay,
+  generateAvatarUrl,
 } from "@/src/features/review/model/anonymizeNickname";
+import { createClient } from "@/src/shared/utils/supabase/server";
+
+import { formatReviews } from "../model/formatReviews";
+import type { Review } from "../model/Review.interface";
 
 /**
  * 특정 리뷰를 ID로 조회합니다.

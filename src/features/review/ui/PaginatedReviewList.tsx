@@ -2,14 +2,14 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import { getReviewsByTool } from "@/entities/review/api/getToolReviews";
 import { Review, ReviewStats } from "@/entities/review/model/Review.interface";
-import { ReviewItem } from "@/src/entities/review";
+import ReviewItem from "@/src/entities/review/ui/ReviewItem";
+import { loadMoreReviews } from "@/src/features/review/action";
 import { ViewMoreButton } from "@/src/shared/ui";
 
 import ReviewActions from "./ReviewActions";
 
-interface ReviewListProps {
+interface PaginatedReviewListProps {
   toolId: number;
   toolSlug: string;
   currentUserId?: string;
@@ -20,14 +20,14 @@ interface ReviewListProps {
   onReviewAdded?: (review: Review) => void;
 }
 
-export function ReviewList({
+export default function PaginatedReviewList({
   toolId,
   toolSlug,
   currentUserId,
   initialReviews,
   stats,
   total,
-}: ReviewListProps) {
+}: PaginatedReviewListProps) {
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [isPending, startTransition] = useTransition();
 
@@ -38,7 +38,7 @@ export function ReviewList({
   const handleLoadMore = () => {
     startTransition(async () => {
       try {
-        const result = await getReviewsByTool(toolId, 5, reviews.length);
+        const result = await loadMoreReviews(toolId, 5, reviews.length);
         setReviews((prev) => [...prev, ...result.reviews]);
       } catch (error) {
         console.error("Failed to load more reviews:", error);
