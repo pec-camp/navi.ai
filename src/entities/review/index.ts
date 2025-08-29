@@ -3,17 +3,12 @@ export { getReviewsByTool } from "./api";
 
 // Model exports
 export type {
-  ActionResult,
-  CreateReviewData,
-  CreateReviewResult,
-  DeleteReviewResult,
   Review,
   ReviewAuthor,
-  ReviewFormData,
   ReviewsResponse,
   ReviewStats,
-  UpdateReviewResult,
 } from "./model";
 
 // Read-only UI Component exports
-export { ReviewItem } from "./ui/ReviewItem";
+export { default as ReviewItem } from "./ui/ReviewItem";
+export { ReviewsBlurredView } from "./ui";

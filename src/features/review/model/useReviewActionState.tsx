@@ -1,22 +1,25 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 
 import { ReviewFormState } from "@/features/auth/model/auth.interface";
-import { addReview } from "@/src/features/review/api/addReview";
+import { updateReview } from "../api/updateReview";
+import { addReview } from "../api";
 
 export const useReviewActionState = (
   toolId: number,
   onSuccess?: () => void,
+  mode: "create" | "edit" = "create",
+  reviewId?: number,
 ) => {
-  const router = useRouter();
   const reviewAction = async (
     prevState: ReviewFormState,
     formData: FormData,
   ) => {
     const rating = Number(formData.get("rating"));
     const review_text = formData.get("review_text") as string;
+    const formMode = formData.get("mode") as string;
+    const formReviewId = formData.get("reviewId") as string;
 
     // 폼 검증
     if (!rating || rating < 1 || rating > 5) {
@@ -35,11 +38,44 @@ export const useReviewActionState = (
       };
     }
 
+    // Edit mode인 경우 updateReview 호출
+    if (mode === "edit" || formMode === "edit") {
+      const targetReviewId = reviewId || parseInt(formReviewId, 10);
+
+      if (!targetReviewId || isNaN(targetReviewId)) {
+        return {
+          success: false,
+          message: "잘못된 리뷰 ID입니다.",
+        };
+      }
+
+      const result = await updateReview(
+        targetReviewId,
+        rating,
+        review_text.trim(),
+      );
+
+      if (result.success) {
+        onSuccess?.();
+        return {
+          success: true,
+          message: "리뷰가 성공적으로 수정되었습니다!",
+        };
+      }
+
+      return {
+        success: false,
+        message: result.error,
+      };
+    }
+
+    // Create mode인 경우 addReview 호출
     const result = await addReview({
       ai_tool_id: toolId,
       rating,
       review_text: review_text.trim(),
-      recommend: rating >= 4, // 4점 이상이면 추천으로 설정
+      recommend: rating >= 4,
+      used_with_tool_id: null,
     });
 
     if (result.success) {

@@ -1,21 +1,25 @@
 "use client";
 
-import { X } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { Button } from "@/shared/ui/button";
 
 import { useReviewActionState } from "../model/useReviewActionState";
-import RatingStars from "./RatingStars";
+import { Review } from "@/src/entities/review";
+import { cn } from "@/src/shared/ui/lib/utils";
 
 interface ReviewFormProps {
   toolName: string;
   toolId: number;
   onClose: () => void;
+  mode?: "create" | "edit";
+  reviewId?: number;
+  initialData?: Review | null;
 }
 
-function SubmitButton() {
+function SubmitButton({ mode }: { mode: "create" | "edit" }) {
   const { pending } = useFormStatus();
 
   return (
@@ -25,7 +29,13 @@ function SubmitButton() {
       disabled={pending}
       className="h-12 w-full text-base font-medium"
     >
-      {pending ? "제출 중..." : "리뷰 제출"}
+      {pending
+        ? mode === "edit"
+          ? "수정 중..."
+          : "제출 중..."
+        : mode === "edit"
+          ? "리뷰 수정"
+          : "리뷰 제출"}
     </Button>
   );
 }
@@ -34,11 +44,17 @@ export default function ReviewForm({
   toolName,
   toolId,
   onClose,
+  mode = "create",
+  reviewId,
+  initialData,
 }: ReviewFormProps) {
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(initialData?.rating || 5);
+  const [reviewText, setReviewText] = useState(initialData?.reviewText || "");
   const { reviewFormState, reviewFormAction } = useReviewActionState(
     toolId,
     onClose,
+    mode,
+    reviewId,
   );
 
   const handleRatingClick = (selectedRating: number) => {
@@ -63,11 +79,13 @@ export default function ReviewForm({
               {toolName}
             </span>
             <span className="text-2xl font-bold text-foreground">
-              리뷰 남기기
+              {mode === "edit" ? "리뷰 수정하기" : "리뷰 남기기"}
             </span>
           </div>
           <p className="text-base font-light text-muted-foreground">
-            {toolName}에 대한 솔직한 경험을 공유해주세요.
+            {mode === "edit"
+              ? `${toolName} 리뷰를 수정하세요.`
+              : `${toolName}에 대한 솔직한 경험을 공유해주세요.`}
           </p>
         </div>
         <Button
@@ -81,6 +99,14 @@ export default function ReviewForm({
       </div>
 
       <form action={reviewFormAction} className="flex flex-1 flex-col">
+        {/* Hidden fields for edit mode */}
+        {mode === "edit" && reviewId && (
+          <>
+            <input type="hidden" name="mode" value="edit" />
+            <input type="hidden" name="reviewId" value={reviewId} />
+          </>
+        )}
+
         {/* Form Content */}
         <div className="flex-1 space-y-6 overflow-y-auto p-6">
           {/* 에러 메시지 */}
@@ -91,11 +117,37 @@ export default function ReviewForm({
           )}
 
           {/* 별점 */}
-          <RatingStars
-            rating={rating}
-            onRatingChange={handleRatingClick}
-            error={reviewFormState?.errors?.rating?.[0]}
-          />
+          <div className="space-y-3">
+            <input type="hidden" name="rating" value={rating} />
+            <label className="text-base font-medium text-foreground">
+              평점 *
+            </label>
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => handleRatingClick(star)}
+                  className="transition-colors hover:scale-110"
+                >
+                  <Star
+                    strokeWidth={1}
+                    className={cn(
+                      "h-7 w-7",
+                      star <= rating
+                        ? "fill-star text-star"
+                        : "fill-none text-muted-foreground",
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+            {reviewFormState?.errors?.rating && (
+              <p className="text-sm text-red-600">
+                {reviewFormState.errors.rating[0]}
+              </p>
+            )}
+          </div>
 
           {/* 사용 경험 */}
           <div className="space-y-3">
@@ -104,6 +156,8 @@ export default function ReviewForm({
             </label>
             <textarea
               name="review_text"
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
               placeholder="상세한 사용 경험은 다른 사용자에게 큰 도움이 됩니다."
               className="h-40 w-full resize-none rounded-md border border-border p-3 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-ring"
             />
@@ -117,7 +171,7 @@ export default function ReviewForm({
 
         {/* Footer */}
         <div className="border-t border-border p-6">
-          <SubmitButton />
+          <SubmitButton mode={mode} />
         </div>
       </form>
     </div>

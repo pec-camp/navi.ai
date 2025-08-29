@@ -1,5 +1,7 @@
 "use server";
 
+import { formatReviews } from "./../model/formatReviews";
+
 import {
   anonymizeNickname,
   formatProfessionForDisplay,
@@ -68,15 +70,15 @@ export async function getReviewsByTool(
     }
 
     // 3. 리뷰 데이터 포맷팅
-    const reviews: Review[] = (reviewsData || []).map((review) => {
+    const reviews = (reviewsData || []).map((review) => {
       const originalName = review.users?.email?.split("@")[0] || "Anonymous";
       const userId = review.users?.id || review.user_id || "anonymous";
       return {
-        ...review,
+        ...formatReviews(review),
         author: {
           id: userId,
           name: anonymizeNickname(originalName),
-          avatar_url: generateAvatarUrl(userId),
+          avatarUrl: generateAvatarUrl(userId),
           profession: formatProfessionForDisplay(
             review.users?.profession || undefined,
           ),

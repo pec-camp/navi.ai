@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 import { ToolDetailTabs } from "@/features/tool-detail";
 import {
@@ -37,10 +36,6 @@ export default async function ToolDetailLayout({
 
   const toolData = await getToolBySlug(slug);
 
-  if (!toolData) {
-    notFound();
-  }
-
   return (
     <main className="min-h-screen bg-background">
       <div className="container mx-auto max-w-7xl py-20">
@@ -61,7 +56,7 @@ export default async function ToolDetailLayout({
             </li>
             <li aria-current="page">
               <span className="font-normal capitalize text-muted-foreground">
-                {toolData.name}
+                {toolData?.name}
               </span>
             </li>
           </ol>
@@ -75,10 +70,10 @@ export default async function ToolDetailLayout({
           >
             {/* 메인 스크린샷 */}
             <figure className="relative aspect-[5/3] overflow-hidden rounded-md border border-border bg-muted">
-              {toolData.imageUrl ? (
+              {toolData?.imageUrl ? (
                 <Image
-                  src={toolData.imageUrl}
-                  alt={`${toolData.name} 도구의 인터페이스 스크린샷`}
+                  src={toolData?.imageUrl}
+                  alt={`${toolData?.name} 도구의 인터페이스 스크린샷`}
                   fill
                   className="rounded-md object-cover"
                   sizes="(max-width: 1024px) 100vw, 420px"
@@ -87,7 +82,7 @@ export default async function ToolDetailLayout({
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
                   <div className="text-center text-white">
                     <div className="mb-2 text-4xl font-bold capitalize">
-                      {toolData.name}
+                      {toolData?.name}
                     </div>
                     <p className="text-sm opacity-70">스크린샷</p>
                   </div>
@@ -97,25 +92,25 @@ export default async function ToolDetailLayout({
 
             {/* 액션 버튼들 */}
             <div className="space-y-3" role="group" aria-label="도구 액션">
-              {toolData.website && (
+              {toolData?.website && (
                 <Button
                   size="lg"
                   variant="secondary"
                   className="hover:bg-foreground/90 h-12 w-full"
                   aria-label={
-                    toolData.extension
-                      ? `${toolData.name} 확장 프로그램 설치`
-                      : `${toolData.name} 공식 웹사이트로 이동`
+                    toolData?.extension
+                      ? `${toolData?.name} 확장 프로그램 설치`
+                      : `${toolData?.name} 공식 웹사이트로 이동`
                   }
                   asChild
                 >
                   <Link
-                    href={toolData.website}
+                    href={toolData?.website}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
-                    {toolData.extension
+                    {toolData?.extension
                       ? "확장 프로그램 설치"
                       : "웹사이트 바로가기"}
                   </Link>
@@ -126,7 +121,7 @@ export default async function ToolDetailLayout({
                 size="lg"
                 variant="outline"
                 className="hover:bg-foreground/90 h-12 w-full"
-                aria-label={`${toolData.name}를 비교목록에 추가`}
+                aria-label={`${toolData?.name}를 비교목록에 추가`}
               >
                 <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
                 비교목록에 추가
@@ -139,13 +134,15 @@ export default async function ToolDetailLayout({
             {/* 헤더 */}
             <header className="flex items-center gap-4">
               <ToolLogo
-                websiteLogo={toolData.websiteLogo || toolData.extension?.avatar}
-                name={toolData.name || ""}
+                websiteLogo={
+                  toolData?.websiteLogo || toolData?.extension?.avatar
+                }
+                name={toolData?.name || ""}
                 size="xl"
               />
               <div className="flex-grow">
                 <h1 className="mb-1 font-rajdhani text-4xl font-bold uppercase tracking-wide text-foreground">
-                  {toolData.name}
+                  {toolData?.name}
                 </h1>
               </div>
             </header>
@@ -155,7 +152,7 @@ export default async function ToolDetailLayout({
               <h2 className="sr-only">도구 개요</h2>
               <div>
                 <p className="break-keep text-base font-light leading-7 text-muted-foreground">
-                  {toolData.content?.what_is}
+                  {toolData?.content?.what_is}
                 </p>
               </div>
 
@@ -164,7 +161,7 @@ export default async function ToolDetailLayout({
                 className="flex items-center gap-2"
                 aria-label="도구 카테고리"
               >
-                <ToolBadge tags={toolData.tags} maxCount={10} />
+                <ToolBadge tags={toolData?.tags} maxCount={10} />
               </div>
 
               {/* 생성/수정 날짜 */}
@@ -176,22 +173,22 @@ export default async function ToolDetailLayout({
                   className="h-3 w-3 text-muted-foreground-secondary"
                   aria-hidden="true"
                 />
-                {toolData.dates.createdAtFormatted && (
+                {toolData?.dates.createdAtFormatted && (
                   <>
                     <time
-                      dateTime={toolData.dates.createdAt?.toISOString()}
+                      dateTime={toolData?.dates.createdAt?.toISOString()}
                       className="font-light"
                     >
-                      {toolData.dates.createdAtFormatted} 출시
+                      {toolData?.dates.createdAtFormatted} 출시
                     </time>
-                    {toolData.dates.updatedAtFormatted && (
+                    {toolData?.dates.updatedAtFormatted && (
                       <>
                         <span aria-hidden="true">•</span>
                         <time
-                          dateTime={toolData.dates.updatedAt?.toISOString()}
+                          dateTime={toolData?.dates.updatedAt?.toISOString()}
                           className="font-light"
                         >
-                          {toolData.dates.updatedAtFormatted} 업데이트
+                          {toolData?.dates.updatedAtFormatted} 업데이트
                         </time>
                       </>
                     )}
@@ -216,10 +213,10 @@ export default async function ToolDetailLayout({
                           className="text-lg font-medium leading-6 text-foreground"
                           aria-label="평점"
                         >
-                          {toolData.avgRating}
+                          {toolData?.avgRating}
                         </span>
                         <span className="text-xs font-light leading-[22px] text-muted-foreground">
-                          ({toolData.reviewCount} 리뷰)
+                          ({toolData?.reviewCount} 리뷰)
                         </span>
                       </div>
                       <span className="text-sm font-light leading-5 text-muted-foreground">
@@ -240,13 +237,13 @@ export default async function ToolDetailLayout({
                     </div>
                     <div className="flex flex-col">
                       <span className="text-lg font-medium leading-6 text-foreground">
-                        {toolData.extension
-                          ? toolData.extension.userNum
-                          : toolData.monthlyUsers.formatted}
+                        {toolData?.extension
+                          ? toolData?.extension.userNum
+                          : toolData?.monthlyUsers.formatted}
                       </span>
 
                       {/* 월간 방문자 수 & 활성 사용자 */}
-                      {toolData.extension ? (
+                      {toolData?.extension ? (
                         <span className="text-sm font-light leading-5 text-muted-foreground">
                           활성 사용자
                         </span>
