@@ -1,6 +1,4 @@
-"use server";
-
-import { createClient } from "@/shared/utils/supabase/server";
+import { createClient } from "@/shared/utils/supabase/client";
 
 import type { SuggestionTool } from "../model/SuggestionTool.interface";
 
@@ -25,7 +23,7 @@ export async function getToolSuggestionList(
   const sanitizedQuery = trimmedQuery.slice(0, 30);
 
   try {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     const { data, error } = await supabase
       .from("ai_tools")

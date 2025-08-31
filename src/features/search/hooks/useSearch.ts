@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
-import { getToolSuggestionList } from "@/entities/tool/action/getToolSuggestionList";
+import { getToolSuggestionList } from "@/entities/tool/api/getToolSuggestionList";
 import { useDebounce } from "@/shared/hooks";
 import { SuggestionTool } from "@/src/entities/tool/model/SuggestionTool.interface";
 
