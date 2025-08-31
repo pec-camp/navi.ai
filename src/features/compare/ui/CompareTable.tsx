@@ -5,19 +5,17 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { formatToolDetail } from "@/entities/tool/model/formatToolData";
+import {
+  AiToolDetail,
+  formatToolDetail,
+} from "@/entities/tool/model/formatToolData";
 import { Button } from "@/shared/ui/button";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
 import { createClient } from "@/shared/utils/supabase/client";
 
-interface ToolWithRating extends ReturnType<typeof formatToolDetail> {
-  avgRating?: number;
-  reviewCount?: number;
-}
-
 export default function CompareTable() {
   const searchParams = useSearchParams();
-  const [tools, setTools] = useState<ToolWithRating[]>([]);
+  const [tools, setTools] = useState<AiToolDetail[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,33 +42,15 @@ export default function CompareTable() {
       }
 
       // Format the data and get ratings
-      const formattedTools: ToolWithRating[] = await Promise.all(
+      const formattedTools: AiToolDetail[] = await Promise.all(
         (toolsData || []).map(async (tool) => {
-          const formatted = formatToolDetail(tool);
-
           // Fetch average rating for each tool
-          const { data: reviewData } = await supabase
+          const { data } = await supabase
             .from("reviews")
             .select("rating")
             .eq("ai_tool_id", tool.id);
 
-          let avgRating: number | undefined;
-          let reviewCount: number | undefined;
-
-          if (reviewData && reviewData.length > 0) {
-            reviewCount = reviewData.length;
-            const totalRating = reviewData.reduce(
-              (sum, review) => sum + review.rating,
-              0,
-            );
-            avgRating = totalRating / reviewCount;
-          }
-
-          return {
-            ...formatted,
-            avgRating,
-            reviewCount,
-          };
+          return formatToolDetail({ ...tool, ...data });
         }),
       );
 
