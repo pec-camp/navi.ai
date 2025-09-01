@@ -148,7 +148,7 @@ export default function CompareContent({ onClose }: CompareContentProps) {
       </div>
 
       <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
             <AlertDialogTitle>비교 목록 삭제</AlertDialogTitle>
             <AlertDialogDescription>
