@@ -2,7 +2,6 @@
 
 import { ArrowLeft, Check, Star } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import {
@@ -13,14 +12,23 @@ import { Button } from "@/shared/ui/button";
 import { ToolLogo } from "@/shared/ui/ToolLogo";
 import { createClient } from "@/shared/utils/supabase/client";
 
-export default function CompareTable() {
-  const searchParams = useSearchParams();
+interface CompareTableProps {
+  tools?: string;
+}
+
+/**
+ * AI 도구 비교 테이블 컴포넌트
+ *
+ * @note 리팩토링: useSearchParams() 대신 props로 searchParams 전달받도록 변경
+ * @reason useSearchParams()가 Next.js 15 정적 생성 시 CSR bailout 발생시킴
+ */
+export default function CompareTable({ tools: toolsParam }: CompareTableProps) {
   const [tools, setTools] = useState<AiToolDetail[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTools = async () => {
-      const toolSlugs = searchParams.get("tools")?.split(",") || [];
+      const toolSlugs = toolsParam?.split(",") || [];
 
       if (toolSlugs.length === 0) {
         setLoading(false);
@@ -59,7 +67,7 @@ export default function CompareTable() {
     };
 
     fetchTools();
-  }, [searchParams]);
+  }, [toolsParam]);
 
   if (loading) {
     return (
