@@ -51,7 +51,7 @@ export default function MainLayout({
           {/* Sub Text */}
           <div className="mb-8 text-center">
             <p className="font-onest text-sm text-muted-foreground">
-              21,346+{" "}
+              26,214+{" "}
               <span className="font-medium text-secondary">AI tools</span> for
               13,583 <span className="font-medium text-secondary">tasks</span>{" "}
               and 5,018{" "}

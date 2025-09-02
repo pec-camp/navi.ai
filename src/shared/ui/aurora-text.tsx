@@ -13,10 +13,10 @@ interface AuroraTextProps {
 }
 
 const AuroraText = React.forwardRef<HTMLSpanElement, AuroraTextProps>(
-  ({ text, className, animation = "aurora", duration = 3 }, ref) => {
+  ({ text, className, duration = 3 }, ref) => {
     return (
-      <motion.span 
-        ref={ref} 
+      <motion.span
+        ref={ref}
         className={cn("relative inline-block", className)}
         style={{
           background: `linear-gradient(135deg, #7C3AED 0%, #A855F7 30%, #D946EF 70%, #EC4899 100%)`,

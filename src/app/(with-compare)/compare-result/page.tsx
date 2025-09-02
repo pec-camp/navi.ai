@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { ArrowLeft, Home, ListPlus } from "lucide-react";
+import Link from "next/link";
+
 import { CompareTable } from "@/features/compare";
 import { Button } from "@/shared/ui/button";
 
@@ -7,9 +8,9 @@ export default async function CompareResultPage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="w-full px-6 py-12">
-        <div className="max-w-[1600px] mx-auto">
+        <div className="mx-auto max-w-[1600px]">
           {/* Navigation buttons */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <div className="flex gap-3">
               <Button variant="outline" size="lg" asChild>
                 <Link href="/tools">
@@ -24,7 +25,7 @@ export default async function CompareResultPage() {
                 </Link>
               </Button>
             </div>
-            
+
             <Button variant="default" size="lg" asChild>
               <Link href="/tools?compare=open">
                 <ListPlus className="mr-2 h-5 w-5" />
@@ -34,10 +35,14 @@ export default async function CompareResultPage() {
           </div>
 
           <div className="mb-10">
-            <h1 className="text-4xl font-bold text-foreground mb-3">AI 도구 비교</h1>
-            <p className="text-lg text-muted-foreground">선택한 도구들의 상세 기능을 비교해보세요</p>
+            <h1 className="mb-3 text-4xl font-bold text-foreground">
+              AI 도구 비교
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              선택한 도구들의 상세 기능을 비교해보세요
+            </p>
           </div>
-          
+
           <CompareTable />
         </div>
       </div>

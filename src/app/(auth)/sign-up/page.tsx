@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { GoogleLoginButton } from "@/features/auth/ui/GoogleLoginButton";
 import { KakaoLoginButton } from "@/features/auth/ui/KakaoLoginButton";
 
@@ -21,7 +22,10 @@ export default async function SignUp() {
 
         <div className="text-center text-sm">
           <span className="text-gray-600">이미 계정이 있으신가요?</span>{" "}
-          <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+          <Link
+            href="/login"
+            className="font-medium text-blue-600 hover:text-blue-700"
+          >
             로그인
           </Link>
         </div>

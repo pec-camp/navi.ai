@@ -1,7 +1,8 @@
 "use client";
 
+import { AlertTriangle, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Trash2, AlertTriangle } from "lucide-react";
+
 import { Button } from "@/shared/ui";
 import {
   Dialog,
@@ -11,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui/dialog";
+
 import { deleteAccount } from "../action/delete-account";
 
 export function DeleteAccountDialog() {
@@ -21,10 +23,10 @@ export function DeleteAccountDialog() {
 
   const handleDelete = async () => {
     if (confirmText !== "DELETE") return;
-    
+
     setIsDeleting(true);
     setError(null);
-    
+
     try {
       const result = await deleteAccount();
       if (result?.error) {
@@ -45,14 +47,15 @@ export function DeleteAccountDialog() {
 
   return (
     <>
-      <div className="mt-8 pt-8 border-t border-gray-200">
-        <div className="bg-red-50 rounded-lg border border-red-200 p-4">
+      <div className="mt-8 border-t border-gray-200 pt-8">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5" />
+            <AlertTriangle className="mt-0.5 h-5 w-5 text-red-600" />
             <div className="flex-1">
               <h3 className="text-sm font-semibold text-red-900">계정 삭제</h3>
               <p className="mt-1 text-sm text-red-700">
-                계정을 삭제하면 모든 데이터가 영구적으로 삭제되며 복구할 수 없습니다.
+                계정을 삭제하면 모든 데이터가 영구적으로 삭제되며 복구할 수
+                없습니다.
               </p>
               <Button
                 variant="destructive"
@@ -71,29 +74,33 @@ export function DeleteAccountDialog() {
       <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-red-600">계정을 삭제하시겠습니까?</DialogTitle>
+            <DialogTitle className="text-red-600">
+              계정을 삭제하시겠습니까?
+            </DialogTitle>
             <DialogDescription className="space-y-3 pt-3">
               <p>이 작업은 되돌릴 수 없습니다. 계정을 삭제하면:</p>
-              <ul className="list-disc list-inside text-sm space-y-1">
+              <ul className="list-inside list-disc space-y-1 text-sm">
                 <li>모든 프로필 정보가 삭제됩니다</li>
                 <li>저장된 설정이 모두 사라집니다</li>
                 <li>더 이상 서비스를 이용할 수 없습니다</li>
               </ul>
               <div className="pt-3">
                 <label htmlFor="confirm" className="text-sm font-medium">
-                  계속하려면 <span className="font-bold text-red-600">DELETE</span>를 입력하세요:
+                  계속하려면{" "}
+                  <span className="font-bold text-red-600">DELETE</span>를
+                  입력하세요:
                 </label>
                 <input
                   id="confirm"
                   type="text"
                   value={confirmText}
                   onChange={(e) => setConfirmText(e.target.value)}
-                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="DELETE"
                 />
               </div>
               {error && (
-                <div className="p-2 bg-red-50 border border-red-200 rounded text-sm text-red-600">
+                <div className="rounded border border-red-200 bg-red-50 p-2 text-sm text-red-600">
                   {error}
                 </div>
               )}

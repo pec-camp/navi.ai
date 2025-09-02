@@ -1,13 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+
 import { createClient } from "@/shared/utils/supabase/server";
 
 export async function updateProfile(formData: FormData) {
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user || !user.email) {
     return { error: "인증되지 않은 사용자입니다." };
   }

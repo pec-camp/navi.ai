@@ -5,7 +5,7 @@ import { createClient } from "@/shared/utils/supabase/client";
 export function KakaoLoginButton() {
   const handleKakaoLogin = async () => {
     const supabase = createClient();
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "kakao" as any,
       options: {

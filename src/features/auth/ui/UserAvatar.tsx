@@ -1,6 +1,11 @@
 import { User } from "@supabase/supabase-js";
+import Image from "next/image";
 
-import { getUserAvatarColor, getUserDisplayName,getUserInitials } from "../model/user";
+import {
+  getUserAvatarColor,
+  getUserDisplayName,
+  getUserInitials,
+} from "../model/user";
 
 interface UserAvatarProps {
   user: User;
@@ -8,11 +13,15 @@ interface UserAvatarProps {
   showName?: boolean;
 }
 
-export function UserAvatar({ user, size = "md", showName = true }: UserAvatarProps) {
-  const sizeClasses = {
-    sm: "h-8 w-8 text-sm",
-    md: "h-10 w-10 text-base",
-    lg: "h-12 w-12 text-lg",
+export function UserAvatar({
+  user,
+  size = "md",
+  showName = true,
+}: UserAvatarProps) {
+  const sizeConfig = {
+    sm: { classes: "h-8 w-8 text-sm", pixels: 32 },
+    md: { classes: "h-10 w-10 text-base", pixels: 40 },
+    lg: { classes: "h-12 w-12 text-lg", pixels: 48 },
   };
 
   const avatarUrl = user.user_metadata?.avatar_url;
@@ -23,14 +32,16 @@ export function UserAvatar({ user, size = "md", showName = true }: UserAvatarPro
   return (
     <div className="flex items-center gap-3">
       {avatarUrl ? (
-        <img
+        <Image
           src={avatarUrl}
           alt={displayName}
-          className={`${sizeClasses[size].split(" ").slice(0, 2).join(" ")} rounded-full object-cover ring-2 ring-white shadow-sm`}
+          width={sizeConfig[size].pixels}
+          height={sizeConfig[size].pixels}
+          className={`${sizeConfig[size].classes.split(" ").slice(0, 2).join(" ")} rounded-full object-cover shadow-sm ring-2 ring-white`}
         />
       ) : (
         <div
-          className={`${sizeClasses[size]} flex items-center justify-center rounded-full text-white font-medium shadow-sm ${getUserAvatarColor(email)}`}
+          className={`${sizeConfig[size].classes} flex items-center justify-center rounded-full font-medium text-white shadow-sm ${getUserAvatarColor(email)}`}
         >
           {getUserInitials(email, fullName)}
         </div>

@@ -1,9 +1,8 @@
 import Link from "next/link";
 
 import { getAllToolsWithPagination } from "@/entities/tool";
-import { PaginatedToolList } from "@/features/tool-catalog";
 import { ResultsBar } from "@/features/search";
-import { Button } from "@/shared/ui/button";
+import { PaginatedToolList } from "@/features/tool-catalog";
 import { Card, CardContent } from "@/shared/ui/card";
 import { Switch } from "@/shared/ui/switch";
 
@@ -30,15 +29,21 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
   const selectedCategory = searchParams?.category ?? "";
   const selectedTag = searchParams?.tag ?? "";
   const pricing = (searchParams?.pricing as "free" | "paid" | "") ?? "";
-  const tab = (searchParams?.tab as "all" | "popular" | "new" | "trending" | undefined) ?? "all";
+  const tab =
+    (searchParams?.tab as "all" | "popular" | "new" | "trending" | undefined) ??
+    "all";
   const sort = searchParams?.sort ?? "name";
   const freeOnly = searchParams?.freeOnly === "1";
   const withImages = searchParams?.withImages === "1";
-  const minRating = Number.isFinite(Number(searchParams?.minRating)) ? Number(searchParams?.minRating) : 0;
+  const minRating = Number.isFinite(Number(searchParams?.minRating))
+    ? Number(searchParams?.minRating)
+    : 0;
   const selectedPlatform = searchParams?.platform ?? "";
   const hasTrial = searchParams?.trial === "1";
   const sortForResults: "name" | "latest" | "rating" =
-    sort === "latest" || sort === "rating" || sort === "name" ? (sort as "name" | "latest" | "rating") : "name";
+    sort === "latest" || sort === "rating" || sort === "name"
+      ? (sort as "name" | "latest" | "rating")
+      : "name";
 
   // Map tab to sort
   let sortParam: "name" | "latest" | "rating" | "popularity" = "name";
@@ -60,11 +65,16 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
       query: query || undefined,
       category: selectedCategory || undefined,
       tag: selectedTag || undefined,
-      pricing: pricing || freeOnly ? (freeOnly ? "free" : pricing as "free" | "paid") : undefined,
+      pricing:
+        pricing || freeOnly
+          ? freeOnly
+            ? "free"
+            : (pricing as "free" | "paid")
+          : undefined,
       minRating: minRating > 0 ? minRating : undefined,
       hasTrial: hasTrial || undefined,
       sort: sortParam,
-    }
+    },
   );
 
   const buildHref = (updates: Record<string, string | undefined>) => {
@@ -105,7 +115,7 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
         {/* Sidebar */}
         <aside className="relative z-20 lg:col-span-2 xl:col-span-1">
           <Card className="border-0">
-            <CardContent className="space-y-6 px-5 pt-6 pb-11">
+            <CardContent className="space-y-6 px-5 pb-11 pt-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-semibold">필터</h3>
                 <Link
@@ -135,7 +145,9 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                 minRating > 0 ||
                 selectedPlatform) && (
                 <div className="space-y-2">
-                  <div className="text-xs font-medium text-muted-foreground">활성 필터</div>
+                  <div className="text-xs font-medium text-muted-foreground">
+                    활성 필터
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {selectedCategory && (
                       <Link
@@ -160,7 +172,9 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                         href={buildHref({ pricing: undefined })}
                         className="inline-flex items-center gap-1 rounded-full border border-[#E5E7EB] bg-white px-3 py-1 text-xs"
                       >
-                        <span>가격: {pricing === "free" ? "무료" : "프리미엄"}</span>
+                        <span>
+                          가격: {pricing === "free" ? "무료" : "프리미엄"}
+                        </span>
                         <span aria-hidden>×</span>
                       </Link>
                     )}
@@ -214,7 +228,9 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                   <div className="flex items-center justify-between">
                     <span className="text-sm">무료</span>
                     <Link
-                      href={buildHref({ pricing: pricing === "free" ? undefined : "free" })}
+                      href={buildHref({
+                        pricing: pricing === "free" ? undefined : "free",
+                      })}
                       className="inline-flex"
                     >
                       <Switch checked={pricing === "free"} aria-label="무료" />
@@ -224,10 +240,15 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                   <div className="flex items-center justify-between">
                     <span className="text-sm">프리미엄</span>
                     <Link
-                      href={buildHref({ pricing: pricing === "paid" ? undefined : "paid" })}
+                      href={buildHref({
+                        pricing: pricing === "paid" ? undefined : "paid",
+                      })}
                       className="inline-flex"
                     >
-                      <Switch checked={pricing === "paid"} aria-label="프리미엄" />
+                      <Switch
+                        checked={pricing === "paid"}
+                        aria-label="프리미엄"
+                      />
                     </Link>
                   </div>
                   {/* 무료 체험 */}
@@ -248,7 +269,9 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                 <div className="flex items-center justify-between border-b pb-3">
                   <div className="text-sm font-medium">태그</div>
                 </div>
-                <div className="text-[13px] text-muted-foreground">태그가 없습니다.</div>
+                <div className="text-[13px] text-muted-foreground">
+                  태그가 없습니다.
+                </div>
               </div>
 
               {/* 플랫폼 */}
@@ -272,7 +295,7 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                       href={buildHref({ platform: p })}
                       className={`inline-flex items-center rounded-2xl border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-1 text-xs ${
                         selectedPlatform === p
-                          ? "border-secondary bg-secondary/10 text-secondary"
+                          ? "bg-secondary/10 border-secondary text-secondary"
                           : "text-muted-foreground"
                       }`}
                     >
@@ -286,7 +309,7 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
         </aside>
 
         {/* Content */}
-        <div className="lg:col-span-3 xl:col-span-4 space-y-6">
+        <div className="space-y-6 lg:col-span-3 xl:col-span-4">
           {/* Results bar */}
           <ResultsBar
             resultsCount={totalCount}
@@ -312,7 +335,12 @@ export default async function Tools({ searchParams }: ToolsPageProps) {
                 query: query || undefined,
                 category: selectedCategory || undefined,
                 tag: selectedTag || undefined,
-                pricing: pricing || freeOnly ? (freeOnly ? "free" : pricing as "free" | "paid") : undefined,
+                pricing:
+                  pricing || freeOnly
+                    ? freeOnly
+                      ? "free"
+                      : (pricing as "free" | "paid")
+                    : undefined,
                 minRating: minRating > 0 ? minRating : undefined,
                 hasTrial: hasTrial || undefined,
                 sort: sortParam,
