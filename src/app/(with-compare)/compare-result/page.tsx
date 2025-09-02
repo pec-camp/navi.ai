@@ -4,7 +4,14 @@ import Link from "next/link";
 import { CompareTable } from "@/features/compare";
 import { Button } from "@/shared/ui/button";
 
-export default async function CompareResultPage() {
+interface CompareResultPageProps {
+  searchParams: Promise<{ tools?: string }>;
+}
+
+export default async function CompareResultPage({
+  searchParams,
+}: CompareResultPageProps) {
+  const { tools } = await searchParams;
   return (
     <main className="min-h-screen bg-background">
       <div className="w-full px-6 py-12">
@@ -43,7 +50,7 @@ export default async function CompareResultPage() {
             </p>
           </div>
 
-          <CompareTable />
+          <CompareTable tools={tools} />
         </div>
       </div>
     </main>

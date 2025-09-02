@@ -33,7 +33,7 @@ export async function signInWithKakao() {
   const origin = headersRes.get("origin");
   
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "kakao" as any,
+    provider: "kakao" as Parameters<typeof supabase.auth.signInWithOAuth>[0]["provider"],
     options: {
       redirectTo: `${origin}/auth/callback`,
     },

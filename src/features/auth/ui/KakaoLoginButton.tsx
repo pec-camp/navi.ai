@@ -7,7 +7,7 @@ export function KakaoLoginButton() {
     const supabase = createClient();
 
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao" as any,
+      provider: "kakao" as Parameters<typeof supabase.auth.signInWithOAuth>[0]["provider"],
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },

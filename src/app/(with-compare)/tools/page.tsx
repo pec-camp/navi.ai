@@ -9,7 +9,7 @@ import { Switch } from "@/shared/ui/switch";
 const TOOLS_PAGE_LIMIT = 12;
 
 interface ToolsPageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     q?: string;
     category?: string;
     tag?: string;
@@ -21,25 +21,26 @@ interface ToolsPageProps {
     minRating?: string;
     platform?: string;
     trial?: "1";
-  };
+  }>;
 }
 
 export default async function Tools({ searchParams }: ToolsPageProps) {
-  const query = searchParams?.q?.trim()?.toLowerCase() ?? "";
-  const selectedCategory = searchParams?.category ?? "";
-  const selectedTag = searchParams?.tag ?? "";
-  const pricing = (searchParams?.pricing as "free" | "paid" | "") ?? "";
+  const params = await searchParams;
+  const query = params?.q?.trim()?.toLowerCase() ?? "";
+  const selectedCategory = params?.category ?? "";
+  const selectedTag = params?.tag ?? "";
+  const pricing = (params?.pricing as "free" | "paid" | "") ?? "";
   const tab =
-    (searchParams?.tab as "all" | "popular" | "new" | "trending" | undefined) ??
+    (params?.tab as "all" | "popular" | "new" | "trending" | undefined) ??
     "all";
-  const sort = searchParams?.sort ?? "name";
-  const freeOnly = searchParams?.freeOnly === "1";
-  const withImages = searchParams?.withImages === "1";
-  const minRating = Number.isFinite(Number(searchParams?.minRating))
-    ? Number(searchParams?.minRating)
+  const sort = params?.sort ?? "name";
+  const freeOnly = params?.freeOnly === "1";
+  const withImages = params?.withImages === "1";
+  const minRating = Number.isFinite(Number(params?.minRating))
+    ? Number(params?.minRating)
     : 0;
-  const selectedPlatform = searchParams?.platform ?? "";
-  const hasTrial = searchParams?.trial === "1";
+  const selectedPlatform = params?.platform ?? "";
+  const hasTrial = params?.trial === "1";
   const sortForResults: "name" | "latest" | "rating" =
     sort === "latest" || sort === "rating" || sort === "name"
       ? (sort as "name" | "latest" | "rating")

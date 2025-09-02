@@ -27,7 +27,6 @@ interface ToolDetailLayoutProps {
   params: Promise<{
     slug: string;
   }>;
-  modal: React.ReactNode;
 }
 
 export default async function ToolDetailLayout({
