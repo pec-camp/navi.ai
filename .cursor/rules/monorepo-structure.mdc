@@ -1,0 +1,114 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# PEC Monorepo Structure Guide
+
+## Project Overview
+This is a monorepo containing multiple Next.js applications and shared packages following Feature Sliced Design (FSD) architecture. The project uses pnpm for package management and Supabase for backend services.
+
+## Core Applications
+
+### Authentication App
+- **Path**: [apps/auth](mdc:apps/auth)
+- **Purpose**: Handles user authentication and signup/signin flows
+- **Key Files**:
+  - [apps/auth/src/app/layout.tsx](mdc:apps/auth/src/app/layout.tsx) - Main layout
+  - [apps/auth/src/widgets/SignInForm/index.tsx](mdc:apps/auth/src/widgets/SignInForm/index.tsx) - Sign in form
+  - [apps/auth/src/widgets/SignUpForm/index.tsx](mdc:apps/auth/src/widgets/SignUpForm/index.tsx) - Sign up form
+  - [apps/auth/middleware.ts](mdc:apps/auth/middleware.ts) - Authentication middleware
+
+### Community App
+- **Path**: [apps/community](mdc:apps/community)
+- **Purpose**: Community features including posts, articles, and comments
+- **Key Files**:
+  - [apps/community/src/app/layout.tsx](mdc:apps/community/src/app/layout.tsx) - Main layout
+  - [apps/community/src/entities/post](mdc:apps/community/src/entities/post) - Post entities
+  - [apps/community/src/features/post](mdc:apps/community/src/features/post) - Post features
+  - [apps/community/src/widgets/PostForm/index.tsx](mdc:apps/community/src/widgets/PostForm/index.tsx) - Post creation form
+
+### Camp App
+- **Path**: [apps/camp](mdc:apps/camp)
+- **Purpose**: Educational camp features with assignments and sessions
+- **Key Files**:
+  - [apps/camp/src/app/dashboard](mdc:apps/camp/src/app/dashboard) - Dashboard pages
+  - [apps/camp/src/entities/assignment](mdc:apps/camp/src/entities/assignment) - Assignment entities
+  - [apps/camp/src/features/assignment](mdc:apps/camp/src/features/assignment) - Assignment features
+
+### Course App
+- **Path**: [apps/course](mdc:apps/course)
+- **Purpose**: Course management with lectures and payments
+- **Key Files**:
+  - [apps/course/src/entities/courses](mdc:apps/course/src/entities/courses) - Course entities
+  - [apps/course/src/entities/lectures](mdc:apps/course/src/entities/lectures) - Lecture entities
+  - [apps/course/src/widgets/LecturePlayer](mdc:apps/course/src/widgets/LecturePlayer) - Video player widget
+
+## Shared Packages
+
+### UI Package
+- **Path**: [packages/ui](mdc:packages/ui)
+- **Purpose**: Shared UI components using shadcn/ui
+- **Key Files**:
+  - [packages/ui/src/components/ui](mdc:packages/ui/src/components/ui) - UI components
+  - [packages/ui/components.json](mdc:packages/ui/components.json) - shadcn/ui configuration
+  - [packages/ui/scripts/add-component.ts](mdc:packages/ui/scripts/add-component.ts) - Component addition script
+
+### Auth Package
+- **Path**: [packages/auth](mdc:packages/auth)
+- **Purpose**: Shared authentication features and components
+- **Key Files**:
+  - [packages/auth/src/features/auth](mdc:packages/auth/src/features/auth) - Auth features
+  - [packages/auth/src/widgets/header](mdc:packages/auth/src/widgets/header) - Header widget
+
+### Supabase Package
+- **Path**: [packages/supabase](mdc:packages/supabase)
+- **Purpose**: Supabase client configuration and utilities
+- **Key Files**:
+  - [packages/supabase/src/client.ts](mdc:packages/supabase/src/client.ts) - Supabase client
+  - [packages/supabase/src/admin.ts](mdc:packages/supabase/src/admin.ts) - Admin client
+  - [packages/supabase/src/action.ts](mdc:packages/supabase/src/action.ts) - Server actions
+
+## Configuration Files
+
+### Root Configuration
+- [package.json](mdc:package.json) - Root package.json with workspace configuration
+- [pnpm-workspace.yaml](mdc:pnpm-workspace.yaml) - PNPM workspace configuration
+- [turbo.json](mdc:turbo.json) - Turborepo configuration
+- [vercel.json](mdc:vercel.json) - Vercel deployment configuration
+
+### Package Configuration
+- [packages/typescript-config](mdc:packages/typescript-config) - Shared TypeScript configs
+- [packages/eslint-config](mdc:packages/eslint-config) - Shared ESLint configs
+- [packages/constants](mdc:packages/constants) - Shared constants and menu configurations
+
+## FSD Architecture Patterns
+
+### Layer Structure (apps/*/src/)
+```
+app/          # Next.js App Router pages
+widgets/      # Reusable UI blocks combining features
+features/     # Product-level features with business logic
+entities/     # Core business entities
+shared/       # Reusable utilities and components
+```
+
+### Common File Patterns
+- `index.ts` - Public API exports
+- `ui/` - UI components
+- `model/` - Business logic and types
+- `action/` - Server actions
+- `api/` - External API calls
+
+## Key Conventions
+- Use pnpm for package management
+- Follow FSD dependency rules: app → widgets → features → entities → shared
+- Components use PascalCase, hooks use camelCase
+- Type files end with `.types.ts`
+- Environment files use `env.d.ts` pattern
+
+## Common Development Tasks
+- Add UI components: `pnpm add-component [component]` in packages/ui
+- New dependencies: Use `pnpm add` from appropriate workspace
+- Authentication: Check [packages/auth](mdc:packages/auth) and [apps/auth](mdc:apps/auth)
+- Database: Use [packages/supabase](mdc:packages/supabase) utilities

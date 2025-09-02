@@ -9,30 +9,32 @@ alwaysApply: true
 When working with authentication, follow these patterns:
 
 ### Client-Side Authentication
-- Use hooks from /src/features/auth
-- Check /src/features/sign-up/ui/SingUpForm.tsx for form patterns
+- Use hooks from [packages/auth/src/features/auth](mdc:packages/auth/src/features/auth)
+- Check [apps/auth/src/widgets/SignInForm/index.tsx](mdc:apps/auth/src/widgets/SignInForm/index.tsx) for form patterns
+- Social login components in [apps/auth/src/widgets/SocialLogin](mdc:apps/auth/src/widgets/SocialLogin)
 
 ### Server-Side Authentication
-- Middleware patterns in middleware.ts
-- Supabase actions in /supabase
+- Middleware patterns in [apps/auth/middleware.ts](mdc:apps/auth/middleware.ts)
+- Supabase actions in [packages/supabase/src/action.ts](mdc:packages/supabase/src/action.ts)
+- Use admin client from [packages/supabase/src/admin.ts](mdc:packages/supabase/src/admin.ts) for server operations
 
 ## UI Component Patterns
 
 ### Adding New Components
-1. Use shadcn/ui: `pnpm add-component [component]` 
+1. Use shadcn/ui: `pnpm add-component [component]` in [packages/ui](mdc:packages/ui)
 2. Custom components go in appropriate FSD layer
-3. Follow patterns in shared/ui
+3. Follow patterns in [packages/ui/src/components/ui](mdc:packages/ui/src/components/ui)
 
 ### Styling Conventions
 - Use Tailwind CSS classes
 - Follow utility-first approach
-- Check global.css for global styles
-- Use shared/utils for utility functions
+- Check [packages/ui/src/styles/globals.css](mdc:packages/ui/src/styles/globals.css) for global styles
+- Use [packages/ui/src/lib/utils.ts](mdc:packages/ui/src/lib/utils.ts) for utility functions
 
 ## Data Management Patterns
 
 ### Database Operations
-- Use Supabase client from 
+- Use Supabase client from [packages/supabase/src/client.ts](mdc:packages/supabase/src/client.ts)
 - Server actions pattern: create in `action/` folders within appropriate FSD layers
 - Type definitions should match database schema
 
@@ -46,14 +48,63 @@ features/[feature-name]/
 └── index.ts        # Public exports
 ```
 
+## Page and Layout Patterns
+
+### App Router Structure
+- Pages in `app/` directory using Next.js App Router
+- Layouts follow pattern in [apps/community/src/app/layout.tsx](mdc:apps/community/src/app/layout.tsx)
+- Error boundaries using [apps/community/src/app/error.tsx](mdc:apps/community/src/app/error.tsx) pattern
+
+### Widget Composition
+- Widgets combine multiple features/entities
+- See [apps/community/src/widgets/PostForm/index.tsx](mdc:apps/community/src/widgets/PostForm/index.tsx) for complex form patterns
+- Layout widgets in [packages/auth/src/widgets/header](mdc:packages/auth/src/widgets/header)
+
 ## State Management
 
 ### Client State
 - Use React hooks for local state
 - Shared state through context when needed
 - No external state management libraries
+- Do not use generic for the useState of the primary type 
 
 ### Server State
 - Use server actions for mutations
 - Fetch data in server components when possible
 - Cache appropriately using Next.js patterns
+
+## Environment and Configuration
+
+### Environment Variables
+- Follow patterns in [apps/*/env.d.ts](mdc:apps/auth/env.d.ts) files
+- Use [packages/env](mdc:packages/env) for shared environment utilities
+- Supabase config in [packages/supabase](mdc:packages/supabase)
+
+### TypeScript Configuration
+- Extend from [packages/typescript-config](mdc:packages/typescript-config)
+- Use shared types from [packages/ui/src/types](mdc:packages/ui/src/types)
+- Feature-specific types in `model/` directories
+
+## Testing and Quality
+
+### Code Organization
+- Follow FSD dependency rules strictly
+- Use [packages/eslint-config](mdc:packages/eslint-config) for linting
+- Each layer should have clear public API through `index.ts`
+
+### Performance
+- Use Next.js Image component patterns
+- Implement proper loading states
+- Check [apps/community/src/shared/libs/date.ts](mdc:apps/community/src/shared/libs/date.ts) for utility patterns
+
+## Common Integration Patterns
+
+### Cross-App Communication
+- Shared constants in [packages/constants](mdc:packages/constants)
+- Shared utilities in packages
+- Avoid direct app-to-app dependencies
+
+### External Services
+- YouTube integration in [apps/camp/src/shared/youtube](mdc:apps/camp/src/shared/youtube)
+- Payment processing in [apps/course/src/entities/payments](mdc:apps/course/src/entities/payments)
+- Email services in [apps/community/src/shared/api/email](mdc:apps/community/src/shared/api/email)

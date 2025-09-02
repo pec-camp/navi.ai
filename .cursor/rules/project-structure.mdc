@@ -30,7 +30,6 @@ Each slice (logical unit) follows consistent organization:
 - `api/`: Contains external API calls
 - `index.ts`: Public API that exports only what's needed by other layers
 
-
 ## Naming Conventions
 - Components: PascalCase
 - Hooks: lowerCamelCase

@@ -12,6 +12,7 @@ alwaysApply: true
 - **Database & Auth**: Supabase
 - **No** additional backend frameworks (e.g., no Express.js, Firebase)
 - **No** CSS-in-JS(e.g. styled-components)
+- Date utils: use date-fns
 
 ### Core Specification
 

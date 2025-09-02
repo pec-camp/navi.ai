@@ -1,0 +1,23 @@
+{
+  "name": "Navi.ai - Discover the World's Top AI Tools",
+  "short_name": "Navi.ai",
+  "description": "Discover the world's top AI tools. Find the perfect solution for every task with our curated collection of 21,346+ AI tools.",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "theme_color": "#4D6FFF",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
