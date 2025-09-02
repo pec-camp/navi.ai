@@ -1,8 +1,5 @@
-import {
-  CompareFAB,
-  CompareProvider,
-  CompareSideSheet,
-} from "@/features/compare";
+import { CompareFAB, CompareProvider } from "@/features/compare";
+import { CompareClientWrapper } from "@/features/compare/ui/CompareClientWrapper";
 
 export default function CompareLayout({
   children,
@@ -14,7 +11,7 @@ export default function CompareLayout({
       <CompareProvider>
         {children}
         <CompareFAB />
-        <CompareSideSheet />
+        <CompareClientWrapper />
       </CompareProvider>
     </div>
   );
