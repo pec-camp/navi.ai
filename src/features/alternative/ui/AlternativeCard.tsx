@@ -1,90 +1,28 @@
-import { ArrowUpRight, ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 import { Card, CardContent } from "@/shared/ui/card";
-import { AddToCompareButton } from "@/src/features/compare";
-import {
-  TOOLS_PATHNAME,
-  TOOLS_SLUG_PATHNAME,
-} from "@/src/shared/config/pathname";
+import type { AlternativeTool } from "@/src/entities/tool/model/AlternativeTool.interface";
 import { ToolLogo } from "@/src/shared/ui";
 import { ExternalLink } from "@/src/shared/ui/ExternalLink";
 import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
 
-import { getAlternativeToolList, getToolBySlug } from "../api";
-import { AlternativeTool } from "../model/AlternativeTool.interface";
-
-interface AlternativeToolListProps {
-  slug: string;
-}
-
-export default async function AlternativeToolList({
-  slug,
-}: AlternativeToolListProps) {
-  const toolData = (await getToolBySlug(slug))!;
-  const alternativeTools = await getAlternativeToolList(slug, 3);
-
-  return (
-    <section className="mt-32">
-      <div className="container mx-auto max-w-7xl">
-        <h2 className="mb-8 text-2xl font-medium text-foreground">
-          <span className="capitalize">{toolData.name}</span>와 비슷한 도구들을
-          추천해드려요
-        </h2>
-
-        {alternativeTools.length > 0 ? (
-          <div className="grid min-h-[480px] gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {alternativeTools.map((alternativeTool) => (
-              <div key={alternativeTool.slug} className="relative">
-                <Link href={TOOLS_SLUG_PATHNAME(alternativeTool.slug || "")}>
-                  <AlternativeCard alternativeTool={alternativeTool} />
-                </Link>
-                <div className="absolute right-4 top-4 z-10">
-                  <AddToCompareButton
-                    tool={alternativeTool}
-                    aria-label={`${toolData.name}를 비교목록에 추가`}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="py-8 text-center">
-            <p className="text-muted-foreground">
-              유사한 도구를 찾을 수 없습니다.
-            </p>
-          </div>
-        )}
-
-        <div className="mt-8 text-center">
-          <Link
-            href={TOOLS_PATHNAME}
-            className="group flex items-center justify-center gap-1 text-sm font-medium text-primary transition-all duration-200 hover:text-foreground"
-          >
-            View more
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AlternativeCard({
-  alternativeTool,
-}: {
+interface AlternativeCardProps {
   alternativeTool: AlternativeTool;
-}) {
+}
+
+const formatDate = (date: Date | null) => {
+  if (!date) return "";
+  return new Date(date).toISOString().split("T")[0].replace(/-/g, ".");
+};
+
+export default function AlternativeCard({
+  alternativeTool,
+}: AlternativeCardProps) {
   const pricing = getPricingDisplay(
     alternativeTool?.isFree,
     alternativeTool?.pricingLabel,
   );
-
-  const formatDate = (date: Date | null) => {
-    if (!date) return "";
-    return new Date(date).toISOString().split("T")[0].replace(/-/g, ".");
-  };
 
   return (
     <Card className="group relative h-full cursor-pointer overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-sm">

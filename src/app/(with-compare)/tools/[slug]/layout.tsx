@@ -18,9 +18,11 @@ import {
   TOOLS_SLUG_REVIEWS_PATHNAME,
 } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
-import { AlternativeToolList, getToolBySlug } from "@/src/entities/tool";
+import { getToolBySlug } from "@/src/entities/tool";
+import AlternativeToolList from "@/src/features/alternative/ui/AlternativeToolList";
 import { AddToCompareButton } from "@/src/features/compare";
 import { ToolBadge, ToolLogo } from "@/src/shared/ui";
+
 
 interface ToolDetailLayoutProps {
   children: React.ReactNode;
@@ -296,7 +298,7 @@ export default async function ToolDetailLayout({
       </div>
 
       {/* 대안 도구 섹션 */}
-      <AlternativeToolList slug={slug} />
+      <AlternativeToolList slug={slug} toolName={toolData.name} />
     </main>
   );
 }
