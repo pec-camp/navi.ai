@@ -2,10 +2,11 @@ import { ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Card, CardContent } from "@/shared/ui/card";
-import type { AlternativeTool } from "../model/AlternativeTool.interface";
 import { ToolLogo } from "@/src/shared/ui";
 import { ExternalLink } from "@/src/shared/ui/ExternalLink";
 import { getPricingDisplay } from "@/src/shared/utils/getPricingDisplay";
+
+import type { AlternativeTool } from "../model/AlternativeTool.interface";
 
 interface AlternativeCardProps {
   alternativeTool: AlternativeTool;
