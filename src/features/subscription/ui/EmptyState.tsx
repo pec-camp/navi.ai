@@ -28,7 +28,7 @@ export default function EmptyState({
     if (onOpenSubscription) {
       onOpenSubscription();
     } else {
-      router.push(SUBSCRIPTIONS_SUBSCRIBE_PATHNAME);
+      router.push("/subscriptions?modal=subscribe");
     }
   };
 
