@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { ToolDetailTabs } from "@/features/tool-detail";
 import {
@@ -18,13 +19,10 @@ import {
   TOOLS_SLUG_REVIEWS_PATHNAME,
 } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
-import { getToolBySlug } from "@/src/entities/tool";
-import { AlternativeToolList } from "@/src/entities/tool";
+import { AlternativeToolList, getToolBySlug } from "@/src/entities/tool";
 import AlternativeToolSkeleton from "@/src/entities/tool/ui/AlternativeToolSkeleton";
 import { AddToCompareButton } from "@/src/features/compare";
 import { ToolBadge, ToolLogo } from "@/src/shared/ui";
-import { Suspense } from "react";
-
 
 interface ToolDetailLayoutProps {
   children: React.ReactNode;
