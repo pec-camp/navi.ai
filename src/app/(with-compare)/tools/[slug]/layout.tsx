@@ -19,9 +19,11 @@ import {
 } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
 import { getToolBySlug } from "@/src/entities/tool";
-import AlternativeToolList from "@/src/features/alternative/ui/AlternativeToolList";
+import { AlternativeToolList } from "@/src/entities/tool";
+import AlternativeToolSkeleton from "@/src/entities/tool/ui/AlternativeToolSkeleton";
 import { AddToCompareButton } from "@/src/features/compare";
 import { ToolBadge, ToolLogo } from "@/src/shared/ui";
+import { Suspense } from "react";
 
 
 interface ToolDetailLayoutProps {
@@ -297,8 +299,19 @@ export default async function ToolDetailLayout({
         </div>
       </div>
 
-      {/* 대안 도구 섹션 */}
-      <AlternativeToolList slug={slug} toolName={toolData.name} />
+      {/* 유사 도구 섹션 */}
+      <section className="mt-24">
+        <div className="container mx-auto max-w-7xl">
+          <h2 className="mb-8 text-2xl font-medium text-foreground">
+            <span className="capitalize">{toolData.name}</span>와 비슷한
+            도구들을 추천해드려요
+          </h2>
+
+          <Suspense fallback={<AlternativeToolSkeleton />}>
+            <AlternativeToolList slug={slug} toolName={toolData.name} />
+          </Suspense>
+        </div>
+      </section>
     </main>
   );
 }
