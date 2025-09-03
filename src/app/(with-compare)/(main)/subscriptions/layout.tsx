@@ -7,9 +7,5 @@ interface SubscriptionsLayoutProps {
 export default function SubscriptionsLayout({
   children,
 }: SubscriptionsLayoutProps) {
-  return (
-    <div className="flex flex-col">
-      {children}
-    </div>
-  );
+  return <div className="flex flex-col">{children}</div>;
 }

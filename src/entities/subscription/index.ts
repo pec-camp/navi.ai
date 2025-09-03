@@ -1,2 +1,2 @@
 /** ui */
-export { SubscriptionsBlurredView } from "./ui/SubscriptionsBlurredView";
+export { default as SubscriptionListSkeleton } from "./ui/SubscriptionListSkeleton";

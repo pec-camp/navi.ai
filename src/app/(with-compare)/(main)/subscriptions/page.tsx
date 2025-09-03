@@ -1,12 +1,9 @@
 import { Suspense } from "react";
 
-import { SubscriptionsBlurredView } from "@/src/entities/subscription";
+import { SubscriptionListSkeleton } from "@/src/entities/subscription";
 import { getCurrentUser } from "@/src/features/auth";
-import {
-  CategorySideSheetAsync,
-  SubscriptionContent,
-  SubscriptionListSkeleton,
-} from "@/src/features/subscription";
+import { SubscriptionsBlurredView } from "@/src/features/subscription";
+import { CategorySideSheetAsync, SubscriptionContent } from "@/src/widgets/subscription";
 
 interface SubscriptionsProps {
   searchParams: Promise<{ modal?: string }>;

@@ -2,10 +2,12 @@ import { Settings } from "lucide-react";
 import Link from "next/link";
 
 import { getSubscriptionToolList } from "@/src/entities/tool/api";
+import {
+  EmptyState,
+  PaginatedSubscriptionList,
+} from "@/src/features/subscription";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
 import { Button } from "@/src/shared/ui";
-
-import { EmptyState, PaginatedSubscriptionList } from ".";
 
 interface SubscriptionContentProps {
   userId: string;

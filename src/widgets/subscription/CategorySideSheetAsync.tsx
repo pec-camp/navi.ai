@@ -2,8 +2,7 @@ import {
   getCategoriesWithSub,
   getSubscriptionsCategories,
 } from "@/src/entities/category";
-
-import CategorySideSheet from "./CategorySideSheet";
+import { CategorySideSheet } from "@/src/features/subscription";
 
 interface CategorySideSheetAsyncProps {
   userId: string;
