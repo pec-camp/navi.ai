@@ -290,7 +290,7 @@ export default async function ToolDetailLayout({
 
               {/* 탭 컨텐츠 - children으로 렌더링 */}
               <div className="min-h-[400px]" role="tabpanel">
-                {children}
+                <Suspense fallback="loading..">{children}</Suspense>
               </div>
             </section>
           </article>

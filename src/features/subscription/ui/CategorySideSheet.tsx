@@ -12,7 +12,6 @@ import { useSideSheet } from "@/src/shared/hooks";
 
 import { replaceUserSubscriptions } from "../action";
 import { useCategorySelector } from "../hooks/useCategorySelector";
-import { SubscriptionUpdateRequest } from "../model";
 import CategoryNav from "./CategoryNav";
 import SubcategoryPanel from "./SubcategoryPanel";
 
@@ -20,14 +19,18 @@ interface CategorySelectorWithSheetProps {
   userId: string;
   categories: CategoryWithSubcategory[];
   categorySubscriptions: CategorySubscription[];
+  isOpen: boolean;
 }
 
 export default function CategorySideSheet({
   userId,
   categories,
   categorySubscriptions,
+  isOpen: initialOpen,
 }: CategorySelectorWithSheetProps) {
-  const { isOpen, handleClose, handleExitComplete } = useSideSheet();
+  const { isOpen, handleClose, handleExitComplete } = useSideSheet({
+    initialOpen,
+  });
 
   const {
     initialSubscribed,
@@ -49,7 +52,7 @@ export default function CategorySideSheet({
       return;
     }
 
-    const request: SubscriptionUpdateRequest = {
+    const request = {
       userId,
       subCategoryIds: Array.from(state.currentSelected),
     };
