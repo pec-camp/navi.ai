@@ -1,5 +1,4 @@
 // Tool List Components
-export { default as AlternativeToolList } from "./AlternativeToolList";
 export { default as FeaturedToolList } from "./FeaturedToolList";
 export { default as SubscriptionToolList } from "./SubscriptionToolList";
 
