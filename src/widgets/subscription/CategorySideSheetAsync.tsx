@@ -19,15 +19,11 @@ export default async function CategorySideSheetAsync({
   ]);
 
   return (
-    <>
-      {isOpen && (
-        <CategorySideSheet
-          userId={userId}
-          categories={categories}
-          categorySubscriptions={subscriptions}
-          isOpen={isOpen}
-        />
-      )}
-    </>
+    <CategorySideSheet
+      userId={userId}
+      categories={categories}
+      categorySubscriptions={subscriptions}
+      isOpen={isOpen}
+    />
   );
 }

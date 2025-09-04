@@ -27,6 +27,7 @@ export function MainTabNavigation({ tabs }: { tabs: Tab[] }) {
             <Link
               key={tab.name}
               href={tab.href}
+              prefetch={true}
               className={cn(
                 "font-onest flex h-12 items-center gap-2 px-0 py-3 text-base transition-colors",
                 isActive

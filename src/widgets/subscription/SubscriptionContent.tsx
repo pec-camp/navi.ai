@@ -7,6 +7,7 @@ import {
   PaginatedSubscriptionList,
 } from "@/src/features/subscription";
 import { SUBSCRIPTION_PAGE_LIMIT } from "@/src/shared/config/constants";
+import { SUBSCRIPTIONS_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
 
 interface SubscriptionContentProps {
@@ -29,7 +30,10 @@ export default async function SubscriptionContent({
           {/* 오른쪽에 설정 링크 */}
           <div className="flex items-end justify-end py-3">
             <Button variant="secondary" size="sm" asChild>
-              <Link href="/subscriptions?modal=subscribe">
+              <Link
+                href={`${SUBSCRIPTIONS_PATHNAME}?modal=subscribe`}
+                prefetch={true}
+              >
                 <Settings className="h-4 w-4" />
                 <span>카테고리 구독하기</span>
               </Link>

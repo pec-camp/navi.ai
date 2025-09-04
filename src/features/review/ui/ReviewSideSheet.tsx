@@ -26,8 +26,8 @@ export default function ReviewSideSheet({
   return (
     <AnimatedSideSheet
       isOpen={isOpen}
-      onExitComplete={handleExitComplete}
       onClose={handleClose}
+      onExitComplete={handleExitComplete}
       side="right"
       size="md"
     >

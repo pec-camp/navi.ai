@@ -4,13 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import LoginInduceModal from "@/src/features/auth/ui/LoginInduceModal";
 
-interface ReviewsLoginModalProps {
-  isOpen: boolean;
-}
-
-export default function ReviewsLoginInduceModal({
-  isOpen,
-}: ReviewsLoginModalProps) {
+export default function ReviewsLoginInduceModal() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -21,9 +15,15 @@ export default function ReviewsLoginInduceModal({
       const newUrl = params.toString()
         ? `?${params.toString()}`
         : window.location.pathname;
-      router.push(newUrl);
+
+      router.replace(newUrl, { scroll: false });
     }
   };
 
-  return <LoginInduceModal open={isOpen} onOpenChange={handleOpenChange} />;
+  return (
+    <LoginInduceModal
+      open={searchParams.get("modal") === "login"}
+      onOpenChange={handleOpenChange}
+    />
+  );
 }

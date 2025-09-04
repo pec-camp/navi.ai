@@ -22,7 +22,11 @@ export default async function ReviewFormPage({
   const { slug } = await params;
   const { mode, id } = await searchParams;
 
-  const toolData = (await getToolBySlug(slug))!;
+  const toolData = await getToolBySlug(slug);
+
+  if (!toolData) {
+    notFound();
+  }
 
   // 편집 모드인 경우 추가 처리
   if (mode === "edit" && id) {
