@@ -16,9 +16,9 @@ import {
   TOOLS_SLUG_FAQ_PATHNAME,
   TOOLS_SLUG_PATHNAME,
   TOOLS_SLUG_PRICING_PATHNAME,
-  TOOLS_SLUG_REVIEWS_PATHNAME,
 } from "@/shared/config/pathname";
 import { Button } from "@/shared/ui/button";
+import { ReviewSection, ReviewSkeleton } from "@/src/entities/review";
 import { AlternativeToolList, getToolBySlug } from "@/src/entities/tool";
 import AlternativeToolSkeleton from "@/src/entities/tool/ui/AlternativeToolSkeleton";
 import { AddToCompareButton } from "@/src/features/compare";
@@ -26,6 +26,7 @@ import { ToolBadge, ToolLogo } from "@/src/shared/ui";
 
 interface ToolDetailLayoutProps {
   children: React.ReactNode;
+  modal: React.ReactNode;
   params: Promise<{
     slug: string;
   }>;
@@ -33,6 +34,7 @@ interface ToolDetailLayoutProps {
 
 export default async function ToolDetailLayout({
   children,
+  modal,
   params,
 }: ToolDetailLayoutProps) {
   const { slug } = await params;
@@ -280,22 +282,22 @@ export default async function ToolDetailLayout({
                     label: "FAQ",
                     href: TOOLS_SLUG_FAQ_PATHNAME(slug),
                   },
-                  {
-                    key: "reviews",
-                    label: "리뷰",
-                    href: TOOLS_SLUG_REVIEWS_PATHNAME(slug),
-                  },
                 ]}
               />
 
               {/* 탭 컨텐츠 - children으로 렌더링 */}
               <div className="min-h-[400px]" role="tabpanel">
-                <Suspense fallback="loading..">{children}</Suspense>
+                {children}
               </div>
             </section>
           </article>
         </div>
       </div>
+
+      {/* 리뷰 섹션 */}
+      <Suspense fallback={<ReviewSkeleton />}>
+        <ReviewSection toolData={toolData} />
+      </Suspense>
 
       {/* 유사 도구 섹션 */}
       <section className="mt-24">
@@ -310,6 +312,9 @@ export default async function ToolDetailLayout({
           </Suspense>
         </div>
       </section>
+
+      {/* 병렬 라우트 모달 */}
+      {modal}
     </main>
   );
 }
