@@ -1,25 +1,25 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 interface SideSheetOptions {
   initialOpen?: boolean;
   onExitComplete?: () => void;
-  modalParamName?: string; // modal 파라미터 이름 커스터마이징
 }
 
 export const useSideSheet = (options: SideSheetOptions = {}) => {
-  const {
-    initialOpen = true,
-    onExitComplete,
-    modalParamName = "modal",
-  } = options;
+  const { initialOpen = true, onExitComplete } = options;
+
+  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(initialOpen);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const [lastDefaultOpen, setLastDefaultOpen] = useState(initialOpen);
+
+  if (initialOpen !== lastDefaultOpen) {
+    setIsOpen(initialOpen);
+    setLastDefaultOpen(initialOpen);
+  }
 
   const handleClose = () => {
     setIsOpen(false);
@@ -30,18 +30,12 @@ export const useSideSheet = (options: SideSheetOptions = {}) => {
       if (onExitComplete) {
         onExitComplete();
       } else {
-        // 현재 경로의 SearchParams에서 모달 파라미터 제거
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete(modalParamName);
-        const newUrl = params.toString()
-          ? `${pathname}?${params.toString()}`
-          : pathname;
-        router.push(newUrl);
+        router.back();
       }
     } catch (error) {
       console.error("Navigation failed:", error);
     }
-  }, [router, searchParams, pathname, onExitComplete, modalParamName]);
+  }, [onExitComplete, router]);
 
   return {
     isOpen,
