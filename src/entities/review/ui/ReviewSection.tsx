@@ -7,6 +7,7 @@ import {
   PaginatedReviewList,
   ReviewsLoginInduceModal,
 } from "@/src/features/review";
+import { TOOLS_SLUG_REVIEW_FORM_PATHNAME } from "@/src/shared/config/pathname";
 import { Button } from "@/src/shared/ui";
 
 import { AiToolDetail } from "../../tool";
@@ -31,8 +32,11 @@ export default async function ReviewSection({ toolData }: ReviewSectionProps) {
             <Button variant="secondary" asChild>
               <Link
                 href={
-                  user ? `/tools/${toolData.slug}/review-form` : `?modal=login`
+                  user
+                    ? `${TOOLS_SLUG_REVIEW_FORM_PATHNAME(toolData.slug)}`
+                    : `?modal=login`
                 }
+                prefetch={user ? true : false}
                 scroll={false}
                 aria-label="리뷰 작성"
               >

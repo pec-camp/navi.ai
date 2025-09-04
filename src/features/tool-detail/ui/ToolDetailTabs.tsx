@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback } from "react";
 
 interface Tab {
   key: string;
@@ -15,10 +16,16 @@ interface ToolDetailTabsProps {
 
 export function ToolDetailTabs({ tabs }: ToolDetailTabsProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActiveTab = (href: string) => {
     return pathname === href;
   };
+
+  // Prefetch all tabs on mount
+  const handleMouseEnter = useCallback((href: string) => {
+    router.prefetch(href);
+  }, [router]);
 
   return (
     <nav
@@ -32,6 +39,8 @@ export function ToolDetailTabs({ tabs }: ToolDetailTabsProps) {
           <Link
             key={key}
             href={href}
+            prefetch={true}
+            onMouseEnter={() => handleMouseEnter(href)}
             className={
               isActive
                 ? "flex items-center space-x-1 whitespace-nowrap border-b-2 border-secondary px-1 py-2 font-medium text-secondary sm:space-x-2 sm:text-base"
