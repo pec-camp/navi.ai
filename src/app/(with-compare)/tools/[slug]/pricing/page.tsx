@@ -46,7 +46,7 @@ export default async function ToolPricingPage({
       </div>
 
       {/* 완전 무료 표시 - 프리미엄 디자인 */}
-      {!aiContent?.pricing && toolData.isFree && (
+      {aiContent?.pricing?.length === 0 && toolData.isFree && (
         <div className="from-primary/10 via-primary-secondary/10 to-primary/5 relative overflow-hidden rounded-lg bg-gradient-to-br p-8">
           <div className="bg-primary/10 absolute -right-8 -top-8 h-32 w-32 rounded-full blur-3xl" />
           <div className="bg-primary-secondary/10 absolute -bottom-8 -left-8 h-32 w-32 rounded-full blur-3xl" />
