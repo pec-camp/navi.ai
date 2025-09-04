@@ -34,7 +34,7 @@ export default function ReviewActions({
     return null;
   }
 
-  const editUrl = `/tools/${toolSlug}/reviews/review-form?mode=edit&id=${reviewId}`;
+  const editUrl = `/tools/${toolSlug}/review-form?mode=edit&id=${reviewId}`;
 
   return (
     <>
@@ -47,7 +47,11 @@ export default function ReviewActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuItem asChild>
-            <Link href={editUrl} className="flex items-center gap-2">
+            <Link
+              href={editUrl}
+              scroll={false}
+              className="flex items-center gap-2"
+            >
               <Edit2 className="h-4 w-4" />
               수정
             </Link>
