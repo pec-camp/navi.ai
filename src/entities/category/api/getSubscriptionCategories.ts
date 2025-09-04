@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { cache } from "react";
 
 import { createClient } from "@/shared/utils/supabase/server";
 
@@ -9,11 +10,12 @@ import {
 
 /**
  * 유저의 구독 카테고리 목록 조회
+ * React cache를 사용하여 요청당 메모이제이션 적용
  *
  * @param userId 유저 ID
  * @returns 구독 카테고리 목록
  */
-export async function getSubscriptionsCategories(userId: string) {
+export const getSubscriptionsCategories = cache(async (userId: string) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -74,4 +76,4 @@ export async function getSubscriptionsCategories(userId: string) {
   );
 
   return result;
-}
+});
